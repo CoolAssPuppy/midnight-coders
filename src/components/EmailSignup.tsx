@@ -191,7 +191,22 @@ function EmailSignupComponent({
       setStatus("submitting");
 
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const response = await fetch("/api/subscribe", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Subscription failed");
+        }
+
         setStatus("success");
         setFormData({
           firstName: "",
@@ -204,7 +219,7 @@ function EmailSignupComponent({
         setStatus("error");
       }
     },
-    [isFormValid, status]
+    [isFormValid, status, formData.firstName, formData.lastName, formData.email]
   );
 
   if (opacity <= 0) {
