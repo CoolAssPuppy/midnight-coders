@@ -47,11 +47,26 @@ function StarFieldComponent({
     setParticles(generateParticles(particleCount));
   }, [particleCount]);
 
+  // Transform to binary from 5% to 20%
   const transformThreshold = 0.05;
-  const isTransformed = scrollProgress > transformThreshold;
-  const transformProgress = isTransformed
-    ? Math.min((scrollProgress - transformThreshold) / 0.15, 1)
-    : 0;
+  const transformEnd = 0.20;
+
+  // Revert to stars when email form appears (starts at 80%)
+  const revertThreshold = 0.80;
+
+  let transformProgress = 0;
+
+  if (scrollProgress <= transformThreshold) {
+    transformProgress = 0;
+  } else if (scrollProgress < transformEnd) {
+    transformProgress = (scrollProgress - transformThreshold) / (transformEnd - transformThreshold);
+  } else if (scrollProgress < revertThreshold) {
+    transformProgress = 1;
+  } else {
+    // Fade back to stars
+    const revertProgress = Math.min((scrollProgress - revertThreshold) / 0.08, 1);
+    transformProgress = 1 - revertProgress;
+  }
 
   if (particles.length === 0) {
     return null;

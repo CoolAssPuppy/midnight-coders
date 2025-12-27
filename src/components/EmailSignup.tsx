@@ -17,6 +17,8 @@ interface TimeRemaining {
 
 const RELEASE_DATE = new Date("2026-09-22T00:00:00");
 
+export const SIGNUP_HEADLINE = "Be the first to know when this new worldwide phenomenon releases";
+
 function useCountdown(targetDate: Date): TimeRemaining | null {
   const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(
     null
@@ -166,9 +168,9 @@ function EmailSignupComponent({
   const showEmailError =
     emailTouched && formData.email.trim() !== "" && !isValidEmail(formData.email);
 
-  // Email form fades in from 52-60%, stays visible after
-  const fadeInStart = 0.52;
-  const fadeInEnd = 0.60;
+  // Email form fades in from 80-88%, stays visible after (gap after blurb ends at 70%)
+  const fadeInStart = 0.80;
+  const fadeInEnd = 0.88;
 
   let opacity = 0;
 
@@ -248,7 +250,7 @@ function EmailSignupComponent({
             color: "rgba(255, 255, 255, 0.85)",
           }}
         >
-          Be the first to know when this new worldwide phenomenon releases
+          {SIGNUP_HEADLINE}
         </p>
 
         {status === "success" ? (
@@ -281,17 +283,17 @@ function EmailSignupComponent({
                 className="w-1/2 px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
                 style={{
                   fontFamily: '"Times New Roman", Times, serif',
-                  backgroundColor: "rgba(255, 255, 255, 0.05)",
-                  borderColor: "rgba(255, 255, 255, 0.2)",
+                  backgroundColor: "rgba(30, 30, 35, 0.9)",
+                  borderColor: "rgba(255, 255, 255, 0.3)",
                   color: "#ffffff",
                 }}
                 onFocus={(e) => {
                   e.target.style.borderColor = "#fcde09";
-                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
+                  e.target.style.backgroundColor = "rgba(40, 40, 45, 0.95)";
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                  e.target.style.borderColor = "rgba(255, 255, 255, 0.3)";
+                  e.target.style.backgroundColor = "rgba(30, 30, 35, 0.9)";
                 }}
                 aria-label="First name"
               />
@@ -307,17 +309,17 @@ function EmailSignupComponent({
                 className="w-1/2 px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
                 style={{
                   fontFamily: '"Times New Roman", Times, serif',
-                  backgroundColor: "rgba(255, 255, 255, 0.05)",
-                  borderColor: "rgba(255, 255, 255, 0.2)",
+                  backgroundColor: "rgba(30, 30, 35, 0.9)",
+                  borderColor: "rgba(255, 255, 255, 0.3)",
                   color: "#ffffff",
                 }}
                 onFocus={(e) => {
                   e.target.style.borderColor = "#fcde09";
-                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
+                  e.target.style.backgroundColor = "rgba(40, 40, 45, 0.95)";
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                  e.target.style.borderColor = "rgba(255, 255, 255, 0.3)";
+                  e.target.style.backgroundColor = "rgba(30, 30, 35, 0.9)";
                 }}
                 aria-label="Last name"
               />
@@ -341,17 +343,17 @@ function EmailSignupComponent({
                 className="w-full px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
                 style={{
                   fontFamily: '"Times New Roman", Times, serif',
-                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  backgroundColor: "rgba(30, 30, 35, 0.9)",
                   borderColor: showEmailError
                     ? "#ff6b6b"
-                    : "rgba(255, 255, 255, 0.2)",
+                    : "rgba(255, 255, 255, 0.3)",
                   color: "#ffffff",
                 }}
                 onFocus={(e) => {
                   e.target.style.borderColor = showEmailError
                     ? "#ff6b6b"
                     : "#fcde09";
-                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
+                  e.target.style.backgroundColor = "rgba(40, 40, 45, 0.95)";
                 }}
                 aria-label="Email address"
                 aria-invalid={showEmailError}
