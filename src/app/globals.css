@@ -6,6 +6,18 @@
   --color-white: #ffffff;
   --color-white-dim: rgba(255, 255, 255, 0.7);
   --font-serif: "Times New Roman", Times, serif;
+  --font-mono: "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+
+  /* VS Code Dark+ syntax colors */
+  --syntax-comment: #6A9955;
+  --syntax-string: #CE9178;
+  --syntax-keyword: #569CD6;
+  --syntax-function: #DCDCAA;
+  --syntax-variable: #9CDCFE;
+  --syntax-type: #4EC9B0;
+  --syntax-number: #B5CEA8;
+  --syntax-punctuation: #D4D4D4;
+  --syntax-operator: #D4D4D4;
 }
 
 @theme inline {
@@ -24,7 +36,9 @@ html {
 body {
   background-color: var(--color-midnight);
   color: var(--color-white);
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
   margin: 0;
   padding: 0;
   overflow-x: hidden;

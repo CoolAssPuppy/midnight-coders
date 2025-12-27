@@ -17,7 +17,7 @@ interface TimeRemaining {
 
 const RELEASE_DATE = new Date("2026-09-22T00:00:00");
 
-export const SIGNUP_HEADLINE = "Be the first to know when this new worldwide phenomenon releases";
+export const SIGNUP_HEADLINE = "Get exclusive updates and more";
 
 function useCountdown(targetDate: Date): TimeRemaining | null {
   const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(
@@ -63,28 +63,37 @@ function CountdownTimer(): React.ReactElement {
   return (
     <div
       className="flex items-baseline justify-center gap-1 mb-8"
-      style={{ fontFamily: '"Courier New", Courier, monospace' }}
       aria-label={`${timeRemaining.days} days, ${timeRemaining.hours} hours, ${timeRemaining.minutes} minutes, ${timeRemaining.seconds} seconds until release`}
     >
-      <span className="text-3xl md:text-4xl" style={{ color: "#fcde09" }}>
+      <span className="text-sm md:text-base" style={{ color: "#569CD6" }}>const</span>
+      <span className="text-sm md:text-base mx-1" style={{ color: "#9CDCFE" }}>release</span>
+      <span className="text-sm md:text-base" style={{ color: "#D4D4D4" }}>=</span>
+      <span className="text-sm md:text-base mx-1" style={{ color: "#D4D4D4" }}>{"{"}</span>
+
+      <span className="text-3xl md:text-5xl" style={{ color: "#B5CEA8" }}>
         {timeRemaining.days}
       </span>
-      <span className="text-sm md:text-base text-white/60 mr-2">d</span>
+      <span className="text-sm md:text-base" style={{ color: "#9CDCFE" }}>d</span>
+      <span className="text-sm md:text-base mx-1" style={{ color: "#D4D4D4" }}>:</span>
 
-      <span className="text-3xl md:text-4xl" style={{ color: "#fcde09" }}>
+      <span className="text-3xl md:text-5xl" style={{ color: "#B5CEA8" }}>
         {padNumber(timeRemaining.hours)}
       </span>
-      <span className="text-sm md:text-base text-white/60 mr-2">h</span>
+      <span className="text-sm md:text-base" style={{ color: "#9CDCFE" }}>h</span>
+      <span className="text-sm md:text-base mx-1" style={{ color: "#D4D4D4" }}>:</span>
 
-      <span className="text-3xl md:text-4xl" style={{ color: "#fcde09" }}>
+      <span className="text-3xl md:text-5xl" style={{ color: "#B5CEA8" }}>
         {padNumber(timeRemaining.minutes)}
       </span>
-      <span className="text-sm md:text-base text-white/60 mr-2">m</span>
+      <span className="text-sm md:text-base" style={{ color: "#9CDCFE" }}>m</span>
+      <span className="text-sm md:text-base mx-1" style={{ color: "#D4D4D4" }}>:</span>
 
-      <span className="text-xl md:text-2xl text-white">
+      <span className="text-sm md:text-base" style={{ color: "#B5CEA8" }}>
         {padNumber(timeRemaining.seconds)}
       </span>
-      <span className="text-xs md:text-sm text-white/60">s</span>
+      <span className="text-sm md:text-base" style={{ color: "#9CDCFE" }}>s</span>
+
+      <span className="text-sm md:text-base ml-1" style={{ color: "#D4D4D4" }}>{"}"}</span>
     </div>
   );
 }
@@ -120,9 +129,12 @@ function PrivacyPolicy(): React.ReactElement {
             role="tooltip"
           >
             <p
-              className="text-xs leading-relaxed text-white/80"
-              style={{ fontFamily: '"Times New Roman", Times, serif' }}
+              className="text-xs leading-relaxed"
+              style={{ color: "#6A9955" }}
             >
+              {/* Emails will only be used to inform you about release date and
+              other marketing leading up to the book. Emails will never be sold
+              or given to third parties. */}
               Emails will only be used to inform you about release date and
               other marketing leading up to the book. Emails will never be sold
               or given to third parties. Only supply your email address if
@@ -241,31 +253,45 @@ function EmailSignupComponent({
       aria-label="Email signup"
     >
       <div className="w-full max-w-md">
+        {/* Title lockup */}
+        <div className="text-center mb-8">
+          <h1
+            className="leading-tight tracking-tight text-white"
+            style={{ fontSize: "clamp(18px, 3vw, 28px)" }}
+          >
+            <span style={{ opacity: 0.8 }}>The </span>
+            <span>Midnight Coder&apos;s Children</span>
+          </h1>
+          <p
+            className="mt-1 text-white/60"
+            style={{ fontSize: "clamp(12px, 1.5vw, 16px)" }}
+          >
+            by Prashant Sridharan
+          </p>
+        </div>
+
         <CountdownTimer />
 
         <p
           className="text-lg md:text-xl mb-8 leading-relaxed text-left"
           style={{
-            fontFamily: '"Times New Roman", Times, serif',
-            color: "rgba(255, 255, 255, 0.85)",
+            color: "#6A9955",
           }}
         >
+          <span style={{ opacity: 0.7 }}>{"// "}</span>
           {SIGNUP_HEADLINE}
         </p>
 
         {status === "success" ? (
           <div
             className="py-4 px-6 rounded-lg"
-            style={{ backgroundColor: "rgba(252, 222, 9, 0.1)" }}
+            style={{ backgroundColor: "rgba(39, 201, 63, 0.1)" }}
           >
             <p
               className="text-lg"
-              style={{
-                color: "#fcde09",
-                fontFamily: '"Times New Roman", Times, serif',
-              }}
+              style={{ color: "#4EC9B0" }}
             >
-              Thank you for subscribing.
+              {"// Success: Thank you for subscribing."}
             </p>
           </div>
         ) : (
@@ -277,23 +303,22 @@ function EmailSignupComponent({
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, firstName: e.target.value }))
                 }
-                placeholder="First name"
+                placeholder="firstName"
                 required
                 disabled={status === "submitting"}
                 className="w-1/2 px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
                 style={{
-                  fontFamily: '"Times New Roman", Times, serif',
-                  backgroundColor: "rgba(30, 30, 35, 0.9)",
-                  borderColor: "rgba(255, 255, 255, 0.3)",
-                  color: "#ffffff",
+                  backgroundColor: "rgba(30, 30, 30, 0.9)",
+                  borderColor: "rgba(255, 255, 255, 0.2)",
+                  color: "#9CDCFE",
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = "#fcde09";
-                  e.target.style.backgroundColor = "rgba(40, 40, 45, 0.95)";
+                  e.target.style.borderColor = "#569CD6";
+                  e.target.style.backgroundColor = "rgba(40, 40, 40, 0.95)";
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = "rgba(255, 255, 255, 0.3)";
-                  e.target.style.backgroundColor = "rgba(30, 30, 35, 0.9)";
+                  e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                  e.target.style.backgroundColor = "rgba(30, 30, 30, 0.9)";
                 }}
                 aria-label="First name"
               />
@@ -303,23 +328,22 @@ function EmailSignupComponent({
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, lastName: e.target.value }))
                 }
-                placeholder="Last name"
+                placeholder="lastName"
                 required
                 disabled={status === "submitting"}
                 className="w-1/2 px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
                 style={{
-                  fontFamily: '"Times New Roman", Times, serif',
-                  backgroundColor: "rgba(30, 30, 35, 0.9)",
-                  borderColor: "rgba(255, 255, 255, 0.3)",
-                  color: "#ffffff",
+                  backgroundColor: "rgba(30, 30, 30, 0.9)",
+                  borderColor: "rgba(255, 255, 255, 0.2)",
+                  color: "#9CDCFE",
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = "#fcde09";
-                  e.target.style.backgroundColor = "rgba(40, 40, 45, 0.95)";
+                  e.target.style.borderColor = "#569CD6";
+                  e.target.style.backgroundColor = "rgba(40, 40, 40, 0.95)";
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = "rgba(255, 255, 255, 0.3)";
-                  e.target.style.backgroundColor = "rgba(30, 30, 35, 0.9)";
+                  e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                  e.target.style.backgroundColor = "rgba(30, 30, 30, 0.9)";
                 }}
                 aria-label="Last name"
               />
@@ -335,25 +359,24 @@ function EmailSignupComponent({
                 onBlur={(e) => {
                   setEmailTouched(true);
                   e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                  e.target.style.backgroundColor = "rgba(30, 30, 30, 0.9)";
                 }}
-                placeholder="Email address"
+                placeholder="email@string"
                 required
                 disabled={status === "submitting"}
                 className="w-full px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
                 style={{
-                  fontFamily: '"Times New Roman", Times, serif',
-                  backgroundColor: "rgba(30, 30, 35, 0.9)",
+                  backgroundColor: "rgba(30, 30, 30, 0.9)",
                   borderColor: showEmailError
-                    ? "#ff6b6b"
-                    : "rgba(255, 255, 255, 0.3)",
-                  color: "#ffffff",
+                    ? "#f14c4c"
+                    : "rgba(255, 255, 255, 0.2)",
+                  color: "#CE9178",
                 }}
                 onFocus={(e) => {
                   e.target.style.borderColor = showEmailError
-                    ? "#ff6b6b"
-                    : "#fcde09";
-                  e.target.style.backgroundColor = "rgba(40, 40, 45, 0.95)";
+                    ? "#f14c4c"
+                    : "#569CD6";
+                  e.target.style.backgroundColor = "rgba(40, 40, 40, 0.95)";
                 }}
                 aria-label="Email address"
                 aria-invalid={showEmailError}
@@ -361,10 +384,10 @@ function EmailSignupComponent({
               {showEmailError && (
                 <p
                   className="text-sm mt-1"
-                  style={{ color: "#ff6b6b" }}
+                  style={{ color: "#f14c4c" }}
                   role="alert"
                 >
-                  Please enter a valid email address
+                  {"// Error: Invalid email format"}
                 </p>
               )}
             </div>
@@ -380,20 +403,21 @@ function EmailSignupComponent({
                   }))
                 }
                 disabled={status === "submitting"}
-                className="mt-1 w-4 h-4 rounded border-2 cursor-pointer accent-yellow-400"
+                className="mt-1 w-5 h-5 rounded cursor-pointer"
                 style={{
-                  accentColor: "#fcde09",
+                  accentColor: "#4EC9B0",
                 }}
                 aria-label="Agree to be contacted about Bodhi Press publications"
               />
               <span
-                className="text-sm leading-relaxed"
-                style={{
-                  fontFamily: '"Times New Roman", Times, serif',
-                  color: "rgba(255, 255, 255, 0.7)",
-                }}
+                className="text-sm md:text-base leading-relaxed"
+                style={{ color: "#D4D4D4" }}
               >
-                I agree to be contacted about Bodhi Press publications
+                <span style={{ color: "#569CD6" }}>const</span>{" "}
+                <span style={{ color: "#9CDCFE" }}>consent</span>{" "}
+                <span style={{ color: "#D4D4D4" }}>=</span>{" "}
+                <span style={{ color: "#4EC9B0" }}>true</span>
+                <span style={{ color: "#6A9955" }}>{" // I agree to be contacted"}</span>
               </span>
             </label>
 
@@ -402,43 +426,41 @@ function EmailSignupComponent({
               disabled={status === "submitting" || !isFormValid}
               className="px-8 py-4 text-base md:text-lg font-medium rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
-                fontFamily: '"Times New Roman", Times, serif',
-                backgroundColor: isFormValid ? "#fcde09" : "rgba(252, 222, 9, 0.4)",
-                color: "#121212",
+                backgroundColor: isFormValid ? "#0e639c" : "rgba(14, 99, 156, 0.4)",
+                color: "#ffffff",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
               }}
               onMouseEnter={(e) => {
                 if (status !== "submitting" && isFormValid) {
-                  e.currentTarget.style.backgroundColor = "#ffe433";
+                  e.currentTarget.style.backgroundColor = "#1177bb";
                   e.currentTarget.style.transform = "translateY(-2px)";
                 }
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = isFormValid
-                  ? "#fcde09"
-                  : "rgba(252, 222, 9, 0.4)";
+                  ? "#0e639c"
+                  : "rgba(14, 99, 156, 0.4)";
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              {status === "submitting" ? "Subscribing..." : "Notify Me"}
+              {status === "submitting" ? "subscribe()" : "notifyMe()"}
             </button>
 
             {status === "error" && (
-              <p className="text-sm" style={{ color: "#ff6b6b" }} role="alert">
-                Something went wrong. Please try again.
+              <p className="text-sm" style={{ color: "#f14c4c" }} role="alert">
+                {"// Error: Request failed. Please try again."}
               </p>
             )}
           </form>
         )}
 
         <footer
-          className="mt-12 text-center"
+          className="mt-12 text-center text-xs"
           style={{
-            fontFamily: '"Times New Roman", Times, serif',
-            fontSize: "11px",
-            color: "rgba(255, 255, 255, 0.4)",
+            color: "#6A9955",
           }}
         >
-          <p className="mb-1">&copy; 2026 Bodhi Press</p>
+          <p className="mb-1">{"// "}&copy; 2026 Bodhi Press</p>
           <PrivacyPolicy />
         </footer>
       </div>

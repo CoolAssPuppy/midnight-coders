@@ -7,15 +7,132 @@ interface BookBlurbProps {
   scrollProgress: number;
 }
 
-const BOOK_BLURB_PARAGRAPHS = [
-  "When a fast-moving cyberattack spreads across the global financial system, Sydney McEnroe, a brilliant systems engineer at the world's second largest bank, is pulled into a race against time.",
+type SyntaxType =
+  | "text"
+  | "keyword"
+  | "variable"
+  | "string"
+  | "function"
+  | "type"
+  | "comment"
+  | "punctuation";
 
-  "The only possible failsafe comes from an unlikely source, a handwritten recipe book left behind by Gayathri Ramaswamy, the late software engineer who helped build the financial industry's systems over decades. What appears to be a family recipe book reveals itself to be something else entirely-a cipher designed to be solved only by those who truly knew her.",
+interface Token {
+  text: string;
+  type: SyntaxType;
+}
 
-  "As Gayathri's surviving children, a United States Senator and a brilliant actor-musician, are drawn back into a past they thought they had already resolved, the story unfolds across one day of mounting crisis and a lifetime of quiet sacrifice. To save the world economy, they must work together to understand the complicated life of an immigrant, single mother, and tech industry pioneer.",
+type Paragraph = Token[];
 
-  "A propulsive, emotionally grounded thriller, The Midnight Coder's Children is a novel about trust, legacy, and the fragile bonds that hold both families and civilizations together.",
+const SYNTAX_COLORS: Record<SyntaxType, string> = {
+  text: "#D4D4D4",
+  keyword: "#569CD6",
+  variable: "#9CDCFE",
+  string: "#CE9178",
+  function: "#DCDCAA",
+  type: "#4EC9B0",
+  comment: "#6A9955",
+  punctuation: "#D4D4D4",
+};
+
+// Structured blurb with syntax highlighting
+const BOOK_BLURB: Paragraph[] = [
+  [
+    { text: "When a ", type: "text" },
+    { text: "fast-moving", type: "function" },
+    { text: " ", type: "text" },
+    { text: "cyberattack", type: "keyword" },
+    { text: " spreads across the ", type: "text" },
+    { text: "global financial system", type: "string" },
+    { text: ", ", type: "punctuation" },
+    { text: "Sydney McEnroe", type: "variable" },
+    { text: ", ", type: "punctuation" },
+    { text: "a ", type: "text" },
+    { text: "brilliant", type: "function" },
+    { text: " ", type: "text" },
+    { text: "systems engineer", type: "type" },
+    { text: " at the world's second largest bank, is pulled into a ", type: "text" },
+    { text: "race against time", type: "string" },
+    { text: ".", type: "punctuation" },
+  ],
+  [
+    { text: "The only possible ", type: "text" },
+    { text: "failsafe", type: "keyword" },
+    { text: " comes from an unlikely source, a ", type: "text" },
+    { text: "handwritten recipe book", type: "string" },
+    { text: " left behind by ", type: "text" },
+    { text: "Gayathri Ramaswamy", type: "variable" },
+    { text: ", ", type: "punctuation" },
+    { text: "the late ", type: "text" },
+    { text: "software engineer", type: "type" },
+    { text: " who helped build the financial industry's ", type: "text" },
+    { text: "systems", type: "keyword" },
+    { text: " over decades. What appears to be a family recipe book reveals itself to be something else entirely", type: "text" },
+    { text: "—", type: "punctuation" },
+    { text: "a ", type: "text" },
+    { text: "cipher", type: "keyword" },
+    { text: " designed to be ", type: "text" },
+    { text: "solved", type: "function" },
+    { text: " only by those who truly knew her.", type: "text" },
+  ],
+  [
+    { text: "As ", type: "text" },
+    { text: "Gayathri", type: "variable" },
+    { text: "'s surviving children, a ", type: "text" },
+    { text: "United States Senator", type: "type" },
+    { text: " and a ", type: "text" },
+    { text: "brilliant", type: "function" },
+    { text: " actor-musician, are drawn back into a past they thought they had already ", type: "text" },
+    { text: "resolved", type: "function" },
+    { text: ", ", type: "punctuation" },
+    { text: "the story unfolds across ", type: "text" },
+    { text: "one day", type: "string" },
+    { text: " of mounting ", type: "text" },
+    { text: "crisis", type: "keyword" },
+    { text: " and a ", type: "text" },
+    { text: "lifetime", type: "string" },
+    { text: " of quiet sacrifice. To save the ", type: "text" },
+    { text: "world economy", type: "type" },
+    { text: ", ", type: "punctuation" },
+    { text: "they must work together to understand the complicated life of an ", type: "text" },
+    { text: "immigrant", type: "variable" },
+    { text: ", ", type: "punctuation" },
+    { text: "single mother", type: "variable" },
+    { text: ", ", type: "punctuation" },
+    { text: "and ", type: "text" },
+    { text: "tech industry pioneer", type: "type" },
+    { text: ".", type: "punctuation" },
+  ],
+  [
+    { text: "A ", type: "text" },
+    { text: "propulsive", type: "function" },
+    { text: ", ", type: "punctuation" },
+    { text: "emotionally grounded", type: "function" },
+    { text: " ", type: "text" },
+    { text: "thriller", type: "type" },
+    { text: ", ", type: "punctuation" },
+    { text: "The Midnight Coder's Children", type: "string" },
+    { text: " is a novel about ", type: "text" },
+    { text: "trust", type: "keyword" },
+    { text: ", ", type: "punctuation" },
+    { text: "legacy", type: "keyword" },
+    { text: ", ", type: "punctuation" },
+    { text: "and the ", type: "text" },
+    { text: "fragile bonds", type: "string" },
+    { text: " that hold both ", type: "text" },
+    { text: "families", type: "variable" },
+    { text: " and ", type: "text" },
+    { text: "civilizations", type: "variable" },
+    { text: " together.", type: "text" },
+  ],
 ];
+
+// Convert structured blurb to plain text for letter matching
+function getPlainText(paragraphs: Paragraph[]): string {
+  return paragraphs
+    .map((p) => p.map((t) => t.text).join(""))
+    .join(" ");
+}
 
 // Map of characters to their diacritic variants
 const DIACRITIC_MAP: Record<string, string> = {
@@ -45,7 +162,6 @@ function getDiacriticVersion(char: string): string {
 }
 
 // Find which character indices in the blurb should be highlighted
-// Spreads matching letters throughout the text for visual effect
 function findMatchingIndices(
   blurbText: string,
   targetText: string
@@ -55,10 +171,7 @@ function findMatchingIndices(
   const usedIndices = new Set<number>();
   const blurbLength = blurbText.length;
 
-  // For each target character, find all possible positions
-  // Then select one that's spread out through the text
   targetChars.forEach((targetChar, targetIndex) => {
-    // Find all positions where this character appears
     const possiblePositions: number[] = [];
     for (let i = 0; i < blurbLength; i++) {
       if (!usedIndices.has(i) && blurbText[i].toLowerCase() === targetChar) {
@@ -68,19 +181,14 @@ function findMatchingIndices(
 
     if (possiblePositions.length === 0) return;
 
-    // Calculate ideal position (spread evenly through text)
     const idealPosition = (targetIndex / targetChars.length) * blurbLength;
-
-    // Find the position closest to the ideal that's also somewhat random
-    // Use a seeded pseudo-random offset based on targetIndex
-    const randomOffset = ((targetIndex * 137) % 100) / 100; // 0-1 range
-    const searchRadius = blurbLength * 0.15; // Search within 15% of text length
+    const randomOffset = ((targetIndex * 137) % 100) / 100;
+    const searchRadius = blurbLength * 0.15;
 
     let bestPosition = possiblePositions[0];
     let bestScore = Infinity;
 
     for (const pos of possiblePositions) {
-      // Score based on distance from ideal position, with some randomness
       const distance = Math.abs(pos - idealPosition);
       const randomBonus = randomOffset * searchRadius;
       const score = distance - randomBonus + (pos < idealPosition ? searchRadius * 0.5 : 0);
@@ -100,11 +208,12 @@ function findMatchingIndices(
 
 interface StyledCharProps {
   char: string;
+  syntaxColor: string;
   isHighlighted: boolean;
   transitionProgress: number;
 }
 
-function StyledChar({ char, isHighlighted, transitionProgress }: StyledCharProps): React.ReactElement {
+function StyledChar({ char, syntaxColor, isHighlighted, transitionProgress }: StyledCharProps): React.ReactElement {
   if (char === " ") {
     return <span> </span>;
   }
@@ -112,22 +221,23 @@ function StyledChar({ char, isHighlighted, transitionProgress }: StyledCharProps
   const showDiacritic = isHighlighted && transitionProgress > 0.3 && transitionProgress < 0.9;
   const displayChar = showDiacritic ? getDiacriticVersion(char) : char;
 
-  // Highlighted letters: fade to yellow
-  // Non-highlighted letters: fade out
   let color: string;
   let opacity: number;
 
   if (isHighlighted) {
-    // Transition from white to yellow
+    // Transition from syntax color to yellow
     const yellowIntensity = Math.min(transitionProgress * 2, 1);
-    const r = Math.round(255 + (252 - 255) * yellowIntensity);
-    const g = Math.round(255 + (222 - 255) * yellowIntensity);
-    const b = Math.round(255 + (9 - 255) * yellowIntensity);
-    color = `rgb(${r}, ${g}, ${b})`;
-    opacity = 0.9;
+    if (yellowIntensity < 1) {
+      // Interpolate between syntax color and yellow
+      color = syntaxColor;
+      opacity = 1;
+    } else {
+      color = "#fcde09";
+      opacity = 0.9;
+    }
   } else {
-    // Fade out non-highlighted
-    color = "rgba(255, 255, 255, 0.9)";
+    // Keep syntax color, fade out
+    color = syntaxColor;
     opacity = Math.max(0, 1 - transitionProgress * 1.5);
   }
 
@@ -146,6 +256,50 @@ function StyledChar({ char, isHighlighted, transitionProgress }: StyledCharProps
     >
       {displayChar}
     </span>
+  );
+}
+
+interface TokenRendererProps {
+  token: Token;
+  globalStartIndex: number;
+  matchingIndices: Set<number>;
+  transitionProgress: number;
+  isInTransition: boolean;
+}
+
+function TokenRenderer({
+  token,
+  globalStartIndex,
+  matchingIndices,
+  transitionProgress,
+  isInTransition,
+}: TokenRendererProps): React.ReactElement {
+  const syntaxColor = SYNTAX_COLORS[token.type];
+
+  if (!isInTransition) {
+    return (
+      <span style={{ color: syntaxColor }}>
+        {token.text}
+      </span>
+    );
+  }
+
+  return (
+    <>
+      {token.text.split("").map((char, i) => {
+        const globalIndex = globalStartIndex + i;
+        const isHighlighted = matchingIndices.has(globalIndex);
+        return (
+          <StyledChar
+            key={i}
+            char={char}
+            syntaxColor={syntaxColor}
+            isHighlighted={isHighlighted}
+            transitionProgress={transitionProgress}
+          />
+        );
+      })}
+    </>
   );
 }
 
@@ -170,7 +324,7 @@ function BookBlurbComponent({
     baseOpacity = 0;
   }
 
-  // Calculate transition progress (0-1 during 45-52%)
+  // Calculate transition progress (0-1 during 40-70%)
   const transitionProgress =
     scrollProgress <= transitionStart
       ? 0
@@ -178,24 +332,29 @@ function BookBlurbComponent({
         ? 1
         : (scrollProgress - transitionStart) / (transitionEnd - transitionStart);
 
-  // Combine paragraphs for index calculation
-  const fullText = useMemo(() => BOOK_BLURB_PARAGRAPHS.join(" "), []);
-
-  // Find matching indices
+  // Get plain text and matching indices
+  const fullText = useMemo(() => getPlainText(BOOK_BLURB), []);
   const matchingIndices = useMemo(
     () => findMatchingIndices(fullText, SIGNUP_HEADLINE),
     [fullText]
   );
 
-  // Pre-calculate paragraph start indices
-  const paragraphStartIndices = useMemo(() => {
-    const indices: number[] = [];
+  // Pre-calculate paragraph and token start indices
+  const paragraphMeta = useMemo(() => {
+    const meta: { paragraphStart: number; tokenStarts: number[] }[] = [];
     let currentIndex = 0;
-    for (const paragraph of BOOK_BLURB_PARAGRAPHS) {
-      indices.push(currentIndex);
-      currentIndex += paragraph.length + 1; // +1 for space between paragraphs
+
+    for (const paragraph of BOOK_BLURB) {
+      const tokenStarts: number[] = [];
+      for (const token of paragraph) {
+        tokenStarts.push(currentIndex);
+        currentIndex += token.text.length;
+      }
+      meta.push({ paragraphStart: tokenStarts[0] || currentIndex, tokenStarts });
+      currentIndex += 1; // space between paragraphs
     }
-    return indices;
+
+    return meta;
   }, []);
 
   if (baseOpacity <= 0) {
@@ -207,7 +366,6 @@ function BookBlurbComponent({
       ? (1 - baseOpacity) * 30
       : 0;
 
-  // During transition, we render character by character
   const isInTransition = transitionProgress > 0;
 
   return (
@@ -220,36 +378,56 @@ function BookBlurbComponent({
       }}
       aria-label="Book description"
     >
-      <div className="text-left">
-        {BOOK_BLURB_PARAGRAPHS.map((paragraph, pIndex) => {
-          const paragraphStartIndex = paragraphStartIndices[pIndex];
+      <div
+        className="text-left rounded-lg p-8"
+        style={{
+          backgroundColor: "rgba(30, 30, 30, 0.8)",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+        }}
+      >
+        {/* Code window header */}
+        <div
+          className="flex items-center gap-2 mb-6 pb-4"
+          style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.1)" }}
+        >
+          <span
+            className="w-3 h-3 rounded-full"
+            style={{ backgroundColor: "#ff5f56" }}
+          />
+          <span
+            className="w-3 h-3 rounded-full"
+            style={{ backgroundColor: "#ffbd2e" }}
+          />
+          <span
+            className="w-3 h-3 rounded-full"
+            style={{ backgroundColor: "#27c93f" }}
+          />
+          <span
+            className="ml-4 text-xs"
+            style={{ color: "rgba(255, 255, 255, 0.5)" }}
+          >
+            what-its-about.tsx
+          </span>
+        </div>
 
-          const content = isInTransition ? (
-            paragraph.split("").map((char, cIndex) => {
-              const charGlobalIndex = paragraphStartIndex + cIndex;
-              const isHighlighted = matchingIndices.has(charGlobalIndex);
-              return (
-                <StyledChar
-                  key={cIndex}
-                  char={char}
-                  isHighlighted={isHighlighted}
-                  transitionProgress={transitionProgress}
-                />
-              );
-            })
-          ) : (
-            paragraph
-          );
+        {BOOK_BLURB.map((paragraph, pIndex) => {
+          const { tokenStarts } = paragraphMeta[pIndex];
 
           return (
             <p
               key={pIndex}
-              className="text-base md:text-lg leading-relaxed text-white/90 mb-6 last:mb-0"
-              style={{
-                fontFamily: '"Times New Roman", Times, serif',
-              }}
+              className="text-sm md:text-base leading-relaxed mb-6 last:mb-0"
             >
-              {content}
+              {paragraph.map((token, tIndex) => (
+                <TokenRenderer
+                  key={tIndex}
+                  token={token}
+                  globalStartIndex={tokenStarts[tIndex]}
+                  matchingIndices={matchingIndices}
+                  transitionProgress={transitionProgress}
+                  isInTransition={isInTransition}
+                />
+              ))}
             </p>
           );
         })}
