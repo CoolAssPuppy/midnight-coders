@@ -66,7 +66,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     // Add contact to Resend
     try {
-      await fetch("https://api.resend.com/contacts", {
+      const contactResponse = await fetch("https://api.resend.com/contacts", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${apiKey}`,
@@ -74,14 +74,22 @@ export async function POST(request: Request): Promise<NextResponse> {
         },
         body: JSON.stringify({
           email,
-          firstName,
-          lastName,
+          first_name: firstName,
+          last_name: lastName,
           unsubscribed: false,
+          properties: {
+            book: "MCC",
+          },
           segments: segmentId ? [{ id: segmentId }] : undefined,
         }),
       });
+      const contactResult = await contactResponse.json();
+      if (!contactResponse.ok) {
+        console.error("Contact creation failed:", contactResult);
+      } else {
+        console.log("Contact created:", contactResult);
+      }
     } catch (contactError) {
-      // Contact might already exist, continue to send email
       console.error("Contact creation error:", contactError);
     }
 
