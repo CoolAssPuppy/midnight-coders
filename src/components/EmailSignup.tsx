@@ -17,44 +17,43 @@ interface TimeRemaining {
 
 const RELEASE_DATE = new Date("2026-09-22T00:00:00");
 
-function calculateTimeRemaining(): TimeRemaining {
-  const now = new Date();
-  const difference = RELEASE_DATE.getTime() - now.getTime();
+function useCountdown(targetDate: Date): TimeRemaining | null {
+  const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(
+    null
+  );
 
-  if (difference <= 0) {
-    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  }
+  useEffect(() => {
+    const updateTime = (): void => {
+      const now = new Date();
+      const difference = targetDate.getTime() - now.getTime();
 
-  return {
-    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-    minutes: Math.floor((difference / (1000 * 60)) % 60),
-    seconds: Math.floor((difference / 1000) % 60),
-  };
+      if (difference <= 0) {
+        setTimeRemaining({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+
+      setTimeRemaining({
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / (1000 * 60)) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      });
+    };
+
+    const interval = setInterval(updateTime, 1000);
+    updateTime();
+
+    return () => clearInterval(interval);
+  }, [targetDate]);
+
+  return timeRemaining;
 }
 
 function CountdownTimer(): React.ReactElement {
-  const [timeRemaining, setTimeRemaining] = useState<TimeRemaining>({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-  const [mounted, setMounted] = useState(false);
+  const timeRemaining = useCountdown(RELEASE_DATE);
 
-  useEffect(() => {
-    setMounted(true);
-    setTimeRemaining(calculateTimeRemaining());
-
-    const interval = setInterval(() => {
-      setTimeRemaining(calculateTimeRemaining());
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  if (!mounted) {
-    return <div style={{ height: "80px" }} />;
+  if (timeRemaining === null) {
+    return <div style={{ height: "80px" }} aria-hidden="true" />;
   }
 
   const padNumber = (num: number): string => num.toString().padStart(2, "0");
@@ -125,28 +124,47 @@ function PrivacyPolicy(): React.ReactElement {
               Emails will only be used to inform you about release date and
               other marketing leading up to the book. Emails will never be sold
               or given to third parties. Only supply your email address if
-              you&apos;re interested in learning about Midnight Coders.
-            </p>
-            <div
-              className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0"
-              style={{
-                borderLeft: "6px solid transparent",
-                borderRight: "6px solid transparent",
-                borderTop: "6px solid rgba(30, 30, 30, 0.95)",
-              }}
-            />
-          </div>
-        </>
-      )}
-    </span>
-  );
+              you&apos;re interested in learning about The Midnight Coder&apos;s Children.
+              </p>
+            </div>
+          </>
+        )}
+      </span>
+    );
+  }
+
+function isValidEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  agreedToContact: boolean;
 }
 
 function EmailSignupComponent({
   scrollProgress,
 }: EmailSignupProps): React.ReactElement | null {
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState<FormData>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    agreedToContact: false,
+  });
   const [status, setStatus] = useState<SubmitStatus>("idle");
+  const [emailTouched, setEmailTouched] = useState(false);
+
+  const isFormValid =
+    formData.firstName.trim() !== "" &&
+    formData.lastName.trim() !== "" &&
+    isValidEmail(formData.email) &&
+    formData.agreedToContact;
+
+  const showEmailError =
+    emailTouched && formData.email.trim() !== "" && !isValidEmail(formData.email);
 
   // Email form fades in from 52-60%, stays visible after
   const fadeInStart = 0.52;
@@ -166,7 +184,7 @@ function EmailSignupComponent({
     async (event: FormEvent<HTMLFormElement>): Promise<void> => {
       event.preventDefault();
 
-      if (!email.trim() || status === "submitting") {
+      if (!isFormValid || status === "submitting") {
         return;
       }
 
@@ -175,12 +193,18 @@ function EmailSignupComponent({
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setStatus("success");
-        setEmail("");
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          agreedToContact: false,
+        });
+        setEmailTouched(false);
       } catch {
         setStatus("error");
       }
     },
-    [email, status]
+    [isFormValid, status]
   );
 
   if (opacity <= 0) {
@@ -229,15 +253,17 @@ function EmailSignupComponent({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div className="relative">
+            <div className="flex gap-4">
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                type="text"
+                value={formData.firstName}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, firstName: e.target.value }))
+                }
+                placeholder="First name"
                 required
                 disabled={status === "submitting"}
-                className="w-full px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
+                className="w-1/2 px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
                 style={{
                   fontFamily: '"Times New Roman", Times, serif',
                   backgroundColor: "rgba(255, 255, 255, 0.05)",
@@ -252,27 +278,127 @@ function EmailSignupComponent({
                   e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
                   e.target.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
                 }}
-                aria-label="Email address"
+                aria-label="First name"
+              />
+              <input
+                type="text"
+                value={formData.lastName}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, lastName: e.target.value }))
+                }
+                placeholder="Last name"
+                required
+                disabled={status === "submitting"}
+                className="w-1/2 px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
+                style={{
+                  fontFamily: '"Times New Roman", Times, serif',
+                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  borderColor: "rgba(255, 255, 255, 0.2)",
+                  color: "#ffffff",
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = "#fcde09";
+                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                }}
+                aria-label="Last name"
               />
             </div>
 
+            <div className="relative">
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, email: e.target.value }))
+                }
+                onBlur={(e) => {
+                  setEmailTouched(true);
+                  e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                }}
+                placeholder="Email address"
+                required
+                disabled={status === "submitting"}
+                className="w-full px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
+                style={{
+                  fontFamily: '"Times New Roman", Times, serif',
+                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  borderColor: showEmailError
+                    ? "#ff6b6b"
+                    : "rgba(255, 255, 255, 0.2)",
+                  color: "#ffffff",
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = showEmailError
+                    ? "#ff6b6b"
+                    : "#fcde09";
+                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
+                }}
+                aria-label="Email address"
+                aria-invalid={showEmailError}
+              />
+              {showEmailError && (
+                <p
+                  className="text-sm mt-1"
+                  style={{ color: "#ff6b6b" }}
+                  role="alert"
+                >
+                  Please enter a valid email address
+                </p>
+              )}
+            </div>
+
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={formData.agreedToContact}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    agreedToContact: e.target.checked,
+                  }))
+                }
+                disabled={status === "submitting"}
+                className="mt-1 w-4 h-4 rounded border-2 cursor-pointer accent-yellow-400"
+                style={{
+                  accentColor: "#fcde09",
+                }}
+                aria-label="Agree to be contacted about Bodhi Press publications"
+              />
+              <span
+                className="text-sm leading-relaxed"
+                style={{
+                  fontFamily: '"Times New Roman", Times, serif',
+                  color: "rgba(255, 255, 255, 0.7)",
+                }}
+              >
+                I agree to be contacted about Bodhi Press publications
+              </span>
+            </label>
+
             <button
               type="submit"
-              disabled={status === "submitting" || !email.trim()}
+              disabled={status === "submitting" || !isFormValid}
               className="px-8 py-4 text-base md:text-lg font-medium rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
                 fontFamily: '"Times New Roman", Times, serif',
-                backgroundColor: "#fcde09",
+                backgroundColor: isFormValid ? "#fcde09" : "rgba(252, 222, 9, 0.4)",
                 color: "#121212",
               }}
               onMouseEnter={(e) => {
-                if (status !== "submitting" && email.trim()) {
+                if (status !== "submitting" && isFormValid) {
                   e.currentTarget.style.backgroundColor = "#ffe433";
                   e.currentTarget.style.transform = "translateY(-2px)";
                 }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "#fcde09";
+                e.currentTarget.style.backgroundColor = isFormValid
+                  ? "#fcde09"
+                  : "rgba(252, 222, 9, 0.4)";
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >

@@ -9,7 +9,7 @@ interface BookBlurbProps {
 const BOOK_BLURB_PARAGRAPHS = [
   "When a fast-moving cyberattack spreads across the global financial system, Sydney McEnroe, a brilliant systems engineer at the world's second largest bank, is pulled into a race against time.",
 
-  "The only possible failsafe comes from an unlikely source, a handwritten recipe book left behind by Gayathri Ramaswamy, the late software engineer who helped build the bank's systems over decades. What appears to be a family recipe book reveals itself to be something else entirely-a cipher designed to be solved only by those who truly knew her.",
+  "The only possible failsafe comes from an unlikely source, a handwritten recipe book left behind by Gayathri Ramaswamy, the late software engineer who helped build the financial industry's systems over decades. What appears to be a family recipe book reveals itself to be something else entirely-a cipher designed to be solved only by those who truly knew her.",
 
   "As Gayathri's surviving children, a United States Senator and a brilliant actor-musician, are drawn back into a past they thought they had already resolved, the story unfolds across one day of mounting crisis and a lifetime of quiet sacrifice. To save the world economy, they must work together to understand the complicated life of an immigrant, single mother, and tech industry pioneer.",
 
