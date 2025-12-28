@@ -45,7 +45,6 @@ function ScrollIndicator({
       <span
         className="text-xs tracking-widest uppercase"
         style={{
-          fontFamily: '"Times New Roman", Times, serif',
           color: "rgba(255, 255, 255, 0.5)",
         }}
       >

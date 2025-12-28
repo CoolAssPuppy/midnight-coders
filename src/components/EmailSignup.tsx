@@ -65,11 +65,6 @@ function CountdownTimer(): React.ReactElement {
       className="flex items-baseline justify-center gap-1 mb-8"
       aria-label={`${timeRemaining.days} days, ${timeRemaining.hours} hours, ${timeRemaining.minutes} minutes, ${timeRemaining.seconds} seconds until release`}
     >
-      <span className="text-sm md:text-base" style={{ color: "#569CD6" }}>const</span>
-      <span className="text-sm md:text-base mx-1" style={{ color: "#9CDCFE" }}>release</span>
-      <span className="text-sm md:text-base" style={{ color: "#D4D4D4" }}>=</span>
-      <span className="text-sm md:text-base mx-1" style={{ color: "#D4D4D4" }}>{"{"}</span>
-
       <span className="text-3xl md:text-5xl" style={{ color: "#B5CEA8" }}>
         {timeRemaining.days}
       </span>
@@ -92,8 +87,6 @@ function CountdownTimer(): React.ReactElement {
         {padNumber(timeRemaining.seconds)}
       </span>
       <span className="text-sm md:text-base" style={{ color: "#9CDCFE" }}>s</span>
-
-      <span className="text-sm md:text-base ml-1" style={{ color: "#D4D4D4" }}>{"}"}</span>
     </div>
   );
 }
@@ -273,12 +266,11 @@ function EmailSignupComponent({
         <CountdownTimer />
 
         <p
-          className="text-lg md:text-xl mb-8 leading-relaxed text-left"
+          className="text-lg md:text-xl mb-8 leading-relaxed text-center"
           style={{
             color: "#6A9955",
           }}
         >
-          <span style={{ opacity: 0.7 }}>{"// "}</span>
           {SIGNUP_HEADLINE}
         </p>
 
@@ -361,7 +353,7 @@ function EmailSignupComponent({
                   e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
                   e.target.style.backgroundColor = "rgba(30, 30, 30, 0.9)";
                 }}
-                placeholder="email@string"
+                placeholder="email"
                 required
                 disabled={status === "submitting"}
                 className="w-full px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
@@ -413,11 +405,7 @@ function EmailSignupComponent({
                 className="text-sm md:text-base leading-relaxed"
                 style={{ color: "#D4D4D4" }}
               >
-                <span style={{ color: "#569CD6" }}>const</span>{" "}
-                <span style={{ color: "#9CDCFE" }}>consent</span>{" "}
-                <span style={{ color: "#D4D4D4" }}>=</span>{" "}
-                <span style={{ color: "#4EC9B0" }}>true</span>
-                <span style={{ color: "#6A9955" }}>{" // I agree to be contacted"}</span>
+                <span style={{ color: "#6A9955" }}>{"I agree to be contacted about Bodhi Press publications"}</span>
               </span>
             </label>
 
@@ -460,7 +448,7 @@ function EmailSignupComponent({
             color: "#6A9955",
           }}
         >
-          <p className="mb-1">{"// "}&copy; 2026 Bodhi Press</p>
+          <p className="mb-1">&copy; 2026 Bodhi Press</p>
           <PrivacyPolicy />
         </footer>
       </div>

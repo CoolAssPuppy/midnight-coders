@@ -5,7 +5,6 @@
   --color-gold: #fcde09;
   --color-white: #ffffff;
   --color-white-dim: rgba(255, 255, 255, 0.7);
-  --font-serif: "Times New Roman", Times, serif;
   --font-mono: "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
 
   /* VS Code Dark+ syntax colors */
@@ -23,6 +22,9 @@
 @theme inline {
   --color-midnight: var(--color-midnight);
   --color-gold: var(--color-gold);
+  --default-font-family: "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+  --default-font-feature-settings: normal;
+  --default-font-variation-settings: normal;
 }
 
 * {

@@ -1,147 +1,205 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to The Midnight Coder's Children</title>
-</head>
-<body style="background-color: #0a0a0a; font-family: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; margin: 0; padding: 20px;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-    <tr>
-      <td align="center">
-        <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="background-color: #1e1e1e; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; max-width: 600px; overflow: hidden;">
+<!--
+RESEND GLOBAL CSS - Add this to the Global CSS section:
 
-          <!-- Window Header -->
-          <tr>
-            <td style="background-color: #323233; padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-              <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: #ff5f56; margin-right: 8px;"></span>
-              <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: #ffbd2e; margin-right: 8px;"></span>
-              <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: #27c93f; margin-right: 8px;"></span>
-              <span style="color: rgba(255, 255, 255, 0.5); font-size: 12px; margin-left: 12px;">welcome.tsx</span>
-            </td>
-          </tr>
+body {
+  background-color: #0a0a0a;
+  font-family: Consolas, Monaco, 'Courier New', monospace;
+  margin: 0;
+  padding: 20px;
+}
 
-          <!-- Code Content -->
-          <tr>
-            <td style="padding: 24px;">
+.code-window {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+  overflow: hidden;
+}
 
-              <!-- Import -->
-              <p style="color: #D4D4D4; font-size: 14px; line-height: 1.6; margin: 0;">
-                <span style="color: #569CD6;">import</span>
-                <span style="color: #D4D4D4;"> { </span>
-                <span style="color: #9CDCFE;">reader</span>
-                <span style="color: #D4D4D4;"> } </span>
-                <span style="color: #569CD6;">from</span>
-                <span style="color: #CE9178;"> "midnightcoderschildren.com"</span>
-                <span style="color: #D4D4D4;">;</span>
-              </p>
+.window-header {
+  background-color: #323233;
+  padding: 12px 16px;
+  border-bottom: 1px solid #404040;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-              <p style="font-size: 14px; line-height: 0.8; margin: 0;">&nbsp;</p>
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
 
-              <!-- Comments -->
-              <p style="color: #6A9955; font-size: 14px; line-height: 1.6; margin: 0;">// Welcome to The Midnight Coder's Children</p>
-              <p style="color: #6A9955; font-size: 14px; line-height: 1.6; margin: 0;">// A novel by Prashant Sridharan</p>
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
 
-              <p style="font-size: 14px; line-height: 0.8; margin: 0;">&nbsp;</p>
+.filename {
+  color: #808080;
+  font-size: 12px;
+  margin-left: 8px;
+}
 
-              <!-- Function -->
-              <p style="color: #D4D4D4; font-size: 14px; line-height: 1.6; margin: 0;">
-                <span style="color: #569CD6;">const</span>
-                <span style="color: #DCDCAA;"> greet</span>
-                <span style="color: #D4D4D4;"> = (</span>
-                <span style="color: #9CDCFE;">{{first_name | default: "Reader"}}</span>
-                <span style="color: #D4D4D4;">): </span>
-                <span style="color: #4EC9B0;">Promise</span>
-                <span style="color: #D4D4D4;"><</span>
-                <span style="color: #4EC9B0;">void</span>
-                <span style="color: #D4D4D4;">></span>
-                <span style="color: #D4D4D4;"> => {</span>
-              </p>
+.code-content {
+  padding: 24px;
+}
 
-              <p style="font-size: 14px; line-height: 0.8; margin: 0;">&nbsp;</p>
+.keyword { color: #569CD6; }
+.variable { color: #9CDCFE; }
+.function { color: #DCDCAA; }
+.string { color: #CE9178; }
+.type { color: #4EC9B0; }
+.comment { color: #6A9955; }
+.punctuation { color: #D4D4D4; }
 
-              <!-- Console log -->
-              <p style="color: #D4D4D4; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 24px;">
-                <span style="color: #9CDCFE;">console</span>
-                <span style="color: #D4D4D4;">.</span>
-                <span style="color: #DCDCAA;">log</span>
-                <span style="color: #D4D4D4;">(</span>
-                <span style="color: #CE9178;">"Dear {{first_name | default: "Reader"}},"</span>
-                <span style="color: #D4D4D4;">);</span>
-              </p>
+.code-line {
+  font-size: 14px;
+  line-height: 1.8;
+  margin: 0;
+}
 
-              <p style="font-size: 14px; line-height: 0.8; margin: 0;">&nbsp;</p>
+.indent {
+  padding-left: 24px;
+}
 
-              <!-- Comment paragraphs -->
-              <p style="color: #6A9955; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 24px;">// Thank you for joining us on this journey into a world</p>
-              <p style="color: #6A9955; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 24px;">// where family secrets hold the key to saving civilization.</p>
+.spacer {
+  height: 8px;
+}
 
-              <p style="font-size: 14px; line-height: 0.8; margin: 0;">&nbsp;</p>
+.quote-block {
+  background-color: #1a2e1a;
+  border-left: 3px solid #6A9955;
+  padding: 12px 16px;
+  margin-left: 24px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
 
-              <p style="color: #6A9955; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 24px;">// When The Midnight Coder's Children releases in September 2026,</p>
-              <p style="color: #6A9955; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 24px;">// you will be among the first to know.</p>
+.quote-block .code-line {
+  font-style: italic;
+}
 
-              <p style="font-size: 14px; line-height: 0.8; margin: 0;">&nbsp;</p>
+.footer {
+  padding: 24px;
+  text-align: center;
+  border-top: 1px solid #333;
+}
 
-              <!-- Quote block -->
-              <div style="background-color: rgba(106, 153, 85, 0.1); border-left: 3px solid #6A9955; padding: 12px 16px; margin-left: 24px;">
-                <p style="color: #6A9955; font-size: 14px; font-style: italic; line-height: 1.6; margin: 0;">/**</p>
-                <p style="color: #6A9955; font-size: 14px; font-style: italic; line-height: 1.6; margin: 0;"> * "What appears to be a family recipe book reveals itself</p>
-                <p style="color: #6A9955; font-size: 14px; font-style: italic; line-height: 1.6; margin: 0;"> * to be something else entirely - a cipher designed to be</p>
-                <p style="color: #6A9955; font-size: 14px; font-style: italic; line-height: 1.6; margin: 0;"> * solved only by those who truly knew her."</p>
-                <p style="color: #6A9955; font-size: 14px; font-style: italic; line-height: 1.6; margin: 0;"> */</p>
-              </div>
+.footer .code-line {
+  font-size: 12px;
+}
 
-              <p style="font-size: 14px; line-height: 0.8; margin: 0;">&nbsp;</p>
+a {
+  color: #569CD6;
+  text-decoration: underline;
+}
 
-              <p style="color: #6A9955; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 24px;">// A propulsive thriller about trust, legacy, and the fragile bonds</p>
-              <p style="color: #6A9955; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 24px;">// that hold both families and civilizations together.</p>
+-->
 
-              <p style="font-size: 14px; line-height: 0.8; margin: 0;">&nbsp;</p>
+<!-- TEMPLATE BODY - Add this to the template editor: -->
 
-              <!-- Return statement -->
-              <p style="color: #D4D4D4; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 24px;">
-                <span style="color: #569CD6;">return</span>
-                <span style="color: #D4D4D4;"> { </span>
-                <span style="color: #9CDCFE;">anticipation</span>
-                <span style="color: #D4D4D4;">:</span>
-                <span style="color: #4EC9B0;"> true</span>
-                <span style="color: #D4D4D4;"> };</span>
-              </p>
+<div class="code-window">
 
-              <p style="color: #D4D4D4; font-size: 14px; line-height: 1.6; margin: 0;">};</p>
+  <div class="window-header">
+    <span class="dot dot-red"></span>
+    <span class="dot dot-yellow"></span>
+    <span class="dot dot-green"></span>
+    <span class="filename">welcome.tsx</span>
+  </div>
 
-              <p style="font-size: 14px; line-height: 0.8; margin: 0;">&nbsp;</p>
+  <div class="code-content">
 
-              <!-- Export -->
-              <p style="color: #D4D4D4; font-size: 14px; line-height: 1.6; margin: 0;">
-                <span style="color: #569CD6;">export default</span>
-                <span style="color: #DCDCAA;"> greet</span>
-                <span style="color: #D4D4D4;">;</span>
-              </p>
+    <p class="code-line">
+      <span class="keyword">import</span>
+      <span class="punctuation"> { </span>
+      <span class="variable">reader</span>
+      <span class="punctuation"> } </span>
+      <span class="keyword">from</span>
+      <span class="string"> "midnightcoderschildren.com"</span>
+      <span class="punctuation">;</span>
+    </p>
 
-            </td>
-          </tr>
+    <div class="spacer"></div>
 
-          <!-- Divider -->
-          <tr>
-            <td style="border-top: 1px solid rgba(255, 255, 255, 0.1);"></td>
-          </tr>
+    <p class="code-line comment">// Welcome to The Midnight Coder's Children</p>
+    <p class="code-line comment">// A novel by Prashant Sridharan</p>
 
-          <!-- Footer -->
-          <tr>
-            <td style="padding: 24px; text-align: center;">
-              <p style="color: #6A9955; font-size: 12px; line-height: 1.8; margin: 0;">// Coming September 2026</p>
-              <p style="color: #6A9955; font-size: 12px; line-height: 1.8; margin: 0;">// (c) 2026 Bodhi Press. All rights reserved.</p>
-              <p style="color: #6A9955; font-size: 12px; line-height: 1.8; margin: 0;">
-                // You signed up at <a href="https://midnightcoderschildren.com" style="color: #569CD6; text-decoration: underline;">midnightcoderschildren.com</a>
-              </p>
-            </td>
-          </tr>
+    <div class="spacer"></div>
 
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>
+    <p class="code-line">
+      <span class="keyword">const</span>
+      <span class="function"> greet</span>
+      <span class="punctuation"> = (</span>
+      <span class="variable">{{{FIRST_NAME}}}</span>
+      <span class="punctuation">): </span>
+      <span class="type">Promise</span>
+      <span class="punctuation">&lt;</span>
+      <span class="type">void</span>
+      <span class="punctuation">&gt; =&gt; {</span>
+    </p>
+
+    <div class="spacer"></div>
+
+    <p class="code-line indent">
+      <span class="variable">console</span>
+      <span class="punctuation">.</span>
+      <span class="function">log</span>
+      <span class="punctuation">(</span>
+      <span class="string">"Dear {{{FIRST_NAME}}},"</span>
+      <span class="punctuation">);</span>
+    </p>
+
+    <div class="spacer"></div>
+
+    <p class="code-line indent comment">// Thank you for joining us on this journey into a world</p>
+    <p class="code-line indent comment">// where family secrets hold the key to saving civilization.</p>
+
+    <div class="spacer"></div>
+
+    <p class="code-line indent comment">// When The Midnight Coder's Children releases in September 2026,</p>
+    <p class="code-line indent comment">// you will be among the first to know.</p>
+
+    <div class="quote-block">
+      <p class="code-line comment">/**</p>
+      <p class="code-line comment"> * "What appears to be a family recipe book reveals itself</p>
+      <p class="code-line comment"> * to be something else entirely - a cipher designed to be</p>
+      <p class="code-line comment"> * solved only by those who truly knew her."</p>
+      <p class="code-line comment"> */</p>
+    </div>
+
+    <p class="code-line indent comment">// A propulsive thriller about trust, legacy, and the fragile bonds</p>
+    <p class="code-line indent comment">// that hold both families and civilizations together.</p>
+
+    <div class="spacer"></div>
+
+    <p class="code-line indent">
+      <span class="keyword">return</span>
+      <span class="punctuation"> { </span>
+      <span class="variable">anticipation</span>
+      <span class="punctuation">: </span>
+      <span class="type">true</span>
+      <span class="punctuation"> };</span>
+    </p>
+
+    <p class="code-line punctuation">};</p>
+
+    <div class="spacer"></div>
+
+    <p class="code-line">
+      <span class="keyword">export default</span>
+      <span class="function"> greet</span>
+      <span class="punctuation">;</span>
+    </p>
+
+  </div>
+
+  <div class="footer">
+    <p class="code-line comment">// Coming September 2026</p>
+    <p class="code-line comment">// (c) 2026 Bodhi Press. All rights reserved.</p>
+    <p class="code-line comment">// You signed up at <a href="https://midnightcoderschildren.com">midnightcoderschildren.com</a></p>
+  </div>
+
+</div>
