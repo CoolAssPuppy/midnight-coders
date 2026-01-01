@@ -10,6 +10,35 @@ interface SubscribeRequest {
   email: string;
   referrer: string;
   interestedInBeta: boolean;
+  captchaToken: string;
+}
+
+interface HCaptchaVerifyResponse {
+  success: boolean;
+  "error-codes"?: string[];
+}
+
+async function verifyCaptcha(token: string): Promise<boolean> {
+  const secret = process.env.HCAPTCHA_SECRET_KEY;
+
+  if (!secret) {
+    console.error("HCAPTCHA_SECRET_KEY environment variable is not set");
+    return false;
+  }
+
+  const response = await fetch("https://hcaptcha.com/siteverify", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      secret,
+      response: token,
+    }),
+  });
+
+  const data: HCaptchaVerifyResponse = await response.json();
+  return data.success;
 }
 
 function isValidEmail(email: string): boolean {
@@ -22,18 +51,19 @@ function validateRequest(body: unknown): SubscribeRequest | null {
     return null;
   }
 
-  const { firstName, lastName, email, referrer, interestedInBeta } =
+  const { firstName, lastName, email, referrer, interestedInBeta, captchaToken } =
     body as Record<string, unknown>;
 
   if (
     typeof firstName !== "string" ||
     typeof lastName !== "string" ||
-    typeof email !== "string"
+    typeof email !== "string" ||
+    typeof captchaToken !== "string"
   ) {
     return null;
   }
 
-  if (!firstName.trim() || !lastName.trim() || !isValidEmail(email)) {
+  if (!firstName.trim() || !lastName.trim() || !isValidEmail(email) || !captchaToken.trim()) {
     return null;
   }
 
@@ -43,6 +73,7 @@ function validateRequest(body: unknown): SubscribeRequest | null {
     email: email.trim().toLowerCase(),
     referrer: typeof referrer === "string" ? referrer.trim() : "",
     interestedInBeta: interestedInBeta === true,
+    captchaToken: captchaToken.trim(),
   };
 }
 
@@ -58,8 +89,17 @@ export async function POST(request: Request): Promise<NextResponse> {
       );
     }
 
-    const { firstName, lastName, email, referrer, interestedInBeta } =
+    const { firstName, lastName, email, referrer, interestedInBeta, captchaToken } =
       validatedData;
+
+    const isCaptchaValid = await verifyCaptcha(captchaToken);
+    if (!isCaptchaValid) {
+      return NextResponse.json(
+        { error: "Captcha verification failed" },
+        { status: 400 }
+      );
+    }
+
     const apiKey = process.env.KIT_API_KEY;
 
     if (!apiKey) {

@@ -1,6 +1,14 @@
 "use client";
 
-import { useState, useEffect, useCallback, memo, type FormEvent } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  memo,
+  type FormEvent,
+} from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 interface EmailSignupProps {
   scrollProgress: number;
@@ -179,6 +187,8 @@ function EmailSignupComponent({
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [emailTouched, setEmailTouched] = useState(false);
   const [referrer, setReferrer] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const captchaRef = useRef<HCaptcha>(null);
 
   useEffect(() => {
     setReferrer(getReferrerFromUrl());
@@ -188,7 +198,8 @@ function EmailSignupComponent({
     formData.firstName.trim() !== "" &&
     formData.lastName.trim() !== "" &&
     isValidEmail(formData.email) &&
-    formData.agreedToContact;
+    formData.agreedToContact &&
+    captchaToken !== null;
 
   const showEmailError =
     emailTouched && formData.email.trim() !== "" && !isValidEmail(formData.email);
@@ -229,6 +240,7 @@ function EmailSignupComponent({
             email: formData.email,
             referrer,
             interestedInBeta: formData.interestedInBeta,
+            captchaToken,
           }),
         });
 
@@ -245,11 +257,15 @@ function EmailSignupComponent({
           interestedInBeta: false,
         });
         setEmailTouched(false);
+        setCaptchaToken(null);
+        captchaRef.current?.resetCaptcha();
       } catch {
         setStatus("error");
+        setCaptchaToken(null);
+        captchaRef.current?.resetCaptcha();
       }
     },
-    [isFormValid, status, formData.firstName, formData.lastName, formData.email, formData.interestedInBeta, referrer]
+    [isFormValid, status, formData.firstName, formData.lastName, formData.email, formData.interestedInBeta, referrer, captchaToken]
   );
 
   if (opacity <= 0) {
@@ -460,6 +476,17 @@ function EmailSignupComponent({
                 </span>
               </span>
             </label>
+
+            <div className="flex justify-center">
+              <HCaptcha
+                ref={captchaRef}
+                sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || ""}
+                onVerify={(token) => setCaptchaToken(token)}
+                onExpire={() => setCaptchaToken(null)}
+                onError={() => setCaptchaToken(null)}
+                theme="dark"
+              />
+            </div>
 
             <button
               type="submit"
