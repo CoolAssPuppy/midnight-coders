@@ -150,6 +150,20 @@ interface FormData {
   lastName: string;
   email: string;
   agreedToContact: boolean;
+  interestedInBeta: boolean;
+}
+
+function getReferrerFromUrl(): string {
+  if (typeof window === "undefined") return "";
+
+  const params = new URLSearchParams(window.location.search);
+  const utmSource = params.get("utm_source");
+  const utmMedium = params.get("utm_medium");
+  const utmCampaign = params.get("utm_campaign");
+  const ref = params.get("ref");
+
+  const parts = [utmSource, utmMedium, utmCampaign, ref].filter(Boolean);
+  return parts.join(" | ");
 }
 
 function EmailSignupComponent({
@@ -160,9 +174,15 @@ function EmailSignupComponent({
     lastName: "",
     email: "",
     agreedToContact: false,
+    interestedInBeta: false,
   });
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [emailTouched, setEmailTouched] = useState(false);
+  const [referrer, setReferrer] = useState("");
+
+  useEffect(() => {
+    setReferrer(getReferrerFromUrl());
+  }, []);
 
   const isFormValid =
     formData.firstName.trim() !== "" &&
@@ -207,6 +227,8 @@ function EmailSignupComponent({
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email,
+            referrer,
+            interestedInBeta: formData.interestedInBeta,
           }),
         });
 
@@ -220,13 +242,14 @@ function EmailSignupComponent({
           lastName: "",
           email: "",
           agreedToContact: false,
+          interestedInBeta: false,
         });
         setEmailTouched(false);
       } catch {
         setStatus("error");
       }
     },
-    [isFormValid, status, formData.firstName, formData.lastName, formData.email]
+    [isFormValid, status, formData.firstName, formData.lastName, formData.email, formData.interestedInBeta, referrer]
   );
 
   if (opacity <= 0) {
@@ -405,7 +428,36 @@ function EmailSignupComponent({
                 className="text-sm md:text-base leading-relaxed"
                 style={{ color: "#D4D4D4" }}
               >
-                <span style={{ color: "#6A9955" }}>{"I agree to be contacted about Bodhi Press publications"}</span>
+                <span style={{ color: "#6A9955" }}>
+                  {"I agree to be contacted about Bodhi Press publications"}
+                </span>
+              </span>
+            </label>
+
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={formData.interestedInBeta}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    interestedInBeta: e.target.checked,
+                  }))
+                }
+                disabled={status === "submitting"}
+                className="mt-1 w-5 h-5 rounded cursor-pointer"
+                style={{
+                  accentColor: "#4EC9B0",
+                }}
+                aria-label="Interested in becoming a beta reader"
+              />
+              <span
+                className="text-sm md:text-base leading-relaxed"
+                style={{ color: "#D4D4D4" }}
+              >
+                <span style={{ color: "#6A9955" }}>
+                  {"I am interested in becoming a beta reader for Bodhi Press publications"}
+                </span>
               </span>
             </label>
 

@@ -1,19 +1,15 @@
-import { Resend } from "resend";
 import { NextResponse } from "next/server";
-import { WelcomeEmail } from "@/emails/WelcomeEmail";
 
-function getResendClient(): Resend {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    throw new Error("RESEND_API_KEY environment variable is not set");
-  }
-  return new Resend(apiKey);
-}
+const KIT_FORM_ID = "8927583";
+const KIT_MCC_TAG_ID = "13946969";
+const KIT_BETA_TAG_ID = "13946978";
 
 interface SubscribeRequest {
   firstName: string;
   lastName: string;
   email: string;
+  referrer: string;
+  interestedInBeta: boolean;
 }
 
 function isValidEmail(email: string): boolean {
@@ -26,7 +22,8 @@ function validateRequest(body: unknown): SubscribeRequest | null {
     return null;
   }
 
-  const { firstName, lastName, email } = body as Record<string, unknown>;
+  const { firstName, lastName, email, referrer, interestedInBeta } =
+    body as Record<string, unknown>;
 
   if (
     typeof firstName !== "string" ||
@@ -44,6 +41,8 @@ function validateRequest(body: unknown): SubscribeRequest | null {
     firstName: firstName.trim(),
     lastName: lastName.trim(),
     email: email.trim().toLowerCase(),
+    referrer: typeof referrer === "string" ? referrer.trim() : "",
+    interestedInBeta: interestedInBeta === true,
   };
 }
 
@@ -59,54 +58,48 @@ export async function POST(request: Request): Promise<NextResponse> {
       );
     }
 
-    const { firstName, lastName, email } = validatedData;
-    const resend = getResendClient();
-    const segmentId = process.env.RESEND_SEGMENT_ID;
-    const apiKey = process.env.RESEND_API_KEY;
+    const { firstName, lastName, email, referrer, interestedInBeta } =
+      validatedData;
+    const apiKey = process.env.KIT_API_KEY;
 
-    // Add contact to Resend
-    try {
-      const contactResponse = await fetch("https://api.resend.com/contacts", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          first_name: firstName,
-          last_name: lastName,
-          unsubscribed: false,
-          properties: {
-            book: "MCC",
-          },
-          segments: segmentId ? [{ id: segmentId }] : undefined,
-        }),
-      });
-      const contactResult = await contactResponse.json();
-      if (!contactResponse.ok) {
-        console.error("Contact creation failed:", contactResult);
-      } else {
-        console.log("Contact created:", contactResult);
-      }
-    } catch (contactError) {
-      console.error("Contact creation error:", contactError);
+    if (!apiKey) {
+      console.error("KIT_API_KEY environment variable is not set");
+      return NextResponse.json(
+        { error: "Server configuration error" },
+        { status: 500 }
+      );
     }
 
-    // Send welcome email
-    const replyTo = process.env.RESEND_REPLY_TO_EMAIL;
-    const { error: emailError } = await resend.emails.send({
-      from: "Bodhi Press <hello@emails.midnightcoderschildren.com>",
-      to: email,
-      replyTo: replyTo || undefined,
-      subject: "Welcome to The Midnight Coder's Children",
-      react: WelcomeEmail({ firstName }),
-    });
+    const kitResponse = await fetch(
+      `https://api.convertkit.com/v3/forms/${KIT_FORM_ID}/subscribe`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify({
+          api_key: apiKey,
+          email,
+          first_name: firstName,
+          fields: {
+            last_name: lastName,
+            source: "Website",
+            referrer: referrer || "",
+          },
+          tags: [
+            KIT_MCC_TAG_ID,
+            ...(interestedInBeta ? [KIT_BETA_TAG_ID] : []),
+          ],
+        }),
+      }
+    );
 
-    if (emailError) {
-      console.error("Email send error:", emailError);
+    const kitResult = await kitResponse.json();
+
+    if (!kitResponse.ok) {
+      console.error("Kit subscription failed:", kitResult);
       return NextResponse.json(
-        { error: "Failed to send confirmation email" },
+        { error: "Failed to subscribe" },
         { status: 500 }
       );
     }
