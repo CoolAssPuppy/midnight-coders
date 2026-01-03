@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const GTM_ID = "GTM-W663MCWC";
@@ -177,6 +179,8 @@ export default function RootLayout({
           />
         </noscript>
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -18,7 +18,7 @@ export default function Icon(): ImageResponse {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontFamily: "monospace",
+          fontFamily: '"Courier New", Courier, monospace',
           fontWeight: "bold",
         }}
       >
