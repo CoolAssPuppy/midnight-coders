@@ -6,6 +6,7 @@ const PROJECT_ID = "d05cbc83-5669-44a1-bd94-e7bbeacfef3a";
 interface BetaFeedbackRequest {
   firstName: string;
   lastName: string;
+  email: string;
   isTechnical: string;
   technicalThoughts: string;
   timelinePreference: string;
@@ -27,8 +28,6 @@ function validateRequest(body: unknown): BetaFeedbackRequest | null {
   const data = body as Record<string, unknown>;
 
   const requiredStrings = [
-    "firstName",
-    "lastName",
     "isTechnical",
     "timelinePreference",
     "overallImpressions",
@@ -45,6 +44,9 @@ function validateRequest(body: unknown): BetaFeedbackRequest | null {
   }
 
   const optionalStrings = [
+    "firstName",
+    "lastName",
+    "email",
     "technicalThoughts",
     "audienceThoughts",
     "autographName",
@@ -58,8 +60,9 @@ function validateRequest(body: unknown): BetaFeedbackRequest | null {
   }
 
   return {
-    firstName: (data.firstName as string).trim(),
-    lastName: (data.lastName as string).trim(),
+    firstName: ((data.firstName as string) || "").trim(),
+    lastName: ((data.lastName as string) || "").trim(),
+    email: ((data.email as string) || "").trim(),
     isTechnical: (data.isTechnical as string).trim(),
     technicalThoughts: ((data.technicalThoughts as string) || "").trim(),
     timelinePreference: (data.timelinePreference as string).trim(),
@@ -112,11 +115,25 @@ function getTimelineLabel(value: string): string {
   return labels[value] || value;
 }
 
+function getReaderName(data: BetaFeedbackRequest): string {
+  const fullName = `${data.firstName} ${data.lastName}`.trim();
+  return fullName || "Anonymous";
+}
+
 function buildIssueDescription(data: BetaFeedbackRequest): string {
+  const readerName = getReaderName(data);
+
   const sections = [
     "## Reader information",
     "",
-    `- **Name:** ${data.firstName} ${data.lastName}`,
+    `- **Name:** ${readerName}`,
+  ];
+
+  if (data.email) {
+    sections.push(`- **Email:** ${data.email}`);
+  }
+
+  sections.push(
     `- **Technical background:** ${data.isTechnical === "yes" ? "Yes" : "No"}`,
     `- **Recommendation score:** ${data.recommendationScore}/10`,
     "",
@@ -125,8 +142,8 @@ function buildIssueDescription(data: BetaFeedbackRequest): string {
     "## Timeline preference",
     "",
     getTimelineLabel(data.timelinePreference),
-    "",
-  ];
+    ""
+  );
 
   if (data.technicalThoughts) {
     sections.push(
@@ -224,7 +241,8 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     const linearClient = new LinearClient({ apiKey });
 
-    const issueTitle = `[Beta Reader] Feedback from ${validatedData.firstName} ${validatedData.lastName} (${validatedData.recommendationScore}/10)`;
+    const readerName = getReaderName(validatedData);
+    const issueTitle = `[Beta Reader] Feedback from ${readerName} (${validatedData.recommendationScore}/10)`;
     const issueDescription = buildIssueDescription(validatedData);
 
     const issuePayload = await linearClient.createIssue({

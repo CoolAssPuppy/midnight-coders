@@ -10,6 +10,7 @@ type SubmitStatus = "idle" | "submitting" | "success" | "error";
 interface FormData {
   firstName: string;
   lastName: string;
+  email: string;
   isTechnical: string;
   technicalThoughts: string;
   timelinePreference: string;
@@ -25,6 +26,7 @@ interface FormData {
 const initialFormData: FormData = {
   firstName: "",
   lastName: "",
+  email: "",
   isTechnical: "",
   technicalThoughts: "",
   timelinePreference: "",
@@ -60,8 +62,6 @@ export default function BetaPage(): React.ReactElement {
   const captchaRef = useRef<HCaptcha>(null);
 
   const isFormValid =
-    formData.firstName.trim() !== "" &&
-    formData.lastName.trim() !== "" &&
     formData.isTechnical !== "" &&
     formData.timelinePreference !== "" &&
     formData.overallImpressions.trim() !== "" &&
@@ -163,36 +163,58 @@ export default function BetaPage(): React.ReactElement {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-10">
-              <div className="flex gap-4">
-                <div className="w-1/2">
-                  <label
-                    className="block text-sm mb-2"
-                    style={labelStyles}
-                  >
-                    First Name {requiredIndicator}
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.firstName}
-                    onChange={(e) => handleInputChange("firstName", e.target.value)}
-                    required
-                    disabled={status === "submitting"}
-                    className="w-full px-4 py-3 text-base rounded-lg border-2 transition-all duration-300 focus:outline-none focus:border-[#569CD6] disabled:opacity-50"
-                    style={inputStyles}
-                  />
+              <div className="flex flex-col gap-4">
+                <p
+                  className="text-xs"
+                  style={{ color: "rgba(255, 255, 255, 0.5)" }}
+                >
+                  Name and email are optional. You may remain anonymous if you prefer.
+                </p>
+                <div className="flex gap-4">
+                  <div className="w-1/2">
+                    <label
+                      className="block text-sm mb-2"
+                      style={labelStyles}
+                    >
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.firstName}
+                      onChange={(e) => handleInputChange("firstName", e.target.value)}
+                      disabled={status === "submitting"}
+                      className="w-full px-4 py-3 text-base rounded-lg border-2 transition-all duration-300 focus:outline-none focus:border-[#569CD6] disabled:opacity-50"
+                      style={inputStyles}
+                    />
+                  </div>
+                  <div className="w-1/2">
+                    <label
+                      className="block text-sm mb-2"
+                      style={labelStyles}
+                    >
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.lastName}
+                      onChange={(e) => handleInputChange("lastName", e.target.value)}
+                      disabled={status === "submitting"}
+                      className="w-full px-4 py-3 text-base rounded-lg border-2 transition-all duration-300 focus:outline-none focus:border-[#569CD6] disabled:opacity-50"
+                      style={inputStyles}
+                    />
+                  </div>
                 </div>
-                <div className="w-1/2">
+                <div>
                   <label
                     className="block text-sm mb-2"
                     style={labelStyles}
                   >
-                    Last Name {requiredIndicator}
+                    Email
                   </label>
                   <input
-                    type="text"
-                    value={formData.lastName}
-                    onChange={(e) => handleInputChange("lastName", e.target.value)}
-                    required
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
                     disabled={status === "submitting"}
                     className="w-full px-4 py-3 text-base rounded-lg border-2 transition-all duration-300 focus:outline-none focus:border-[#569CD6] disabled:opacity-50"
                     style={inputStyles}
