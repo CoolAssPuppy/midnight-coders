@@ -109,3 +109,49 @@ body {
 .animate-slide-up {
   animation: slideUp 0.6s ease-out forwards;
 }
+
+/* Recommendation slider styling */
+.recommendation-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.recommendation-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4EC9B0;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s ease-out;
+}
+
+.recommendation-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.recommendation-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4EC9B0;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s ease-out;
+}
+
+.recommendation-slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
+}
+
+.recommendation-slider::-moz-range-track {
+  height: 8px;
+  border-radius: 4px;
+}
