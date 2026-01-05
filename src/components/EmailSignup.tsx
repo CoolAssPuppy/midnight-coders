@@ -319,10 +319,14 @@ function EmailSignupComponent({
             style={{ backgroundColor: "rgba(39, 201, 63, 0.1)" }}
           >
             <p
-              className="text-lg"
+              className="text-lg mb-2"
               style={{ color: "#4EC9B0" }}
             >
               {"// Success: Thank you for subscribing."}
+            </p>
+            <p style={{ color: "#6A9955" }}>
+              Please check your email and verify your email address. If you
+              don&apos;t see it, check your spam folder.
             </p>
           </div>
         ) : (
