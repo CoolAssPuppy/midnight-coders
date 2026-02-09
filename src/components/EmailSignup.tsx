@@ -25,7 +25,7 @@ interface TimeRemaining {
 
 const RELEASE_DATE = new Date("2026-09-22T00:00:00");
 
-export const SIGNUP_HEADLINE = "Get exclusive updates and more";
+export const SIGNUP_HEADLINE = "Get exclusive updates, behind-the-scenes info, deleted scenes, limited edition content, and more";
 
 function useCountdown(targetDate: Date): TimeRemaining | null {
   const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(
@@ -514,7 +514,7 @@ function EmailSignupComponent({
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              {status === "submitting" ? "subscribe()" : "notifyMe()"}
+              {status === "submitting" ? "subscribe()" : "signUp()"}
             </button>
 
             {status === "error" && (
