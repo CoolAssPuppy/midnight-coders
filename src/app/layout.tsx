@@ -39,21 +39,12 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: baseUrl,
     siteName: "The Midnight Coder's Children",
-    images: [
-      {
-        url: "/images/og-image.svg",
-        width: 1200,
-        height: 630,
-        alt: "The Midnight Coder's Children - A novel by Prashant Sridharan",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "The Midnight Coder's Children",
     description:
       "A propulsive, emotionally grounded thriller. Coming September 2026.",
-    images: ["/images/og-image.svg"],
     creator: "@Prashant",
   },
   robots: {
@@ -122,7 +113,7 @@ const jsonLd = {
       bookFormat: "https://schema.org/Hardcover",
       numberOfPages: 400,
       datePublished: "2026-09-22",
-      image: `${baseUrl}/images/og-image.svg`,
+      image: `${baseUrl}/opengraph-image`,
       url: baseUrl,
     },
     {
