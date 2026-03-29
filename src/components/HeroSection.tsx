@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { memo } from "react";
 
 interface HeroSectionProps {
@@ -34,41 +35,23 @@ function HeroSectionComponent({
       }}
       aria-label="Book title"
     >
-      <div className="text-left">
-        <h1 className="flex flex-col leading-tight tracking-tight">
-          <span
-            className="text-white/80 mb-1"
-            style={{ fontSize: "clamp(29px, 4vw, 41px)" }}
-          >
-            The
-          </span>
-          <span
-            className="text-white font-normal"
-            style={{ fontSize: "clamp(41px, 6vw, 65px)" }}
-          >
-            Midnight
-          </span>
-          <span
-            className="text-white font-normal"
-            style={{ fontSize: "clamp(41px, 6vw, 65px)" }}
-          >
-            Coder&apos;s
-          </span>
-          <span
-            className="text-white font-normal"
-            style={{ fontSize: "clamp(41px, 6vw, 65px)" }}
-          >
-            Children
-          </span>
+      <Image
+        src="/images/book-cover/Midnight Coders Children Cover 3D.png"
+        alt="The Midnight Coder's Children by Prashant Sridharan"
+        width={400}
+        height={500}
+        priority
+        className="w-[250px] md:w-[350px] lg:w-[400px] h-auto drop-shadow-2xl"
+      />
+      <div className="mt-6 text-center">
+        <h1 className="text-white text-sm md:text-base tracking-tight font-normal">
+          The Midnight Coder&apos;s Children
         </h1>
-        <p
-          className="mt-4 text-white/60"
-          style={{ fontSize: "clamp(14px, 2vw, 18px)" }}
-        >
+        <p className="mt-1 text-white/60 text-[10px] md:text-xs">
           by Prashant Sridharan
         </p>
         <p
-          className="mt-6 text-sm md:text-base tracking-wide"
+          className="mt-4 text-sm md:text-base tracking-wide"
           style={{ color: "#fcde09" }}
         >
           (Coming September 2026)
