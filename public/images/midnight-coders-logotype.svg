@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 548 540" width="548" height="540">
+  <style>
+    text {
+      font-family: 'URW DIN Condensed', 'URW Din Condensed', 'DIN Condensed', sans-serif;
+      font-weight: bold;
+      fill: white;
+      text-anchor: middle;
+    }
+    .title {
+      font-size: 112px;
+      letter-spacing: 2px;
+    }
+  </style>
+  <text x="274" y="135" class="title">THE</text>
+  <text x="274" y="255" class="title">MIDNIGHT</text>
+  <text x="274" y="375" class="title">CODER&#x2019;S</text>
+  <text x="274" y="495" class="title">CHILDREN</text>
+</svg>

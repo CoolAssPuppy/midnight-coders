@@ -37,17 +37,17 @@ function HeroSectionComponent({
     >
       <Image
         src="/images/book-cover/Midnight Coders Children Cover 3D.png"
-        alt="The Midnight Coder's Children by Prashant Sridharan"
+        alt="The Midnight Coder's Children"
         width={400}
         height={500}
         priority
         className="w-[250px] md:w-[350px] lg:w-[400px] h-auto drop-shadow-2xl"
       />
       <div className="mt-6 text-center">
-        <h1 className="text-white text-sm md:text-base tracking-tight font-normal">
-          The Midnight Coder&apos;s Children
-        </h1>
-        <p className="mt-1 text-white/60 text-[10px] md:text-xs">
+        <p className="text-white/60 text-xs md:text-sm tracking-wide">
+          A Novel
+        </p>
+        <p className="mt-1 text-white/40 text-[10px] md:text-xs">
           by Prashant Sridharan
         </p>
         <p
