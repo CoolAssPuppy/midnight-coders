@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { verifyCaptcha } from "@/lib/captcha";
 
 const KIT_FORM_ID = "8927583";
 const KIT_MCC_TAG_ID = "13946969";
@@ -11,34 +12,6 @@ interface SubscribeRequest {
   referrer: string;
   interestedInBeta: boolean;
   captchaToken: string;
-}
-
-interface HCaptchaVerifyResponse {
-  success: boolean;
-  "error-codes"?: string[];
-}
-
-async function verifyCaptcha(token: string): Promise<boolean> {
-  const secret = process.env.HCAPTCHA_SECRET_KEY;
-
-  if (!secret) {
-    console.error("HCAPTCHA_SECRET_KEY environment variable is not set");
-    return false;
-  }
-
-  const response = await fetch("https://hcaptcha.com/siteverify", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      secret,
-      response: token,
-    }),
-  });
-
-  const data: HCaptchaVerifyResponse = await response.json();
-  return data.success;
 }
 
 function isValidEmail(email: string): boolean {

@@ -8,6 +8,7 @@ import {
   memo,
   type FormEvent,
 } from "react";
+import Image from "next/image";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 interface EmailSignupProps {
@@ -527,14 +528,18 @@ function EmailSignupComponent({
             </a>
           </div>
           <div className="mt-8 flex items-center justify-center gap-6">
-            <img
+            <Image
               src="/images/midnight-coders-logotype.svg"
               alt="The Midnight Coder's Children"
+              width={75}
+              height={75}
               className="h-[75px] w-auto"
             />
-            <img
+            <Image
               src="/images/bodhi-press.svg"
               alt="Bodhi Press"
+              width={75}
+              height={75}
               className="h-[75px] w-auto"
             />
           </div>

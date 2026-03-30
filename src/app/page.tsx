@@ -1,6 +1,6 @@
 "use client";
 
-import { StarField } from "@/components/StarField";
+import { GlitchEffect } from "@/components/GlitchEffect";
 import { HeroSection } from "@/components/HeroSection";
 import { BookBlurb } from "@/components/BookBlurb";
 import { EmailSignup } from "@/components/EmailSignup";
@@ -11,7 +11,7 @@ export default function Home(): React.ReactElement {
 
   return (
     <main className="relative min-h-[400vh]">
-      <StarField scrollProgress={progress} />
+      <GlitchEffect scrollProgress={progress} />
 
       <div className="fixed inset-0 flex items-center justify-center z-10 pointer-events-none">
         <div className="pointer-events-auto">
