@@ -61,53 +61,9 @@ body {
   }
 }
 
-@keyframes twinkle {
-  0%, 100% {
-    opacity: 0.2;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .animate-shimmer {
   animation: shimmer var(--shimmer-duration, 3s) ease-in-out infinite;
   animation-delay: var(--shimmer-delay, 0s);
-}
-
-.animate-twinkle {
-  animation: twinkle var(--twinkle-duration, 2s) ease-in-out infinite;
-  animation-delay: var(--twinkle-delay, 0s);
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.8s ease-out forwards;
-}
-
-.animate-slide-up {
-  animation: slideUp 0.6s ease-out forwards;
 }
 
 /* Recommendation slider styling */

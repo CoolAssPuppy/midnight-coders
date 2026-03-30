@@ -8,6 +8,7 @@ import {
   memo,
   type FormEvent,
 } from "react";
+import Image from "next/image";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 interface EmailSignupProps {
@@ -285,22 +286,6 @@ function EmailSignupComponent({
       aria-label="Email signup"
     >
       <div className="w-full max-w-md">
-        {/* Title lockup */}
-        <div className="text-center mb-8">
-          <h1
-            className="leading-tight tracking-tight text-white"
-            style={{ fontSize: "clamp(18px, 3vw, 28px)" }}
-          >
-            <span style={{ opacity: 0.8 }}>The </span>
-            <span>Midnight Coder&apos;s Children</span>
-          </h1>
-          <p
-            className="mt-1 text-white/60"
-            style={{ fontSize: "clamp(12px, 1.5vw, 16px)" }}
-          >
-            by Prashant Sridharan
-          </p>
-        </div>
 
         <CountdownTimer />
 
@@ -541,6 +526,22 @@ function EmailSignupComponent({
             >
               Beta Readers
             </a>
+          </div>
+          <div className="mt-8 flex items-center justify-center gap-6">
+            <Image
+              src="/images/midnight-coders-logotype.svg"
+              alt="The Midnight Coder's Children"
+              width={75}
+              height={75}
+              className="h-[75px] w-auto"
+            />
+            <Image
+              src="/images/bodhi-press.svg"
+              alt="Bodhi Press"
+              width={75}
+              height={75}
+              className="h-[75px] w-auto"
+            />
           </div>
         </footer>
       </div>
