@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BuyTheBook } from "@/components/BuyTheBook";
 
 export const metadata: Metadata = {
   title: "Book Club Guide | The Midnight Coder's Children",
@@ -97,7 +98,7 @@ export default function BookClubGuidePage(): React.ReactElement {
   return (
     <main
       id="main-content"
-      className="min-h-screen pt-24 pb-20 md:pt-32 md:pb-28 px-6"
+      className="pt-24 pb-20 md:pt-32 md:pb-28 px-6"
       style={{ backgroundColor: "#0a1628" }}
     >
       <div className="max-w-2xl mx-auto">
@@ -184,6 +185,8 @@ export default function BookClubGuidePage(): React.ReactElement {
             </p>
           </div>
         </section>
+
+        <BuyTheBook />
 
         {/* Themes */}
         <section className="mb-14">

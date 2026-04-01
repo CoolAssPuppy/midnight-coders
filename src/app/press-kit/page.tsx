@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MediaAssets } from "@/components/MediaAssets";
 
 export const metadata: Metadata = {
   title: "Press Kit | The Midnight Coder's Children",
@@ -96,47 +97,11 @@ const BOOK_DETAILS = [
   { label: "Release date", value: "September 2026" },
 ];
 
-function BuyLinks(): React.ReactElement {
-  const links = [
-    { label: "Buy on Amazon", href: "#" },
-    { label: "Buy on Barnes & Noble", href: "#" },
-    { label: "Buy Direct from Author", href: "#" },
-  ];
-
-  return (
-    <div className="flex flex-col sm:flex-row items-center gap-4">
-      {links.map((link) => (
-        <span
-          key={link.label}
-          className="flex flex-col items-center"
-        >
-          <span
-            className="px-6 py-3 text-xs tracking-wider uppercase rounded cursor-default text-center"
-            style={{
-              color: "rgba(255, 255, 255, 0.25)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              backgroundColor: "rgba(255, 255, 255, 0.03)",
-            }}
-          >
-            {link.label}
-          </span>
-          <span
-            className="text-[9px] tracking-widest uppercase mt-1.5"
-            style={{ color: "rgba(255, 255, 255, 0.15)" }}
-          >
-            Coming soon
-          </span>
-        </span>
-      ))}
-    </div>
-  );
-}
-
 export default function AboutBookPage(): React.ReactElement {
   return (
     <main
       id="main-content"
-      className="min-h-screen pt-24 pb-20 md:pt-32 md:pb-28 px-6"
+      className="pt-24 pb-20 md:pt-32 md:pb-28 px-6"
       style={{ backgroundColor: "#0a1628" }}
     >
       <div className="max-w-2xl mx-auto">
@@ -169,7 +134,32 @@ export default function AboutBookPage(): React.ReactElement {
           >
             by Prashant Sridharan
           </p>
-          <BuyLinks />
+          <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
+            {[
+              { label: "Buy on Amazon", href: "#" },
+              { label: "Buy on Barnes & Noble", href: "#" },
+              { label: "Buy Direct from Author", href: "#" },
+            ].map((link) => (
+              <span key={link.label} className="flex flex-col items-center">
+                <span
+                  className="px-6 py-3 text-xs tracking-wider uppercase rounded cursor-default text-center"
+                  style={{
+                    color: "rgba(255, 255, 255, 0.25)",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    backgroundColor: "rgba(255, 255, 255, 0.03)",
+                  }}
+                >
+                  {link.label}
+                </span>
+                <span
+                  className="text-[9px] tracking-widest uppercase mt-1.5"
+                  style={{ color: "rgba(255, 255, 255, 0.15)" }}
+                >
+                  Coming soon
+                </span>
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* Premise */}
@@ -355,24 +345,8 @@ export default function AboutBookPage(): React.ReactElement {
           </dl>
         </section>
 
-        {/* Bottom buy links */}
-        <section
-          className="pt-8 flex flex-col items-center"
-          style={{
-            borderTop: "1px solid rgba(255, 255, 255, 0.06)",
-          }}
-        >
-          <p
-            className="text-xs tracking-[0.15em] uppercase mb-5"
-            style={{
-              color: "rgba(255, 255, 255, 0.4)",
-              fontFamily: "var(--font-mono)",
-            }}
-          >
-            Get the book
-          </p>
-          <BuyLinks />
-        </section>
+        {/* Media assets */}
+        <MediaAssets />
       </div>
     </main>
   );

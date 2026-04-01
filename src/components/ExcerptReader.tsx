@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { BuyTheBook } from "@/components/BuyTheBook";
 
 type ReadingMode = "dark" | "light";
 
@@ -970,6 +971,11 @@ export function ExcerptReader(): React.ReactElement {
           >
             The Midnight Coder&apos;s Children will be available September 2026
           </p>
+        </div>
+
+        {/* Buy the book */}
+        <div className="max-w-[640px] mx-auto">
+          <BuyTheBook />
         </div>
       </div>
     </div>

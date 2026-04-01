@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { memo } from "react";
+import { BuyTheBook } from "@/components/BuyTheBook";
 
 interface HeroSectionProps {
   scrollProgress: number;
@@ -57,6 +58,7 @@ function HeroSectionComponent({
           (Coming September 2026)
         </p>
       </div>
+      <BuyTheBook />
     </div>
   );
 }

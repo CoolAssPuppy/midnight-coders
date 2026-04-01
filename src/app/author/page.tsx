@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { BuyTheBook } from "@/components/BuyTheBook";
 
 export const metadata: Metadata = {
   title: "About Prashant Sridharan | The Midnight Coder's Children",
@@ -61,7 +62,7 @@ export default function AuthorPage(): React.ReactElement {
   return (
     <main
       id="main-content"
-      className="min-h-screen pt-24 pb-20 md:pt-32 md:pb-28 px-6"
+      className="pt-24 pb-20 md:pt-32 md:pb-28 px-6"
       style={{ backgroundColor: "#0a1628" }}
     >
       {/* Static JSON-LD from hardcoded object -- no user input, safe from XSS */}
@@ -146,6 +147,7 @@ export default function AuthorPage(): React.ReactElement {
           </p>
         </div>
 
+        <BuyTheBook />
       </div>
     </main>
   );
