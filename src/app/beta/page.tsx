@@ -103,6 +103,9 @@ export default function BetaPage(): React.ReactElement {
       }
 
       setStatus("success");
+      if (typeof window !== "undefined" && window.dataLayer) {
+        window.dataLayer.push({ event: "beta_submission" });
+      }
       setFormData(initialFormData);
       setCaptchaToken(null);
       captchaRef.current?.resetCaptcha();
@@ -114,7 +117,7 @@ export default function BetaPage(): React.ReactElement {
   };
 
   return (
-    <main className="relative min-h-screen">
+    <main id="main-content" className="relative min-h-screen">
       <StaticStarField />
 
       <div className="relative z-10 flex flex-col items-center px-6 py-12 md:py-16">

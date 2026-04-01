@@ -86,6 +86,7 @@ const ENHANCE_TIPS = [
 export default function BookClubGuidePage(): React.ReactElement {
   return (
     <main
+      id="main-content"
       className="min-h-screen pt-24 pb-20 md:pt-32 md:pb-28 px-6"
       style={{ backgroundColor: "#0a1628" }}
     >

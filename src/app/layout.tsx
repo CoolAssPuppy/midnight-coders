@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "immigrant story",
     "financial thriller",
   ],
-  authors: [{ name: "Prashant Sridharan", url: "https://prashant.me" }],
+  authors: [{ name: "Prashant Sridharan", url: "https://www.strategicnerds.com" }],
   creator: "Prashant Sridharan",
   publisher: "Bodhi Press",
   alternates: {
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#121212",
+  themeColor: "#0a1628",
 };
 
 const jsonLd = {
@@ -91,8 +91,8 @@ const jsonLd = {
       name: "Prashant Sridharan",
       url: "https://prashant.me",
       sameAs: [
-        "https://twitter.com/Prashant",
-        "https://linkedin.com/in/prashant",
+        "https://twitter.com/CoolAssPuppy",
+        "https://linkedin.com/in/prashantsridharan",
       ],
       jobTitle: "Author",
       description:
@@ -171,6 +171,7 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded focus:text-sm">Skip to content</a>
         <Navigation />
         <div className="flex-1">
           {children}

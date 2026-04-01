@@ -16,6 +16,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Read Chapter 1", href: "/excerpt" },
   { label: "About Prashant", href: "/author" },
   { label: "Book Club Guide", href: "/book-club" },
+  { label: "Press Kit", href: "/press-kit" },
 ];
 
 export function Navigation(): React.ReactElement {

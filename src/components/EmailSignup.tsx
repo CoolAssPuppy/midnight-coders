@@ -250,6 +250,9 @@ function EmailSignupComponent({
         }
 
         setStatus("success");
+        if (typeof window !== "undefined" && window.dataLayer) {
+          window.dataLayer.push({ event: "email_signup", page: window.location.pathname });
+        }
         setFormData({
           firstName: "",
           lastName: "",

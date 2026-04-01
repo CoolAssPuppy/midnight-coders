@@ -12,10 +12,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
+      url: `${baseUrl}/press-kit`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/excerpt`,
       lastModified,
       changeFrequency: "monthly",
-      priority: 0.85,
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/author`,
@@ -27,7 +33,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/book-club`,
       lastModified,
       changeFrequency: "monthly",
-      priority: 0.75,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/beta`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.5,
     },
   ];
 }

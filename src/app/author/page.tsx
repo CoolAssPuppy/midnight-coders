@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 export default function AuthorPage(): React.ReactElement {
   return (
     <main
+      id="main-content"
       className="min-h-screen pt-24 pb-20 md:pt-32 md:pb-28 px-6"
       style={{ backgroundColor: "#0a1628" }}
     >
@@ -28,6 +29,7 @@ export default function AuthorPage(): React.ReactElement {
             width={200}
             height={267}
             priority
+            sizes="(max-width: 768px) 160px, 200px"
             className="w-[160px] md:w-[200px] h-auto rounded-lg object-cover"
             style={{
               border: "1px solid rgba(255, 255, 255, 0.08)",

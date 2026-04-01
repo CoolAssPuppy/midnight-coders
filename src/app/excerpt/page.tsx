@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function ExcerptPage(): React.ReactElement {
   return (
-    <main>
+    <main id="main-content">
       <ExcerptReader />
     </main>
   );

@@ -10,7 +10,7 @@ export default function Home(): React.ReactElement {
   const { progress } = useScrollProgress();
 
   return (
-    <main className="relative min-h-[400vh]">
+    <main id="main-content" className="relative min-h-[400vh]">
       <GlitchEffect scrollProgress={progress} />
 
       <div className="fixed inset-0 flex items-center justify-center z-10 pointer-events-none">
