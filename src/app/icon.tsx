@@ -12,7 +12,7 @@ export default function Icon(): ImageResponse {
       <div
         style={{
           fontSize: 18,
-          background: "#121212",
+          background: "#0a1628",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -22,7 +22,7 @@ export default function Icon(): ImageResponse {
           fontWeight: "bold",
         }}
       >
-        <span style={{ color: "#fcde09" }}>0</span>
+        <span style={{ color: "#4EC9B0" }}>0</span>
         <span style={{ color: "#ffffff" }}>1</span>
       </div>
     ),

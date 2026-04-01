@@ -52,7 +52,7 @@ function HeroSectionComponent({
         </p>
         <p
           className="mt-4 text-sm md:text-base tracking-wide"
-          style={{ color: "#fcde09" }}
+          style={{ color: "rgba(255, 255, 255, 0.7)" }}
         >
           (Coming September 2026)
         </p>

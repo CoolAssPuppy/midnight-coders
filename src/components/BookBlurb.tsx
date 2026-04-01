@@ -249,7 +249,7 @@ function StyledChar({ char, syntaxColor, isHighlighted, transitionProgress }: St
       color = syntaxColor;
       opacity = 1;
     } else {
-      color = "#fcde09";
+      color = "#ffffff";
       opacity = 0.9;
     }
   } else {

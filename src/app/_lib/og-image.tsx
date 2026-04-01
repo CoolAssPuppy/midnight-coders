@@ -49,7 +49,7 @@ export async function renderOgImage({
           flexDirection: "column",
           justifyContent: "center",
           padding: "80px 100px",
-          backgroundColor: "#121212",
+          backgroundColor: "#0a1628",
           fontFamily: "Source Code Pro",
         }}
       >
@@ -120,7 +120,7 @@ export async function renderOgImage({
           <span
             style={{
               fontSize: 24,
-              color: "#fcde09",
+              color: "#4EC9B0",
               marginTop: 20,
               letterSpacing: "2px",
             }}

@@ -14,14 +14,14 @@ export default function NotFound(): React.ReactElement {
   return (
     <main
       className="min-h-screen flex flex-col items-center justify-center px-6 text-center"
-      style={{ backgroundColor: "#121212" }}
+      style={{ backgroundColor: "#0a1628" }}
     >
       <div className="max-w-md">
         <pre
           className="text-left text-sm mb-8 p-4 rounded-lg"
           style={{
-            backgroundColor: "#1e1e1e",
-            border: "1px solid #333",
+            backgroundColor: "rgba(255, 255, 255, 0.04)",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
             fontFamily: "monospace",
           }}
         >
@@ -42,7 +42,7 @@ export default function NotFound(): React.ReactElement {
 
         <h1
           className="text-4xl font-bold mb-4"
-          style={{ color: "#fcde09", fontFamily: "monospace" }}
+          style={{ color: "#4EC9B0", fontFamily: "monospace" }}
         >
           404
         </h1>
@@ -55,8 +55,8 @@ export default function NotFound(): React.ReactElement {
           href="/"
           className="inline-block px-6 py-3 rounded-lg font-medium transition-colors"
           style={{
-            backgroundColor: "#fcde09",
-            color: "#121212",
+            backgroundColor: "#4EC9B0",
+            color: "#0a1628",
             fontFamily: "monospace",
           }}
         >

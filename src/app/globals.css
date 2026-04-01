@@ -36,7 +36,7 @@ html {
 }
 
 body {
-  background-color: var(--color-midnight);
+  background-color: #0a1628;
   color: var(--color-white);
   font-family: var(--font-mono);
   font-size: 14px;
@@ -48,8 +48,8 @@ body {
 }
 
 ::selection {
-  background-color: var(--color-gold);
-  color: var(--color-midnight);
+  background-color: #4EC9B0;
+  color: #0a1628;
 }
 
 @keyframes shimmer {
@@ -110,4 +110,25 @@ body {
 .recommendation-slider::-moz-range-track {
   height: 8px;
   border-radius: 4px;
+}
+
+/* Author page links */
+.author-link {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.author-link:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Print styles for book club guide */
+@media print {
+  body {
+    background-color: #fff;
+    color: #000;
+  }
+
+  nav {
+    display: none;
+  }
 }
