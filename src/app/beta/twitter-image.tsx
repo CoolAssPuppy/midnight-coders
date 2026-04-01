@@ -1,15 +1,9 @@
-import { readFile } from "fs/promises";
-import path from "path";
+import { serveOgImage, OG_SIZE, OG_CONTENT_TYPE, OG_ALT } from "../_lib/og-image";
 
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
-export const alt = "The Midnight Coder's Children - A novel by Prashant Sridharan";
+export const size = OG_SIZE;
+export const contentType = OG_CONTENT_TYPE;
+export const alt = OG_ALT;
 
-export default async function TwitterImage(): Promise<Response> {
-  const buffer = await readFile(
-    path.resolve(process.cwd(), "public/images/og-image.png")
-  );
-  return new Response(buffer, {
-    headers: { "Content-Type": "image/png" },
-  });
+export default function TwitterImage(): Promise<Response> {
+  return serveOgImage();
 }

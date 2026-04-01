@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --color-midnight: #121212;
-  --color-gold: #fcde09;
+  --color-brand-blue: #0a1628;
+  --color-accent: #4EC9B0;
   --color-white: #ffffff;
   --color-white-dim: rgba(255, 255, 255, 0.7);
   --font-mono: "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
@@ -20,8 +20,8 @@
 }
 
 @theme inline {
-  --color-midnight: var(--color-midnight);
-  --color-gold: var(--color-gold);
+  --color-brand-blue: var(--color-brand-blue);
+  --color-accent: var(--color-accent);
   --default-font-family: "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
   --default-font-feature-settings: normal;
   --default-font-variation-settings: normal;
@@ -110,15 +110,6 @@ body {
 .recommendation-slider::-moz-range-track {
   height: 8px;
   border-radius: 4px;
-}
-
-/* Author page links */
-.author-link {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.author-link:hover {
-  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Print styles for book club guide */
