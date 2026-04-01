@@ -4,14 +4,58 @@ import Image from "next/image";
 export const metadata: Metadata = {
   title: "About Prashant Sridharan | The Midnight Coder's Children",
   description:
-    "Prashant Sridharan has spent two decades at the intersection of technology and storytelling. The Midnight Coder's Children is his debut novel.",
+    "Prashant Sridharan has spent two decades at the intersection of technology and storytelling. Author of the best-seller Picks and Shovels. The Midnight Coder's Children is his debut novel.",
+  alternates: {
+    canonical: "https://midnightcoderschildren.com/author",
+  },
   openGraph: {
     title: "About the Author | The Midnight Coder's Children",
     description:
       "Prashant Sridharan -- author, technologist, storyteller.",
+    url: "https://midnightcoderschildren.com/author",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Prashant Sridharan | The Midnight Coder's Children",
+    description:
+      "Author of Picks and Shovels. Senior roles at Microsoft, Meta, Twitter, Supabase.",
   },
 };
 
+
+const authorJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  mainEntity: {
+    "@type": "Person",
+    "@id": "https://midnightcoderschildren.com/#author",
+    name: "Prashant Sridharan",
+    jobTitle: "Author",
+    url: "https://www.strategicnerds.com",
+    image: "https://midnightcoderschildren.com/images/author/prashant-sridharan.jpg",
+    description:
+      "Prashant Sridharan is the author of The Midnight Coder's Children and the international best-seller Picks and Shovels: Marketing to Developers During the AI Gold Rush. He has held senior marketing roles at Microsoft, Meta, Twitter, Timescale, and Supabase.",
+    sameAs: [
+      "https://twitter.com/CoolAssPuppy",
+      "https://linkedin.com/in/prashantsridharan",
+      "https://instagram.com/CoolAssPuppy",
+      "https://tiktok.com/@CoolAssPuppy",
+      "https://threads.net/@CoolAssPuppy",
+      "https://bsky.app/profile/CoolAssPuppy",
+    ],
+    knowsAbout: [
+      "Technology",
+      "Developer Marketing",
+      "Cybersecurity",
+      "Financial Systems",
+      "Fiction Writing",
+    ],
+    worksFor: {
+      "@type": "Organization",
+      name: "Bodhi Press",
+    },
+  },
+};
 
 export default function AuthorPage(): React.ReactElement {
   return (
@@ -20,6 +64,11 @@ export default function AuthorPage(): React.ReactElement {
       className="min-h-screen pt-24 pb-20 md:pt-32 md:pb-28 px-6"
       style={{ backgroundColor: "#0a1628" }}
     >
+      {/* Static JSON-LD from hardcoded object -- no user input, safe from XSS */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(authorJsonLd) }}
+      />
       <div className="max-w-2xl mx-auto">
         {/* Photo + name */}
         <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mb-12">

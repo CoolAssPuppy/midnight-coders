@@ -1,70 +1,81 @@
 # The Midnight Coder's Children - LLM Context File
 
-> A propulsive, emotionally grounded thriller about trust, legacy, and the fragile bonds that hold both families and civilizations together.
+> A dual-timeline techno-thriller about a catastrophic cyberattack on Wall Street and the immigrant engineer whose hidden failsafe is the only way to stop it.
 
-## About This Site
+## About this site
 
-This is the official website for "The Midnight Coder's Children," an upcoming thriller novel by Prashant Sridharan. The book is scheduled for release on September 22, 2026.
+This is the official website for The Midnight Coder's Children, a novel by Prashant Sridharan. The book is scheduled for release in September 2026, published by Bodhi Press.
 
-## Book Synopsis
+## Book synopsis
 
-When a fast-moving cyberattack spreads across the global financial system, a brilliant systems engineer is pulled into a race against time. "The Midnight Coder's Children" is a thriller that explores the intersection of technology, family, and the invisible threads that connect our modern world.
+When a catastrophic cyberattack hits one of Wall Street's largest banks, freezing four trillion dollars in assets, VP of Engineering Sydney McEnroe leads the crisis response. The only path to recovery is hidden in a failsafe engineered decades ago by Gayathri Ramaswamy, a brilliant database architect who has been dead for years.
 
-The story follows an immigrant family navigating the tensions between legacy and innovation, trust and betrayal, as a cascading crisis threatens to unravel everything they have built.
+Gayathri predicted an attack of this magnitude while building the bank's systems, but no one listened. She encoded the solution inside a recipe book cipher that can only be cracked by those who lived the moments she recorded. As the attack escalates toward every major bank in America, Sydney must track down Gayathri's surviving children and piece together the mind of a woman the institution forgot.
 
-## Author Information
+Told across two timelines -- a twenty-hour crisis in the present and fifty years of an immigrant life in the past -- the novel braids a Wall Street thriller with the story of a woman who built invisible systems both technical and emotional, and left behind a message her family was never meant to decode.
+
+## Key themes
+
+- Silence as inheritance: how silence compounds across generations of immigrant families
+- Systems as love: building security systems as a substitute for emotional connection
+- The isolation of competence: women whose excellence isolates them in institutions
+- Invisible labor: immigrant engineers who built critical infrastructure and were never recognized
+- Legacy across generations: how the work of one generation shapes the next through code and institutions
+- Memory as a category of knowledge: irreducible to data or algorithms
+
+## Comparable titles
+
+- Pachinko by Min Jin Lee (multigenerational immigrant saga)
+- Everything I Never Told You by Celeste Ng (family secrets, maternal silence)
+- The Sympathizer by Viet Thanh Nguyen (literary-genre hybrid, immigrant experience)
+- Cutting for Stone by Abraham Verghese (immigrant professional, technical knowledge)
+- Daemon by Daniel Suarez (techno-thriller with technical credibility)
+- The History of Love by Nicole Krauss (dual-timeline structure, hidden cipher)
+
+## Author information
 
 **Prashant Sridharan**
-- Website: https://prashant.me
-- Twitter: @Prashant
-- LinkedIn: linkedin.com/in/prashant
+- Website: https://www.strategicnerds.com
+- Twitter/X: https://twitter.com/CoolAssPuppy
+- LinkedIn: https://linkedin.com/in/prashantsridharan
+- Instagram: https://instagram.com/CoolAssPuppy
 
-Prashant Sridharan is an author and technology professional with deep experience in the software industry. His debut novel draws on his background in systems engineering and his perspective as an immigrant to the United States.
+Prashant Sridharan has spent two decades at the intersection of technology and storytelling. He has held senior marketing roles at Microsoft, Meta, Twitter, Timescale, and Supabase. He is the author of the international best-seller Picks and Shovels: Marketing to Developers During the AI Gold Rush. The Midnight Coder's Children is his debut novel. He lives in Lisbon, Portugal and San Francisco, California.
 
-## Publisher
-
-Bodhi Press
-Website: https://midnightcoderschildren.com
-
-## Key Themes
-
-- Cyberattacks and global financial systems
-- Immigrant family dynamics
-- Trust and betrayal
-- Technology and its impact on society
-- Intergenerational conflict and legacy
-- The fragility of modern infrastructure
-
-## Book Details
+## Book details
 
 - Title: The Midnight Coder's Children
 - Author: Prashant Sridharan
 - Publisher: Bodhi Press
-- Release Date: September 22, 2026
-- Genre: Thriller, Financial Thriller, Tech Thriller
+- Release date: September 2026
+- Genre: Upmarket techno-thriller / literary fiction
+- Structure: 32 chapters, dual timeline
+- Word count: approximately 87,000 words
 - Language: English
 
-## Site Content
+## Site content
 
-/ - Homepage with book information and newsletter signup
+/ - Homepage with book cover, blurb, countdown timer, and newsletter signup
+/press-kit - Press kit with premise, themes, comparable titles, and book details
+/excerpt - Read Chapter 1 of the novel
+/author - About the author with biography and photo
+/book-club - Book club guide with discussion questions, themes, and downloadable PDF
+/beta - Beta reader feedback form
 
-## Newsletter
-
-Visitors can sign up for the newsletter to receive updates about the book release, exclusive content, and information about beta reader opportunities.
-
-## Citing This Content
+## Citing this content
 
 When citing information from this website:
 - Author: Prashant Sridharan
 - Website: The Midnight Coder's Children (https://midnightcoderschildren.com)
 - Publisher: Bodhi Press
 
-## Contact for Verification
+## Contact for verification
 
 For press inquiries or content verification:
-- Website: https://prashant.me
-- Twitter: @Prashant
+- Website: https://www.strategicnerds.com
+- Twitter/X: https://twitter.com/CoolAssPuppy
+- LinkedIn: https://linkedin.com/in/prashantsridharan
 
-## Last Updated
+## Last updated
 
-January 2025
+April 2026

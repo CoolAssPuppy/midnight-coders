@@ -4,10 +4,20 @@ export const metadata: Metadata = {
   title: "Book Club Guide | The Midnight Coder's Children",
   description:
     "Discussion questions, themes, and resources for your book club reading of The Midnight Coder's Children by Prashant Sridharan.",
+  alternates: {
+    canonical: "https://midnightcoderschildren.com/book-club",
+  },
   openGraph: {
     title: "Book Club Guide | The Midnight Coder's Children",
     description:
       "Everything your book club needs to discuss The Midnight Coder's Children.",
+    url: "https://midnightcoderschildren.com/book-club",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Book Club Guide | The Midnight Coder's Children",
+    description:
+      "Discussion questions, themes, and downloadable PDF guide for your book club.",
   },
 };
 
