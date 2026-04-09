@@ -343,7 +343,7 @@ export default function BookClubGuidePage(): React.ReactElement {
             }}
           >
             Prashant Sridharan has held senior marketing roles at Microsoft, Meta, Twitter,
-            Timescale, and Supabase. His
+            and Supabase. His
             international best-seller <em>Picks and Shovels</em> explores marketing to
             developers during the AI gold rush. <em>The Midnight Coder&apos;s
             Children</em> is his debut novel, drawing on years spent inside the

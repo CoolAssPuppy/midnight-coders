@@ -5,7 +5,7 @@ import { BuyTheBook } from "@/components/BuyTheBook";
 export const metadata: Metadata = {
   title: "About Prashant Sridharan | The Midnight Coder's Children",
   description:
-    "Prashant Sridharan has spent two decades at the intersection of technology and storytelling. Author of the best-seller Picks and Shovels. The Midnight Coder's Children is his debut novel.",
+    "Prashant Sridharan has spent over three decades at the intersection of technology and storytelling. Author of the best-seller marketing book, Picks and Shovels. The Midnight Coder's Children is his debut novel.",
   alternates: {
     canonical: "https://midnightcoderschildren.com/author",
   },
@@ -108,7 +108,7 @@ export default function AuthorPage(): React.ReactElement {
               className="text-sm leading-relaxed"
               style={{ color: "rgba(255, 255, 255, 0.6)" }}
             >
-              Two decades at the intersection of technology and storytelling.
+              Three decades at the intersection of technology and storytelling.
             </p>
           </div>
         </div>
@@ -124,9 +124,9 @@ export default function AuthorPage(): React.ReactElement {
             className="text-base leading-[1.8]"
             style={{ color: "rgba(255, 255, 255, 0.8)" }}
           >
-            Prashant Sridharan has spent two decades at the intersection of
+            Prashant Sridharan has spent over three decades at the intersection of
             technology and storytelling. He has held senior marketing roles at Microsoft,
-            Meta, Twitter, Timescale, and Supabase.
+            Meta, Twitter, and Supabase.
           </p>
           <p
             className="text-base leading-[1.8]"
