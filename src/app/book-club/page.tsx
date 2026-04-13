@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BuyTheBook } from "@/components/BuyTheBook";
+import { AuthorBio } from "@/components/AuthorBio";
 
 export const metadata: Metadata = {
   title: "Book Club Guide | The Midnight Coder's Children",
@@ -335,21 +336,7 @@ export default function BookClubGuidePage(): React.ReactElement {
           >
             About the author
           </h2>
-          <p
-            className="text-sm leading-[1.75]"
-            style={{
-              color: "rgba(255, 255, 255, 0.7)",
-              fontFamily: "Georgia, 'Times New Roman', serif",
-            }}
-          >
-            Prashant Sridharan has held senior marketing roles at Microsoft, Meta, Twitter,
-            and Supabase. His
-            international best-seller <em>Picks and Shovels</em> explores marketing to
-            developers during the AI gold rush. <em>The Midnight Coder&apos;s
-            Children</em> is his debut novel, drawing on years spent inside the
-            institutions and engineering cultures the book portrays. He lives in
-            San Francisco.
-          </p>
+          <AuthorBio variant="compact" />
         </section>
 
 

@@ -377,13 +377,13 @@ function BookClubPDF(): React.ReactElement {
               Prashant Sridharan
             </Text>
             <Text style={styles.aboutText}>
-              Prashant Sridharan has held senior marketing roles at Microsoft,
-              Meta, Twitter, Timescale, and Supabase. His international
+              Prashant Sridharan has held senior marketing leadership roles at
+              Microsoft, AWS, Meta, Twitter, and Supabase. His international
               best-seller Picks and Shovels explores marketing to developers
               during the AI gold rush. The Midnight Coder&apos;s Children is
               his debut novel, drawing on years spent inside the institutions
-              and engineering cultures the book portrays. He lives in Lisbon,
-              Portugal and San Francisco, California.
+              and engineering cultures the book portrays. He lives in San
+              Francisco, California and Lisbon, Portugal.
             </Text>
             <View style={{ marginTop: 10 }}>
               <Link

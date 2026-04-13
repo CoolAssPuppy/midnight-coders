@@ -113,7 +113,7 @@ const jsonLd = {
         "Fiction Writing",
       ],
       description:
-        "Prashant Sridharan is the author of The Midnight Coder's Children and the international best-seller Picks and Shovels. He has held senior marketing roles at Microsoft, Meta, Twitter, Timescale, and Supabase.",
+        "Prashant Sridharan is the author of The Midnight Coder's Children and the international best-seller Picks and Shovels. He has held senior marketing leadership roles at Microsoft, AWS, Meta, Twitter, and Supabase.",
     },
     {
       "@type": "Book",

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { BuyTheBook } from "@/components/BuyTheBook";
+import { AuthorBio } from "@/components/AuthorBio";
+import { BIO_JSONLD, BIO_META_LONG, BIO_SHORT } from "@/lib/bio";
 
 export const metadata: Metadata = {
   title: "About Prashant Sridharan | The Midnight Coder's Children",
-  description:
-    "Prashant Sridharan has spent over three decades at the intersection of technology and storytelling. Author of the best-seller marketing book, Picks and Shovels. The Midnight Coder's Children is his debut novel.",
+  description: BIO_META_LONG,
   alternates: {
     canonical: "https://midnightcoderschildren.com/author",
   },
@@ -18,8 +19,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "About Prashant Sridharan | The Midnight Coder's Children",
-    description:
-      "Author of Picks and Shovels. Senior roles at Microsoft, Meta, Twitter, Supabase.",
+    description: BIO_SHORT,
   },
 };
 
@@ -34,8 +34,7 @@ const authorJsonLd = {
     jobTitle: "Author",
     url: "https://www.strategicnerds.com",
     image: "https://midnightcoderschildren.com/images/author/prashant-sridharan.jpg",
-    description:
-      "Prashant Sridharan is the author of The Midnight Coder's Children and the international best-seller Picks and Shovels: Marketing to Developers During the AI Gold Rush. He has held senior marketing roles at Microsoft, Meta, Twitter, Timescale, and Supabase.",
+    description: BIO_JSONLD,
     sameAs: [
       "https://twitter.com/CoolAssPuppy",
       "https://linkedin.com/in/prashantsridharan",
@@ -113,39 +112,7 @@ export default function AuthorPage(): React.ReactElement {
           </div>
         </div>
 
-        {/* Bio */}
-        <div
-          className="space-y-5 mb-12"
-          style={{
-            fontFamily: "Georgia, 'Times New Roman', serif",
-          }}
-        >
-          <p
-            className="text-base leading-[1.8]"
-            style={{ color: "rgba(255, 255, 255, 0.8)" }}
-          >
-            Prashant Sridharan has spent over three decades at the intersection of
-            technology and storytelling. He has held senior marketing roles at Microsoft,
-            Meta, Twitter, and Supabase.
-          </p>
-          <p
-            className="text-base leading-[1.8]"
-            style={{ color: "rgba(255, 255, 255, 0.8)" }}
-          >
-            He is the author of the international best-seller{" "}
-            <em>
-              Picks and Shovels: Marketing to Developers During the AI Gold
-              Rush
-            </em>
-            . <em>The Midnight Coder&apos;s Children</em> is his debut novel.
-          </p>
-          <p
-            className="text-base leading-[1.8]"
-            style={{ color: "rgba(255, 255, 255, 0.8)" }}
-          >
-            He lives in Lisbon, Portugal and San Francisco, California.
-          </p>
-        </div>
+        <AuthorBio variant="full" />
 
         <BuyTheBook />
       </div>
