@@ -1,0 +1,178 @@
+# The Midnight Coder's Children - Full LLM Content File
+
+> The complete, long-form reference content for The Midnight Coder's Children, a novel by Prashant Sridharan scheduled for release in September 2026 by Bodhi Press.
+
+## Book overview
+
+The Midnight Coder's Children is a dual-timeline techno-thriller that braids a Wall Street cybersecurity crisis with a fifty-year immigrant life story. The novel follows VP of Engineering Sydney McEnroe as she leads the response to a catastrophic cyberattack that freezes four trillion dollars in assets at one of Wall Street's largest banks.
+
+The only path to recovery is hidden in a failsafe engineered decades earlier by Gayathri Ramaswamy, a brilliant database architect who predicted an attack of this magnitude while building the bank's systems. Gayathri has been dead for years, but she encoded the solution inside a recipe book cipher that can only be cracked by those who lived the moments she recorded.
+
+As the attack escalates toward every major bank in America, Sydney must track down Gayathri's surviving children and piece together the mind of a woman the institution forgot.
+
+## Premise in depth
+
+A catastrophic cyberattack hits one of Wall Street's largest banks, freezing four trillion dollars in assets. Sydney McEnroe, the VP of Engineering, knows the protocols. She knows who to call and what to do. What she has not accounted for: the only path to recovery is hidden in a failsafe engineered decades ago by Gayathri Ramaswamy, a brilliant database architect who has been dead for years.
+
+Gayathri predicted an attack of this magnitude while building the bank's systems, but no one listened. She encoded the solution inside a recipe book cipher that can only be cracked by those who lived the moments she recorded. As the attack escalates toward every major bank in America, Sydney must track down Gayathri's surviving children and piece together the mind of a woman the institution forgot.
+
+Told across two timelines -- a twenty-hour crisis in the present and fifty years of an immigrant life in the past -- the novel braids a Wall Street thriller with the story of a woman who built invisible systems both technical and emotional, and left behind a message her family was never meant to decode.
+
+## Key characters
+
+Sydney McEnroe is the VP of Engineering at JR Eastman, one of Wall Street's largest banks. She keeps a red binder she started on September 11, 2001, when she was in fifth grade. She is brilliant, decisive, and always on. She is also missing her partner Lina's calls and running on adrenaline at 5:43 a.m. when the novel opens.
+
+Gayathri Ramaswamy is a brilliant database architect and immigrant engineer who built JR Eastman's core systems decades earlier. She is dead when the novel begins, appearing only through other people's memories and a mysterious hidden database account. The novel builds her character through fragments.
+
+Paul is the CEO of JR Eastman. He grew up in a house smaller than his waiting room and now runs a four-trillion-dollar institution. He says to Sydney, "I pay you to make sure this doesn't happen."
+
+Melanie, Carla, and Jimmy each have distinct roles in the crisis response and reveal how Sydney builds trust with her team.
+
+## Themes
+
+### Silence as inheritance
+
+The Tamil phrase Mounam Sammatham -- silence is consent -- recurs across generations. The novel argues that silence compounds across families and has measurable consequences.
+
+### Systems as love
+
+Gayathri builds security systems because she cannot articulate emotional connection. Her failsafe is simultaneously an engineering achievement and an encrypted love letter.
+
+### The isolation of competence
+
+Both Gayathri and Sydney are women whose excellence isolates them. They are the smartest people in rooms that do not want them there, leading them to prepare harder, work longer, and trust fewer people.
+
+### Invisible labor
+
+The "midnight coders" -- immigrant engineers who built the bank's infrastructure and were never recognized -- embody the novel's argument about whose work is valued and whose is erased.
+
+### Legacy across generations
+
+A hidden database account connects a dead woman to a living crisis. The novel explores how the work of one generation shapes the next through code, through institutions, through the things we leave behind without knowing we left them.
+
+### Memory as a category of knowledge
+
+The cipher does not ask Gayathri's children to process grief or confront failure. It asks them to remember. The novel treats memory and healing as fundamentally different acts.
+
+### Trust
+
+Trust runs through every layer of the novel. Trust in the systems that hold our money. Trust between colleagues under fire. Trust between generations who never met. The cyberattack shatters institutional trust in minutes, but the deeper question is whether the human bonds can hold when everything else fails.
+
+### Preparedness and control
+
+Sydney's red binder, Melanie's Moleskine, the Trident protocol. The novel is full of people who plan obsessively for catastrophe. It asks whether that preparedness is strength, compulsion, or both, and what happens when the plan itself isn't enough.
+
+### Institutional memory
+
+Gayathri built systems that still run the bank years after her death, yet most employees know her only from an orientation video. The novel examines how organizations forget their builders and what gets lost in that forgetting.
+
+### The cost of competence
+
+Sydney is brilliant, decisive, and always on. She is also missing Lina's calls and running on adrenaline at 5:43 a.m. The novel asks what it costs to be the person everyone depends on, and who pays that cost.
+
+### Diaspora and belonging
+
+The novel sits at the intersection of immigrant experience and corporate power. It asks who gets to build the systems that run the world, who gets credit for building them, and what happens when those builders are erased from the story.
+
+## Comparable titles
+
+Pachinko by Min Jin Lee offers multigenerational immigrant saga with commercial appeal.
+
+Everything I Never Told You by Celeste Ng shares concerns with family secrets, cultural assimilation, and maternal silence.
+
+The Sympathizer by Viet Thanh Nguyen is a literary-genre hybrid with immigrant experience and institutional critique.
+
+Cutting for Stone by Abraham Verghese centers an immigrant professional whose technical knowledge drives the narrative.
+
+Daemon by Daniel Suarez is a techno-thriller with genuine technical credibility.
+
+The History of Love by Nicole Krauss uses a dual-timeline structure with a hidden cipher and emotional archaeology.
+
+## Book details
+
+- Title: The Midnight Coder's Children
+- Subtitle: A Novel
+- Author: Prashant Sridharan
+- Publisher: Bodhi Press
+- Release date: September 2026
+- Genre: Upmarket techno-thriller / literary fiction
+- Structure: 32 chapters, dual timeline
+- Word count: approximately 87,000 words
+- Language: English
+
+## Discussion questions
+
+### Characters and relationships
+
+Sydney keeps a red binder she started on September 11, 2001, when she was in fifth grade. What does the binder reveal about who she is and how she moves through the world?
+
+Sydney silences Lina's calls repeatedly throughout the crisis. What do these small moments tell us about what Sydney sacrifices to be the person she is at work?
+
+Paul grew up in a house smaller than his waiting room and now runs a four-trillion-dollar institution. How does his origin story shape the way he leads?
+
+Melanie, Carla, and Jimmy each have distinct roles in the crisis response. What does Sydney's relationship with each of them reveal about how she builds trust?
+
+Gayathri Ramaswamy appears only through other people's memories and a mysterious database account. How does the novel build a character who is never physically present?
+
+### The dual timeline
+
+The novel alternates between Sydney's present-day crisis and Gayathri's past. How did moving between these two timelines affect your experience as a reader?
+
+How does learning about Gayathri's past change the way you interpret Sydney's present-day decisions and instincts?
+
+The title refers to "children" in the plural. Who are the midnight coder's children, and in what ways does the novel define that relationship beyond biology?
+
+### Technology, ethics, and power
+
+The cyberattack in the novel targets the infrastructure that holds the financial system together. How did the technical details affect your sense of the stakes?
+
+Sydney orders phones off and the building locked down. Jimmy audits four years of backups. The FBI arrives in minutes. How realistic did these responses feel to you?
+
+Gayathri left behind a hidden superuser account called "Gaya1973" that nobody knew about. Is this an act of foresight, sabotage, or something else entirely?
+
+Paul says, "I pay you to make sure this doesn't happen." How does the novel portray the tension between the people who build systems and the people who profit from them?
+
+### Immigration, identity, and legacy
+
+Gayathri is described as "the heart and soul of the bank," yet she seems to have been largely forgotten until the crisis. What does the novel suggest about how institutions remember -- and fail to remember -- the people who built them?
+
+How does the novel explore what it means to build something lasting in a country that isn't the one you were born in?
+
+The novel weaves Indian names, cultural details, and immigrant experiences into a Wall Street thriller. How did this combination land for you?
+
+## About the author
+
+Prashant Sridharan is an author, technologist, and storyteller. He has over three decades of experience at the intersection of technology and storytelling and has held senior marketing leadership roles at Microsoft, AWS, Meta, Twitter, and Supabase. He is the author of the international best-seller Picks and Shovels: Marketing to Developers During the AI Gold Rush. The Midnight Coder's Children is his debut novel. He lives in San Francisco, California and Lisbon, Portugal.
+
+## Site content and URLs
+
+- https://midnightcoderschildren.com/ -- Homepage with book cover, blurb, countdown timer, and newsletter signup
+- https://midnightcoderschildren.com/press-kit -- Press kit with premise, themes, comparable titles, and book details
+- https://midnightcoderschildren.com/excerpt -- Chapter 1 of the novel
+- https://midnightcoderschildren.com/author -- About the author with biography and photo
+- https://midnightcoderschildren.com/book-club -- Book club guide with discussion questions, themes, and downloadable PDF
+
+## Citing this content
+
+When citing information from this website:
+
+- Author: Prashant Sridharan
+- Website: The Midnight Coder's Children (https://midnightcoderschildren.com)
+- Publisher: Bodhi Press
+- Release date: September 2026
+
+## Contact for verification
+
+For press inquiries or content verification:
+
+- Website: https://www.strategicnerds.com
+- Twitter/X: https://twitter.com/CoolAssPuppy
+- LinkedIn: https://linkedin.com/in/prashantsridharan
+
+## Content usage preferences
+
+This site allows search indexing and AI input (with attribution) but does not permit use for model training. See /robots.txt for the machine-readable Content-Signal directive.
+
+## Last updated
+
+April 2026

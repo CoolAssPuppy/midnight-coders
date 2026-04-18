@@ -39,9 +39,9 @@ export const metadata: Metadata = {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },
   openGraph: {
-    title: "The Midnight Coder's Children",
+    title: "The Midnight Coder's Children: A Novel by Prashant Sridharan",
     description:
-      "When a fast-moving cyberattack spreads across the global financial system, a brilliant systems engineer is pulled into a race against time.",
+      "It's a race against the clock to save the global financial system. A propulsive, emotionally grounded thriller. Coming September 2026.",
     type: "website",
     locale: "en_US",
     url: baseUrl,
@@ -49,9 +49,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "The Midnight Coder's Children",
+    title: "The Midnight Coder's Children: A Novel by Prashant Sridharan",
     description:
-      "A propulsive, emotionally grounded thriller. Coming September 2026.",
+      "It's a race against the clock to save the global financial system. A propulsive, emotionally grounded thriller. Coming September 2026.",
     site: "@CoolAssPuppy",
     creator: "@CoolAssPuppy",
   },

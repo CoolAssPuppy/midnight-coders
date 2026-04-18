@@ -11,6 +11,9 @@ export default function Home(): React.ReactElement {
 
   return (
     <main id="main-content" className="relative min-h-[400vh]">
+      <h1 className="sr-only">
+        The Midnight Coder&apos;s Children: A Novel by Prashant Sridharan
+      </h1>
       <GlitchEffect scrollProgress={progress} />
 
       <div className="fixed inset-0 flex items-center justify-center z-10 pointer-events-none">

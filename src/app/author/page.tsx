@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BuyTheBook } from "@/components/BuyTheBook";
 import { AuthorBio } from "@/components/AuthorBio";
 import { BIO_JSONLD, BIO_META_LONG, BIO_SHORT } from "@/lib/bio";
+import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "About Prashant Sridharan | The Midnight Coder's Children",
@@ -57,6 +58,10 @@ const authorJsonLd = {
   },
 };
 
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Author", path: "/author" },
+]);
+
 export default function AuthorPage(): React.ReactElement {
   return (
     <main
@@ -68,6 +73,10 @@ export default function AuthorPage(): React.ReactElement {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(authorJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <div className="max-w-2xl mx-auto">
         {/* Photo + name */}

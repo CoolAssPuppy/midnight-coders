@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BuyTheBook } from "@/components/BuyTheBook";
 import { AuthorBio } from "@/components/AuthorBio";
+import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Book Club Guide | The Midnight Coder's Children",
@@ -87,6 +88,10 @@ const THEMES = [
   },
 ];
 
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Book Club Guide", path: "/book-club" },
+]);
+
 const ENHANCE_TIPS = [
   "Before your meeting, have each member pick either Sydney or Gayathri and read the novel paying special attention to their chosen character. Compare notes at the discussion.",
   "Look up the real Bangladesh Bank heist (2016) and the MGM casino cyberattack (2023), both referenced in the novel. How does the fiction compare to reality?",
@@ -102,6 +107,12 @@ export default function BookClubGuidePage(): React.ReactElement {
       className="pt-24 pb-20 md:pt-32 md:pb-28 px-6"
       style={{ backgroundColor: "#0a1628" }}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd),
+        }}
+      />
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="mb-14">

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { MediaAssets } from "@/components/MediaAssets";
+import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Press Kit | The Midnight Coder's Children",
@@ -97,6 +98,10 @@ const BOOK_DETAILS = [
   { label: "Release date", value: "September 2026" },
 ];
 
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Press Kit", path: "/press-kit" },
+]);
+
 export default function AboutBookPage(): React.ReactElement {
   return (
     <main
@@ -104,6 +109,10 @@ export default function AboutBookPage(): React.ReactElement {
       className="pt-24 pb-20 md:pt-32 md:pb-28 px-6"
       style={{ backgroundColor: "#0a1628" }}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="mb-14">
