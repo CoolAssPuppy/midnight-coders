@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, memo } from "react";
+import { memo, useMemo, useSyncExternalStore } from "react";
 
 interface Particle {
   id: number;
@@ -34,14 +34,27 @@ function generateParticles(count: number): Particle[] {
   return particles;
 }
 
+// `Math.random()` would diverge between SSR and client, so we defer particle
+// generation until after hydration. `useSyncExternalStore` returns the server
+// snapshot during SSR and the first client render, then flips to the client
+// snapshot — no setState in an effect.
+const subscribe = (): (() => void) => () => {};
+const getSnapshot = (): boolean => true;
+const getServerSnapshot = (): boolean => false;
+
 function StaticStarFieldComponent({
   particleCount = 100,
 }: StaticStarFieldProps): React.ReactElement | null {
-  const [particles, setParticles] = useState<Particle[]>([]);
+  const isHydrated = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot
+  );
 
-  useEffect(() => {
-    setParticles(generateParticles(particleCount));
-  }, [particleCount]);
+  const particles = useMemo<Particle[]>(
+    () => (isHydrated ? generateParticles(particleCount) : []),
+    [isHydrated, particleCount]
+  );
 
   if (particles.length === 0) {
     return null;

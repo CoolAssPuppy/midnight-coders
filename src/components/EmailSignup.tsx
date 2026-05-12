@@ -187,13 +187,8 @@ function EmailSignupComponent({
   });
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [emailTouched, setEmailTouched] = useState(false);
-  const [referrer, setReferrer] = useState("");
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const captchaRef = useRef<HCaptcha>(null);
-
-  useEffect(() => {
-    setReferrer(getReferrerFromUrl());
-  }, []);
 
   const isFormValid =
     formData.firstName.trim() !== "" &&
@@ -239,7 +234,7 @@ function EmailSignupComponent({
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email,
-            referrer,
+            referrer: getReferrerFromUrl(),
             interestedInBeta: formData.interestedInBeta,
             captchaToken,
           }),
@@ -269,7 +264,7 @@ function EmailSignupComponent({
         captchaRef.current?.resetCaptcha();
       }
     },
-    [isFormValid, status, formData.firstName, formData.lastName, formData.email, formData.interestedInBeta, referrer, captchaToken]
+    [isFormValid, status, formData.firstName, formData.lastName, formData.email, formData.interestedInBeta, captchaToken]
   );
 
   if (opacity <= 0) {
