@@ -1,0 +1,18 @@
+# pnpm 11 reads build allowances from this file. Keep both keys so the config
+# works under pnpm 10 (`onlyBuiltDependencies` array) and pnpm 11 (`allowBuilds`
+# map). Pnpm refuses all postinstall scripts by default since v10; opt in here
+# per-package only when the build legitimately needs the native step.
+allowBuilds:
+  # node-canvas builds a native binary used by the book-club PDF generation
+  # script (scripts/generate-book-club-pdf.tsx).
+  canvas: true
+  # Next.js image optimization uses sharp's platform-specific native binary.
+  sharp: true
+  # Next 16 / eslint-plugin-import use unrs-resolver to fetch a platform-specific
+  # resolver binary.
+  unrs-resolver: true
+
+onlyBuiltDependencies:
+  - canvas
+  - sharp
+  - unrs-resolver
