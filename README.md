@@ -30,14 +30,14 @@ This is the official website for *The Midnight Coder's Children*.
 ### Development
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 ### Build
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 ### Deployment
