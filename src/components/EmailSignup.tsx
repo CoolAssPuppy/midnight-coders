@@ -517,13 +517,6 @@ function EmailSignupComponent({
           <p className="mb-1">&copy; 2026 Bodhi Press</p>
           <div className="flex items-center justify-center gap-2">
             <PrivacyPolicy />
-            <span style={{ color: "rgba(255, 255, 255, 0.3)" }}>|</span>
-            <a
-              href="/beta"
-              className="underline hover:text-white/60 transition-colors"
-            >
-              Beta Readers
-            </a>
           </div>
           <div className="mt-8 flex items-center justify-center gap-6">
             <Image
