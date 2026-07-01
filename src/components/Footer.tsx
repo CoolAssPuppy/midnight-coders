@@ -66,25 +66,38 @@ const SOCIALS = [
       </svg>
     ),
   },
+  {
+    label: "Email",
+    href: "mailto:book@midnightcoderschildren.com",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="m2 7 10 6 10-6" />
+      </svg>
+    ),
+  },
 ];
 
 export function Footer(): React.ReactElement {
   return (
     <footer className="py-8 px-6">
       <div className="flex items-center justify-center gap-5">
-        {SOCIALS.map((social) => (
-          <a
-            key={social.href}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={social.label}
-            className="transition-opacity opacity-25 hover:opacity-50"
-            style={{ color: "#fff" }}
-          >
-            {social.icon}
-          </a>
-        ))}
+        {SOCIALS.map((social) => {
+          const isMailto = social.href.startsWith("mailto:");
+          return (
+            <a
+              key={social.href}
+              href={social.href}
+              target={isMailto ? undefined : "_blank"}
+              rel={isMailto ? undefined : "noopener noreferrer"}
+              aria-label={social.label}
+              className="transition-opacity opacity-25 hover:opacity-50"
+              style={{ color: "#fff" }}
+            >
+              {social.icon}
+            </a>
+          );
+        })}
       </div>
     </footer>
   );

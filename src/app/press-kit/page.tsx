@@ -89,13 +89,18 @@ const COMP_TITLES = [
   },
 ];
 
-const BOOK_DETAILS = [
+const BOOK_DETAILS: { label: string; value: string; href?: string }[] = [
   { label: "Author", value: "Prashant Sridharan" },
   { label: "Genre", value: "Upmarket techno-thriller / literary fiction" },
   { label: "Structure", value: "32 chapters, dual timeline" },
   { label: "Word count", value: "~87,000 words" },
   { label: "Publisher", value: "Bodhi Press" },
   { label: "Release date", value: "September 2026" },
+  {
+    label: "Press Inquiries",
+    value: "press@midnightcoderschildren.com",
+    href: "mailto:press@midnightcoderschildren.com",
+  },
 ];
 
 const breadcrumbJsonLd = buildBreadcrumbJsonLd([
@@ -347,7 +352,17 @@ export default function AboutBookPage(): React.ReactElement {
                     fontFamily: "Georgia, 'Times New Roman', serif",
                   }}
                 >
-                  {detail.value}
+                  {detail.href ? (
+                    <a
+                      href={detail.href}
+                      className="underline underline-offset-2 transition-opacity hover:opacity-70"
+                      style={{ color: "rgba(255, 255, 255, 0.75)" }}
+                    >
+                      {detail.value}
+                    </a>
+                  ) : (
+                    detail.value
+                  )}
                 </dd>
               </div>
             ))}
