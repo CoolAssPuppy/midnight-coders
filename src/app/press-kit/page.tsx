@@ -114,6 +114,7 @@ const BOOK_DETAILS: { label: string; value: string; href?: string }[] = [
   { label: "Structure", value: "32 chapters, dual timeline" },
   { label: "Word count", value: "~87,000 words" },
   { label: "Publisher", value: "Bodhi Press" },
+  { label: "Format", value: "Paperback, 348 pages" },
   { label: "ISBN", value: "979-8999111128" },
   { label: "Price", value: "$18.99" },
   { label: "Release date", value: "September 2026" },

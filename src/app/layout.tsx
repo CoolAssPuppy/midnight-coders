@@ -130,8 +130,8 @@ const jsonLd = {
         "A propulsive, emotionally grounded thriller about trust, legacy, and the fragile bonds that hold both families and civilizations together.",
       genre: ["Thriller", "Financial Thriller", "Tech Thriller"],
       inLanguage: "en",
-      bookFormat: "https://schema.org/Hardcover",
-      numberOfPages: 400,
+      bookFormat: "https://schema.org/Paperback",
+      numberOfPages: 348,
       isbn: "9798999111128",
       datePublished: "2026-09-22",
       offers: {
