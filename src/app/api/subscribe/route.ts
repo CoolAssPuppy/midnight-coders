@@ -3,6 +3,7 @@ import { verifyCaptcha } from "@/lib/captcha";
 
 const KIT_FORM_ID = "8927583";
 const KIT_MCC_TAG_ID = "13946969";
+// Also used to route Advanced Reader Copy (ARC) requests from the signup form.
 const KIT_BETA_TAG_ID = "13946978";
 
 interface SubscribeRequest {

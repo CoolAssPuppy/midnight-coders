@@ -421,7 +421,7 @@ function EmailSignupComponent({
                   }))
                 }
                 disabled={status === "submitting"}
-                className="mt-1 w-5 h-5 rounded cursor-pointer"
+                className="mt-1 w-5 h-5 flex-shrink-0 rounded cursor-pointer"
                 style={{
                   accentColor: "#4EC9B0",
                 }}
@@ -448,18 +448,18 @@ function EmailSignupComponent({
                   }))
                 }
                 disabled={status === "submitting"}
-                className="mt-1 w-5 h-5 rounded cursor-pointer"
+                className="mt-1 w-5 h-5 flex-shrink-0 rounded cursor-pointer"
                 style={{
                   accentColor: "#4EC9B0",
                 }}
-                aria-label="Interested in becoming a beta reader"
+                aria-label="Requesting an Advanced Reader Copy"
               />
               <span
                 className="text-sm md:text-base leading-relaxed"
                 style={{ color: "#D4D4D4" }}
               >
                 <span style={{ color: "#6A9955" }}>
-                  {"I am interested in becoming a beta reader for Bodhi Press publications"}
+                  {"I am requesting an Advanced Reader Copy (ARC)"}
                 </span>
               </span>
             </label>

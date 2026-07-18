@@ -14,7 +14,8 @@
     "dev": "doppler run -- next dev --webpack",
     "build": "next build",
     "start": "doppler run -- next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "press-kit:zip": "node scripts/build-press-kit-zip.mjs"
   },
   "dependencies": {
     "@hcaptcha/react-hcaptcha": "^1.17.3",

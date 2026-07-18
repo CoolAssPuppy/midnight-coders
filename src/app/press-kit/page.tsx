@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BuyTheBook } from "@/components/BuyTheBook";
 import { MediaAssets } from "@/components/MediaAssets";
 import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 
@@ -56,6 +57,24 @@ const THEMES = [
   },
 ];
 
+const PRAISE = [
+  {
+    quote:
+      "The Midnight Coder’s Children operates beyond action-packed scenarios to embrace personal lives and challenges impacted by choices. Sridharan’s tense thriller will delight readers.",
+    source: "Midwest Book Review",
+  },
+  {
+    quote:
+      "In Sridharan’s brisk debut, trillions of dollars are in jeopardy, a global security crisis is escalating, and the key to stopping it all lies in the seemingly harmless recipe book of a now-deceased Indian woman. [A] brisk financial thriller buoyed by [an] emotional throughline. For fans of Kathy Wang’s Imposter Syndrome.",
+    source: "BookLife",
+  },
+  {
+    quote:
+      "The Midnight Coder’s Children illuminates the casualties of technological convenience without guardrails: integrity, truth, and trust. Into this heart-pounding, lightning-fast tale of global financial crime in the age of AI, Sridharan deftly and elegantly weaves rich details of South Indian life, with finely-drawn and compelling characters who show us how to find our way back to integrity, through connection and care. We learn what is coded, not into a machine, but into a human being, through memory, experience, loss, and love.",
+    source: "Dheepa R. Maturi, author of 108",
+  },
+];
+
 const COMP_TITLES = [
   {
     title: "Pachinko",
@@ -95,6 +114,8 @@ const BOOK_DETAILS: { label: string; value: string; href?: string }[] = [
   { label: "Structure", value: "32 chapters, dual timeline" },
   { label: "Word count", value: "~87,000 words" },
   { label: "Publisher", value: "Bodhi Press" },
+  { label: "ISBN", value: "979-8999111128" },
+  { label: "Price", value: "$18.99" },
   { label: "Release date", value: "September 2026" },
   {
     label: "Press Inquiries",
@@ -148,32 +169,7 @@ export default function AboutBookPage(): React.ReactElement {
           >
             by Prashant Sridharan
           </p>
-          <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
-            {[
-              { label: "Buy on Amazon", href: "#" },
-              { label: "Buy on Barnes & Noble", href: "#" },
-              { label: "Buy Direct from Author", href: "#" },
-            ].map((link) => (
-              <span key={link.label} className="flex flex-col items-center">
-                <span
-                  className="px-6 py-3 text-xs tracking-wider uppercase rounded cursor-default text-center"
-                  style={{
-                    color: "rgba(255, 255, 255, 0.25)",
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                    backgroundColor: "rgba(255, 255, 255, 0.03)",
-                  }}
-                >
-                  {link.label}
-                </span>
-                <span
-                  className="text-[9px] tracking-widest uppercase mt-1.5"
-                  style={{ color: "rgba(255, 255, 255, 0.15)" }}
-                >
-                  Coming soon
-                </span>
-              </span>
-            ))}
-          </div>
+          <BuyTheBook />
         </div>
 
         {/* Premise */}
@@ -225,6 +221,47 @@ export default function AboutBookPage(): React.ReactElement {
               systems both technical and emotional, and left behind a message her
               family was never meant to decode.
             </p>
+          </div>
+        </section>
+
+        {/* Praise */}
+        <section className="mb-14">
+          <h2
+            className="text-xs tracking-[0.15em] uppercase mb-5"
+            style={{
+              color: "rgba(255, 255, 255, 0.4)",
+              fontFamily: "var(--font-mono)",
+            }}
+          >
+            Praise for The Midnight Coder&apos;s Children
+          </h2>
+          <div className="space-y-7">
+            {PRAISE.map((praise) => (
+              <blockquote
+                key={praise.source}
+                className="pl-4"
+                style={{ borderLeft: "1px solid rgba(255, 255, 255, 0.12)" }}
+              >
+                <p
+                  className="text-base leading-[1.8]"
+                  style={{
+                    color: "rgba(255, 255, 255, 0.8)",
+                    fontFamily: "Georgia, 'Times New Roman', serif",
+                  }}
+                >
+                  {praise.quote}
+                </p>
+                <footer
+                  className="text-xs tracking-wider uppercase mt-2.5"
+                  style={{
+                    color: "rgba(255, 255, 255, 0.4)",
+                    fontFamily: "var(--font-mono)",
+                  }}
+                >
+                  {praise.source}
+                </footer>
+              </blockquote>
+            ))}
           </div>
         </section>
 

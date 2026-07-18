@@ -1,0 +1,26 @@
+[
+  {
+    "src": "/images/book-cover/Midnight Coders Children Cover 3D.png",
+    "alt": "The Midnight Coder's Children - 3D book cover",
+    "label": "3D book cover",
+    "downloadName": "midnight-coders-children-cover-3d.png"
+  },
+  {
+    "src": "/images/book-cover/Midnight Coders Children Cover.jpg",
+    "alt": "The Midnight Coder's Children - book cover",
+    "label": "Book cover",
+    "downloadName": "midnight-coders-children-cover.jpg"
+  },
+  {
+    "src": "/images/midnight-coders-logotype.svg",
+    "alt": "The Midnight Coder's Children - logo",
+    "label": "Logo",
+    "downloadName": "midnight-coders-children-logotype.svg"
+  },
+  {
+    "src": "/images/author/prashant-sridharan.jpg",
+    "alt": "Prashant Sridharan - author photo",
+    "label": "Author photo",
+    "downloadName": "prashant-sridharan-author-photo.jpg"
+  }
+]

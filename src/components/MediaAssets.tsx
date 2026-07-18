@@ -2,29 +2,12 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
+import ASSETS from "@/lib/press-assets.json";
 
-const ASSETS = [
-  {
-    src: "/images/book-cover/Midnight Coders Children Cover 3D.png",
-    alt: "The Midnight Coder's Children - 3D book cover",
-    label: "3D book cover",
-  },
-  {
-    src: "/images/book-cover/Midnight Coders Children Cover.jpg",
-    alt: "The Midnight Coder's Children - book cover",
-    label: "Book cover",
-  },
-  {
-    src: "/images/midnight-coders-logotype.svg",
-    alt: "The Midnight Coder's Children - logo",
-    label: "Logo",
-  },
-  {
-    src: "/images/author/prashant-sridharan.jpg",
-    alt: "Prashant Sridharan - author photo",
-    label: "Author photo",
-  },
-];
+const PRESS_KIT_ZIP = "/press-kit/midnight-coders-press-kit.zip";
+
+const downloadLinkClass =
+  "text-[10px] tracking-wider uppercase underline underline-offset-2 text-white/35 hover:text-white/70 transition-colors";
 
 export function MediaAssets(): React.ReactElement {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -45,40 +28,52 @@ export function MediaAssets(): React.ReactElement {
         borderTop: "1px solid rgba(255, 255, 255, 0.06)",
       }}
     >
-      <h2
-        className="text-xs tracking-[0.15em] uppercase mb-5"
-        style={{
-          color: "rgba(255, 255, 255, 0.4)",
-          fontFamily: "var(--font-mono)",
-        }}
-      >
-        Media assets
-      </h2>
+      <div className="flex items-baseline justify-between gap-4 mb-5">
+        <h2
+          className="text-xs tracking-[0.15em] uppercase"
+          style={{
+            color: "rgba(255, 255, 255, 0.4)",
+            fontFamily: "var(--font-mono)",
+          }}
+        >
+          Media assets
+        </h2>
+        <a
+          href={PRESS_KIT_ZIP}
+          download
+          className={downloadLinkClass}
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          Download all (.zip)
+        </a>
+      </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {ASSETS.map((asset, index) => (
-          <button
-            key={asset.label}
-            type="button"
-            onClick={() => setActiveIndex(index)}
-            className="group flex flex-col items-center gap-2 cursor-pointer"
-          >
-            <div
-              className="w-full aspect-square rounded-lg overflow-hidden flex items-center justify-center p-4 transition-colors"
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.03)",
-                border: "1px solid rgba(255, 255, 255, 0.08)",
-              }}
+          <div key={asset.label} className="flex flex-col items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setActiveIndex(index)}
+              className="group w-full cursor-pointer"
+              aria-label={`View ${asset.label}`}
             >
-              <Image
-                src={asset.src}
-                alt={asset.alt}
-                width={200}
-                height={200}
-                className="max-w-full max-h-full object-contain transition-transform group-hover:scale-105"
-              />
-            </div>
+              <div
+                className="w-full aspect-square rounded-lg overflow-hidden flex items-center justify-center p-4 transition-colors"
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.03)",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                }}
+              >
+                <Image
+                  src={asset.src}
+                  alt={asset.alt}
+                  width={200}
+                  height={200}
+                  className="max-w-full max-h-full object-contain transition-transform group-hover:scale-105"
+                />
+              </div>
+            </button>
             <span
-              className="text-[10px] tracking-wider uppercase"
+              className="text-[10px] tracking-wider uppercase text-center"
               style={{
                 color: "rgba(255, 255, 255, 0.35)",
                 fontFamily: "var(--font-mono)",
@@ -86,7 +81,15 @@ export function MediaAssets(): React.ReactElement {
             >
               {asset.label}
             </span>
-          </button>
+            <a
+              href={asset.src}
+              download={asset.downloadName}
+              className={downloadLinkClass}
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              Download
+            </a>
+          </div>
         ))}
       </div>
 
@@ -113,15 +116,26 @@ export function MediaAssets(): React.ReactElement {
               height={600}
               className="max-w-full max-h-[70vh] object-contain rounded-lg"
             />
-            <p
-              className="text-xs tracking-wider uppercase"
-              style={{
-                color: "rgba(255, 255, 255, 0.5)",
-                fontFamily: "var(--font-mono)",
-              }}
-            >
-              {ASSETS[activeIndex].label}
-            </p>
+            <div className="flex items-center gap-4">
+              <p
+                className="text-xs tracking-wider uppercase"
+                style={{
+                  color: "rgba(255, 255, 255, 0.5)",
+                  fontFamily: "var(--font-mono)",
+                }}
+              >
+                {ASSETS[activeIndex].label}
+              </p>
+              <a
+                href={ASSETS[activeIndex].src}
+                download={ASSETS[activeIndex].downloadName}
+                onClick={(e) => e.stopPropagation()}
+                className={downloadLinkClass}
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Download
+              </a>
+            </div>
             <button
               type="button"
               onClick={closeLightbox}

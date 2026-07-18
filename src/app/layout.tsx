@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { PRIMARY_BUY_URL } from "@/lib/buy-links";
 import "./globals.css";
 
 const GTM_ID = "GTM-W663MCWC";
@@ -131,7 +132,15 @@ const jsonLd = {
       inLanguage: "en",
       bookFormat: "https://schema.org/Hardcover",
       numberOfPages: 400,
+      isbn: "9798999111128",
       datePublished: "2026-09-22",
+      offers: {
+        "@type": "Offer",
+        price: "18.99",
+        priceCurrency: "USD",
+        availability: "https://schema.org/PreOrder",
+        url: PRIMARY_BUY_URL,
+      },
       image: `${baseUrl}/opengraph-image`,
       url: baseUrl,
     },
