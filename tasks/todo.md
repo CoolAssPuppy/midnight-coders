@@ -10,6 +10,72 @@ Values in `backticks` are exact. Type them exactly.
 
 ---
 
+---
+
+## VERIFIED STATUS (audited 2026-07-22)
+
+Checked against the live APIs, not from memory.
+
+### Done
+
+- [x] Stripe account verified. `charges_enabled: true`, `payouts_enabled: true`
+- [x] Statement descriptor `BODHI PRESS` (set in dashboard; API cannot do this)
+- [x] Live product `prod_UvqvqRD05lsFM0`, tax code `txcd_10302000`
+- [x] Live price `price_1TvzE6PDk9uLJgQGqiJfLOIH` — 1499 usd, inclusive, active,
+      exactly one match on lookup key `midnight-coders-digital`
+- [x] Live webhook `we_1TvzFHPDk9uLJgQGKduIKXyw`, enabled,
+      `checkout.session.completed` only
+- [x] Test-mode product + price (`prod_UvqhU7V6PsD0vL` / `price_1Tvz0LPDk9uLJgQGKFog6Ngz`)
+- [x] `STRIPE_SECRET_KEY` in dev, stg, prd
+- [x] `STRIPE_WEBHOOK_SECRET` in dev and prd
+- [x] `DOWNLOAD_TOKEN_SECRET` in dev, stg, prd
+- [x] `NEXT_PUBLIC_SITE_URL` in all three, set to the canonical **www** host
+- [x] All code written, 60 tests passing, lint and build clean
+
+### YOU CAN TAKE MONEY BUT CANNOT DELIVER
+
+This is the state to fix before anything else. Stripe will happily charge a
+customer right now. Three things stand between that payment and the reader
+getting a book:
+
+- [ ] **Kit custom field `download_url` does not exist.** Verified via API; the
+      account has only `last_name`, `publications`, `referrer`, `source`.
+      The webhook writes the download link to this field. Without it the link
+      goes nowhere.
+- [ ] **Kit tag `Digital Purchase` does not exist.** The account has a
+      `Digital Bundle` tag (id 16157872) but that is the Strategic Nerds one.
+      Create a new tag and set `KIT_DIGITAL_PURCHASE_TAG_ID` in Doppler.
+- [ ] **No Kit automation** to send the email on that tag.
+- [ ] **No EPUB.** `private/ebook/` contains only README.md.
+
+### Blocks going live
+
+- [ ] **6 commits unpushed.** Production `/buy` returns **404** and
+      `/api/stripe/webhook` returns **404**. The live webhook is currently
+      pointed at a route that does not exist.
+- [ ] **Vercel env vars.** `NEXT_PUBLIC_*` are inlined at build time and
+      `next build` does not run under `doppler run`. Confirm these reach Vercel.
+
+### Measurement not started (does not block selling)
+
+- [ ] PostHog project + `NEXT_PUBLIC_POSTHOG_KEY`
+- [ ] OpenAI pixel + `NEXT_PUBLIC_OPENAI_PIXEL_ID` + `OPENAI_CONVERSIONS_API_KEY`
+- [ ] Meta dataset + `NEXT_PUBLIC_META_DATASET_ID` + `META_CONVERSIONS_ACCESS_TOKEN`
+
+Until these are set the pixels no-op deliberately. Nothing breaks, nothing is
+measured.
+
+### Housekeeping
+
+- [ ] **Delete `STRIPE_PROVISIONING_KEY`** from Doppler `prd` and revoke the key
+      in Stripe. It appeared in a chat transcript with live write scope.
+- [ ] `stg` has no `STRIPE_WEBHOOK_SECRET`. Only matters if you run a staging
+      deploy that takes payments.
+- [ ] Re-login the clobbered Agent Panel CLI profile:
+      `stripe login --project-name agent-panel`
+
+---
+
 ## Part 0: Decide before you start
 
 - [ ] **VAT decision.** Selling *digital* goods into the EU/UK has **no
