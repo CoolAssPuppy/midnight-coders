@@ -10,6 +10,7 @@ import {
 } from "react";
 import Image from "next/image";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { trackNewsletterSignup } from "@/lib/analytics";
 
 interface EmailSignupProps {
   scrollProgress: number;
@@ -245,6 +246,15 @@ function EmailSignupComponent({
         }
 
         setStatus("success");
+
+        // Reaches GTM, PostHog, OpenAI, and Meta through the destination
+        // registry. This previously pushed to dataLayer directly, so every
+        // destination except GTM was blind to signups.
+        trackNewsletterSignup();
+
+        // Legacy dataLayer push, kept because existing GTM triggers may listen
+        // for "email_signup" rather than the registry's "newsletter_signup".
+        // Safe to delete once GTM is updated.
         if (typeof window !== "undefined" && window.dataLayer) {
           window.dataLayer.push({ event: "email_signup", page: window.location.pathname });
         }

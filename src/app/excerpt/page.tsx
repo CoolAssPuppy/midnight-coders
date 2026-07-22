@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ExcerptReader } from "@/components/ExcerptReader";
+import { ExcerptTracker } from "@/components/ExcerptTracker";
 import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 
 export const metadata: Metadata = {
@@ -58,6 +59,7 @@ export default function ExcerptPage(): React.ReactElement {
           __html: JSON.stringify(combinedJsonLd),
         }}
       />
+      <ExcerptTracker />
       <ExcerptReader />
     </main>
   );

@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import ASSETS from "@/lib/press-assets.json";
+import { trackFileDownload } from "@/lib/analytics";
 
 const PRESS_KIT_ZIP = "/press-kit/midnight-coders-press-kit.zip";
 
@@ -40,6 +41,7 @@ export function MediaAssets(): React.ReactElement {
         </h2>
         <a
           href={PRESS_KIT_ZIP}
+          onClick={() => trackFileDownload({ asset: "press-kit.zip", category: "press_kit" })}
           download
           className={downloadLinkClass}
           style={{ fontFamily: "var(--font-mono)" }}
@@ -83,6 +85,7 @@ export function MediaAssets(): React.ReactElement {
             </span>
             <a
               href={asset.src}
+              onClick={() => trackFileDownload({ asset: asset.src, category: "media_asset" })}
               download={asset.downloadName}
               className={downloadLinkClass}
               style={{ fontFamily: "var(--font-mono)" }}
@@ -129,7 +132,15 @@ export function MediaAssets(): React.ReactElement {
               <a
                 href={ASSETS[activeIndex].src}
                 download={ASSETS[activeIndex].downloadName}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  // Keep the existing stopPropagation: without it the click
+                  // bubbles to the backdrop and closes the lightbox.
+                  e.stopPropagation();
+                  trackFileDownload({
+                    asset: ASSETS[activeIndex].src,
+                    category: "media_asset",
+                  });
+                }}
                 className={downloadLinkClass}
                 style={{ fontFamily: "var(--font-mono)" }}
               >

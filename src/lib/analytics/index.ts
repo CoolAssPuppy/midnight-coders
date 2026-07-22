@@ -61,6 +61,35 @@ export function trackNewsletterSignup(): void {
   send("newsletter_signup", {});
 }
 
+/**
+ * How far a reader got through the free excerpt.
+ *
+ * The single most useful engagement signal on a book site: it answers whether
+ * the sample actually holds people, and drop-off is measured in chapters rather
+ * than guessed at. Fires once per milestone per page view.
+ */
+export function trackExcerptProgress(percent: 25 | 50 | 75 | 100): void {
+  send("excerpt_progress", { percent });
+}
+
+/** A reader opened the excerpt. Paired with progress to build a funnel. */
+export function trackExcerptOpened(): void {
+  send("excerpt_opened", {});
+}
+
+export type DownloadCategory = "press_kit" | "book_club" | "media_asset";
+
+/** A file download that is not the book itself. */
+export function trackFileDownload(params: {
+  asset: string;
+  category: DownloadCategory;
+}): void {
+  send("file_download", {
+    asset: params.asset,
+    category: params.category,
+  });
+}
+
 export type BookRetailer = "amazon" | "barnes_and_noble";
 
 /**

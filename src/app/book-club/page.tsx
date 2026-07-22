@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { DownloadLink } from "@/components/DownloadLink";
 import { BuyTheBook } from "@/components/BuyTheBook";
 import { AuthorBio } from "@/components/AuthorBio";
 import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
@@ -143,9 +144,10 @@ export default function BookClubGuidePage(): React.ReactElement {
           >
             by Prashant Sridharan
           </p>
-          <a
+          <DownloadLink
             href="/midnight-coders-children-book-club-guide.pdf"
-            download
+            asset="book-club-guide.pdf"
+            category="book_club"
             className="inline-block mt-6 text-[10px] tracking-wider uppercase px-4 py-2 rounded transition-opacity hover:opacity-80"
             style={{
               color: "rgba(255, 255, 255, 0.6)",
@@ -154,7 +156,7 @@ export default function BookClubGuidePage(): React.ReactElement {
             }}
           >
             Download as PDF
-          </a>
+          </DownloadLink>
         </div>
 
         {/* Synopsis */}
