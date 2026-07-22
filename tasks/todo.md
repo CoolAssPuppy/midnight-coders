@@ -52,7 +52,10 @@ Values in `backticks` are exact. Type them exactly.
 
 Missing from all three configs. Pixels no-op until set; nothing breaks.
 
-- [ ] PostHog project → `NEXT_PUBLIC_POSTHOG_KEY`
+- [x] PostHog project created; `NEXT_PUBLIC_POSTHOG_KEY` and
+      `NEXT_PUBLIC_POSTHOG_HOST` set in dev, stg, prd and synced to Vercel.
+      Verify after first deploy: Network tab requests must go to
+      `/ingest/...`, not `us.i.posthog.com`.
 - [ ] OpenAI pixel → `NEXT_PUBLIC_OPENAI_PIXEL_ID`, `OPENAI_CONVERSIONS_API_KEY`
 - [ ] OpenAI conversion events (Part D2)
 - [ ] Meta dataset → `NEXT_PUBLIC_META_DATASET_ID`, `META_CONVERSIONS_ACCESS_TOKEN`
