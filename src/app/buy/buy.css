@@ -236,6 +236,7 @@
 
 .buy__alt {
   margin-top: clamp(3rem, 6vw, 4rem);
+  text-align: center;
 }
 
 .buy__alt p {
@@ -247,6 +248,7 @@
 .buy__retailers {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.75rem;
 }
 

@@ -22,7 +22,7 @@ const colophon: { term: string; detail: string }[] = [
   { term: "Format", detail: "EPUB, readable on Kindle, Kobo, Apple Books, and anything else" },
   { term: "Protection", detail: "None. No DRM, no account, no reader app. The file is yours." },
   { term: "Released", detail: "22 September 2026" },
-  { term: "Delivery", detail: "A download link by email on release day" },
+  { term: "Delivery", detail: "A download link by email" },
 ];
 
 export default function BuyPage(): React.ReactElement {
