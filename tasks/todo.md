@@ -10,69 +10,61 @@ Values in `backticks` are exact. Type them exactly.
 
 ---
 
----
+## REMAINING WORK (audited 2026-07-22, verified against live APIs)
 
-## VERIFIED STATUS (audited 2026-07-22)
+### Verified done
 
-Checked against the live APIs, not from memory.
+- [x] Stripe live: `charges_enabled`, `payouts_enabled`, descriptor `BODHI PRESS`
+- [x] Live product `prod_UvqvqRD05lsFM0` (tax code `txcd_10302000`)
+- [x] Live price `price_1TvzE6PDk9uLJgQGqiJfLOIH` — 1499 usd, inclusive, one match on lookup key
+- [x] Live webhook `we_1TvzFHPDk9uLJgQGKduIKXyw`, `checkout.session.completed` only
+- [x] Test-mode product + price
+- [x] Kit tag `Bodhi Press Bundle` (21364276) in all three Doppler configs
+- [x] Kit custom field `download_url` (id 1319749), key verified exact
+- [x] R2 bucket + credentials — signed HEAD returns 404, so auth works and only the file is absent
+- [x] Stripe, download-token, site-URL and Kit secrets in prd
+- [x] Code: checkout, webhook, token gate, analytics for 4 destinations. 60 tests, lint and build clean
 
-### Done
+### 1. Blocks a buyer receiving the book
 
-- [x] Stripe account verified. `charges_enabled: true`, `payouts_enabled: true`
-- [x] Statement descriptor `BODHI PRESS` (set in dashboard; API cannot do this)
-- [x] Live product `prod_UvqvqRD05lsFM0`, tax code `txcd_10302000`
-- [x] Live price `price_1TvzE6PDk9uLJgQGqiJfLOIH` — 1499 usd, inclusive, active,
-      exactly one match on lookup key `midnight-coders-digital`
-- [x] Live webhook `we_1TvzFHPDk9uLJgQGKduIKXyw`, enabled,
-      `checkout.session.completed` only
-- [x] Test-mode product + price (`prod_UvqhU7V6PsD0vL` / `price_1Tvz0LPDk9uLJgQGKFog6Ngz`)
-- [x] `STRIPE_SECRET_KEY` in dev, stg, prd
-- [x] `STRIPE_WEBHOOK_SECRET` in dev and prd
-- [x] `DOWNLOAD_TOKEN_SECRET` in dev, stg, prd
-- [x] `NEXT_PUBLIC_SITE_URL` in all three, set to the canonical **www** host
-- [x] All code written, 60 tests passing, lint and build clean
+- [ ] **R2 download migration (mine).** Swap `readFile` for a presigned R2
+      redirect in `src/app/api/download/[token]/route.ts`. HMAC and not-before
+      checks stay untouched. Removes `private/` and the tracing entry.
+- [ ] **Upload the EPUB** to `bodhi-press-books` with key
+      `the-midnight-coders-children.epub`. Blocked on the book existing.
+- [ ] **Confirm the Kit automation is live.** Field and tag are verified via API;
+      the automation itself cannot be checked that way. Send yourself a test.
 
-### YOU CAN TAKE MONEY BUT CANNOT DELIVER
+### 2. Blocks going live
 
-This is the state to fix before anything else. Stripe will happily charge a
-customer right now. Three things stand between that payment and the reader
-getting a book:
-
-- [ ] **Kit custom field `download_url` does not exist.** Verified via API; the
-      account has only `last_name`, `publications`, `referrer`, `source`.
-      The webhook writes the download link to this field. Without it the link
-      goes nowhere.
-- [ ] **Kit tag `Digital Purchase` does not exist.** The account has a
-      `Digital Bundle` tag (id 16157872) but that is the Strategic Nerds one.
-      Create a new tag and set `KIT_DIGITAL_PURCHASE_TAG_ID` in Doppler.
-- [ ] **No Kit automation** to send the email on that tag.
-- [ ] **No EPUB.** `private/ebook/` contains only README.md.
-
-### Blocks going live
-
-- [ ] **6 commits unpushed.** Production `/buy` returns **404** and
-      `/api/stripe/webhook` returns **404**. The live webhook is currently
-      pointed at a route that does not exist.
+- [ ] **Push and deploy.** 7 commits unpushed. Production `/buy` is **404** and
+      the live webhook points at a route that does not exist yet.
 - [ ] **Vercel env vars.** `NEXT_PUBLIC_*` are inlined at build time and
-      `next build` does not run under `doppler run`. Confirm these reach Vercel.
+      `next build` does not run under `doppler run`. Confirm they reach Vercel.
+- [ ] **Local end-to-end test on test mode.** Detail in Part I.
+- [ ] **Live smoke test.** Buy with a real card, confirm the Kit email, refund.
 
-### Measurement not started (does not block selling)
+### 3. Measurement (does not block selling)
 
-- [ ] PostHog project + `NEXT_PUBLIC_POSTHOG_KEY`
-- [ ] OpenAI pixel + `NEXT_PUBLIC_OPENAI_PIXEL_ID` + `OPENAI_CONVERSIONS_API_KEY`
-- [ ] Meta dataset + `NEXT_PUBLIC_META_DATASET_ID` + `META_CONVERSIONS_ACCESS_TOKEN`
+Missing from all three configs. Pixels no-op until set; nothing breaks.
 
-Until these are set the pixels no-op deliberately. Nothing breaks, nothing is
-measured.
+- [ ] PostHog project → `NEXT_PUBLIC_POSTHOG_KEY`
+- [ ] OpenAI pixel → `NEXT_PUBLIC_OPENAI_PIXEL_ID`, `OPENAI_CONVERSIONS_API_KEY`
+- [ ] OpenAI conversion events (Part D2)
+- [ ] Meta dataset → `NEXT_PUBLIC_META_DATASET_ID`, `META_CONVERSIONS_ACCESS_TOKEN`
+- [ ] Meta payloads have **never** been validated against the live API. Unit
+      tested only. Verify with `test_event_code` once the token exists.
 
-### Housekeeping
+### 4. Housekeeping
 
-- [ ] **Delete `STRIPE_PROVISIONING_KEY`** from Doppler `prd` and revoke the key
-      in Stripe. It appeared in a chat transcript with live write scope.
-- [ ] `stg` has no `STRIPE_WEBHOOK_SECRET`. Only matters if you run a staging
-      deploy that takes payments.
-- [ ] Re-login the clobbered Agent Panel CLI profile:
-      `stripe login --project-name agent-panel`
+- [ ] **Delete `STRIPE_PROVISIONING_KEY` from Doppler prd** and revoke the key in
+      Stripe. Still present. It appeared in a chat transcript with live write scope.
+- [ ] `R2_*` missing from `dev` — needed to exercise the download path locally
+- [ ] `STRIPE_WEBHOOK_SECRET` missing from `stg` — only matters if staging takes payments
+- [ ] Re-login the clobbered CLI profile: `stripe login --project-name agent-panel`
+- [ ] Pre-existing: `layout.tsx:12` sets `baseUrl` to the apex domain, but
+      production 307s apex to `www`. Canonicals and JSON-LD point at a
+      redirecting host. Unrelated to this work.
 
 ---
 
