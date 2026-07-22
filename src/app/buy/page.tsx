@@ -1,127 +1,114 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Image from "next/image";
 import { DigitalEditionCheckout } from "@/components/DigitalEditionCheckout";
+import { RetailerLink } from "@/components/RetailerLink";
 import { BUY_LINKS } from "@/lib/buy-links";
+import "./buy.css";
 
 const title = "Buy the digital edition";
 const description =
-  "Buy The Midnight Coder's Children digital edition direct from the author for $14.99. Pre-order now, download on release day, 22 September 2026.";
+  "Pre-order The Midnight Coder's Children digital edition direct from the author for $14.99. EPUB, DRM-free, delivered on release day, 22 September 2026.";
+const canonical = "https://www.midnightcoderschildren.com/buy";
 
 export const metadata: Metadata = {
   title: `${title} | The Midnight Coder's Children`,
   description,
-  alternates: { canonical: "https://midnightcoderschildren.com/buy" },
-  openGraph: {
-    title,
-    description,
-    url: "https://midnightcoderschildren.com/buy",
-    type: "website",
-  },
+  alternates: { canonical },
+  openGraph: { title, description, url: canonical, type: "website" },
   twitter: { card: "summary_large_image", title, description },
 };
 
-const included = [
-  "EPUB, readable on Kindle, Kobo, Apple Books, and anything else",
-  "No DRM, so it is yours to keep and move between devices",
-  "Buying direct sends the full margin to the author rather than a retailer",
+const colophon: { term: string; detail: string }[] = [
+  { term: "Format", detail: "EPUB, readable on Kindle, Kobo, Apple Books, and anything else" },
+  { term: "Protection", detail: "None. No DRM, no account, no reader app. The file is yours." },
+  { term: "Released", detail: "22 September 2026" },
+  { term: "Delivery", detail: "A download link by email on release day" },
+  { term: "Territory", detail: "Worldwide. Tax included in the price you see." },
 ];
 
 export default function BuyPage(): React.ReactElement {
-  const retailers = BUY_LINKS.filter((link) => link.href !== null);
+  const retailers = BUY_LINKS.filter((link) => link.retailer && link.href);
 
   return (
-    <main
-      id="main-content"
-      className="min-h-screen flex flex-col items-center px-6 py-20"
-      style={{ backgroundColor: "#0a1628" }}
-    >
-      <div className="max-w-2xl w-full flex flex-col items-center text-center">
-        <pre
-          className="text-left text-sm mb-10 p-4 rounded-lg w-full overflow-x-auto"
-          style={{
-            backgroundColor: "rgba(255, 255, 255, 0.04)",
-            border: "1px solid rgba(255, 255, 255, 0.1)",
-            fontFamily: "var(--font-mono)",
-          }}
-        >
-          <code>
-            <span style={{ color: "#c586c0" }}>const</span>{" "}
-            <span style={{ color: "#4ec9b0" }}>edition</span>{" "}
-            <span style={{ color: "#d4d4d4" }}>=</span>{" "}
-            <span style={{ color: "#ce9178" }}>&quot;digital&quot;</span>
-            <span style={{ color: "#d4d4d4" }}>;</span>
-            {"\n"}
-            <span style={{ color: "#c586c0" }}>const</span>{" "}
-            <span style={{ color: "#4ec9b0" }}>price</span>{" "}
-            <span style={{ color: "#d4d4d4" }}>=</span>{" "}
-            <span style={{ color: "#b5cea8" }}>14.99</span>
-            <span style={{ color: "#d4d4d4" }}>;</span>
-            {"\n"}
-            <span style={{ color: "#6A9955" }}>
-              {"// ships 2026-09-22"}
-            </span>
-          </code>
-        </pre>
+    <main id="main-content" className="buy">
+      <div className="buy__inner">
+        <div className="buy__lede">
+          <div className="buy__cover">
+            <Image
+              src="/images/book-cover/Midnight Coders Children Cover.jpg"
+              alt="Cover of The Midnight Coder's Children by Prashant Sridharan"
+              width={720}
+              height={1080}
+              priority
+              sizes="(min-width: 60rem) 21rem, 76vw"
+            />
+          </div>
 
-        <h1
-          className="text-3xl md:text-4xl font-bold mb-4"
-          style={{ color: "#4EC9B0", fontFamily: "var(--font-mono)" }}
-        >
-          Buy direct from the author
-        </h1>
+          <div>
+            {/* One kicker, used once. The hour the novel opens. */}
+            <p className="buy__timestamp buy__reveal buy__reveal--1">
+              05:43 &middot; Digital edition
+            </p>
 
-        <p className="text-lg mb-2" style={{ color: "#d4d4d4" }}>
-          The digital edition, $14.99, anywhere in the world.
-        </p>
+            {/* The cover already carries the title at display size. Repeating
+                it here would be redundant, so the h1 stays modest for structure
+                and search, and the logline does the selling. */}
+            <h1 className="buy__title buy__reveal buy__reveal--1">
+              The Midnight Coder&rsquo;s Children
+              <span className="buy__byline">A novel by Prashant Sridharan</span>
+            </h1>
 
-        <p className="text-sm mb-10" style={{ color: "#6A9955" }}>
-          {"// This is a pre-order. Your download link arrives by email now and unlocks on release day."}
-        </p>
+            <p className="buy__logline buy__reveal buy__reveal--2">
+              Sydney McEnroe arrives at 5:43 a.m. to discover the worst has
+              already happened.
+            </p>
 
-        <DigitalEditionCheckout />
+            <blockquote className="buy__quote buy__reveal buy__reveal--3">
+              A brisk financial thriller buoyed by a powerful emotional
+              throughline.
+              <cite>BookLife</cite>
+            </blockquote>
 
-        <ul className="mt-12 mb-12 text-left space-y-3 w-full max-w-md">
-          {included.map((item) => (
-            <li
-              key={item}
-              className="text-sm flex gap-3"
-              style={{ color: "#d4d4d4" }}
-            >
-              <span style={{ color: "#4EC9B0" }} aria-hidden="true">
-                +
-              </span>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
+            <div className="buy__purchase buy__reveal buy__reveal--4">
+              <p className="buy__price">
+                <b>$14.99</b>
+                <span>direct from the author</span>
+              </p>
 
-        <div
-          className="w-full pt-10"
-          style={{ borderTop: "1px solid rgba(255, 255, 255, 0.1)" }}
-        >
-          <p className="text-sm mb-5" style={{ color: "#6A9955" }}>
-            {"// Prefer paperback, or prefer a retailer?"}
-          </p>
+              <p className="buy__ships">
+                This is a pre-order. Your download link is emailed on release
+                day, 22 September 2026.
+              </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            {retailers.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href as string}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-5 py-3 rounded-lg text-sm transition-colors"
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.06)",
-                  color: "#9CDCFE",
-                  fontFamily: "var(--font-mono)",
-                }}
-              >
-                {link.label}
-              </Link>
-            ))}
+              <DigitalEditionCheckout />
+            </div>
           </div>
         </div>
+
+        <dl className="buy__colophon buy__reveal buy__reveal--4">
+          {colophon.map((entry) => (
+            <div className="buy__row" key={entry.term}>
+              <dt>{entry.term}</dt>
+              <dd>{entry.detail}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <section className="buy__alt buy__reveal buy__reveal--4">
+          <p>Prefer print, or prefer a bookstore?</p>
+          <div className="buy__retailers">
+            {retailers.map((link) => (
+              <RetailerLink
+                key={link.label}
+                href={link.href as string}
+                retailer={link.retailer!}
+                className="buy__retailer"
+              >
+                {link.label}
+              </RetailerLink>
+            ))}
+          </div>
+        </section>
       </div>
     </main>
   );

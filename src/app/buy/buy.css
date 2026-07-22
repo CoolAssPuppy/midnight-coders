@@ -1,0 +1,427 @@
+/*
+ * Purchase surface.
+ *
+ * Concept: 5:43 a.m., the hour the novel opens. A dark room with one screen on.
+ * The cover is the light source; everything else falls away from it.
+ *
+ * Two voices, per PRODUCT.md: Menlo is the machine (price, labels, status),
+ * Georgia is the book (title, quote). Georgia is already the site's literary
+ * voice in BuyTheBook, so this extends the system rather than inventing one.
+ */
+
+.buy {
+  --midnight: #0a1628;
+  --teal: #4ec9b0;
+  --ink: #d4d4d4;
+  --ink-dim: #b3b3b3; /* 8.65:1 on midnight. Never go below this for body. */
+  --comment: #6a9955;
+  --numeral: #b5cea8;
+  --quote: #dcdcaa;
+
+  --serif: Georgia, "Times New Roman", serif;
+
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+  background-color: var(--midnight);
+}
+
+/* The room. A single light source behind the cover, falling off into dark. */
+.buy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(
+      44rem 34rem at 26% 22%,
+      rgba(78, 201, 176, 0.1),
+      transparent 64%
+    ),
+    radial-gradient(
+      30rem 30rem at 88% 4%,
+      rgba(220, 220, 170, 0.045),
+      transparent 70%
+    ),
+    linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.45));
+  pointer-events: none;
+}
+
+.buy__inner {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: clamp(3.5rem, 9vw, 7rem) clamp(1.25rem, 5vw, 3rem)
+    clamp(4rem, 8vw, 6rem);
+}
+
+/* --- Composition ------------------------------------------------------- */
+
+.buy__lede {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 4.5rem);
+  align-items: center;
+}
+
+@media (min-width: 60rem) {
+  .buy__lede {
+    /* Deliberately uneven: the cover gets the smaller column but the greater
+       visual weight, so the composition leans rather than balances. */
+    grid-template-columns: 0.85fr 1fr;
+  }
+}
+
+/* --- The cover as light source ----------------------------------------- */
+
+.buy__cover {
+  position: relative;
+  justify-self: center;
+  width: min(21rem, 76vw);
+}
+
+.buy__cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+  /* Layered rather than one soft blur: a contact shadow for weight, a wider
+     one for the room, and a teal cast for the screen glow. */
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.7),
+    0 1.5rem 3rem rgba(0, 0, 0, 0.55),
+    0 0 5rem rgba(78, 201, 176, 0.18);
+}
+
+/* Reflected light on the surface beneath. */
+.buy__cover::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -1.75rem;
+  height: 3rem;
+  background: radial-gradient(
+    50% 100% at 50% 0%,
+    rgba(78, 201, 176, 0.22),
+    transparent 72%
+  );
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+/* --- Type -------------------------------------------------------------- */
+
+.buy__timestamp {
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--comment);
+  margin: 0 0 1.5rem;
+}
+
+.buy__title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--ink);
+  margin: 0;
+}
+
+.buy__byline {
+  display: block;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+  margin-top: 0.4rem;
+}
+
+/* The hook. This is the display element on the page, not the title. */
+.buy__logline {
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 4vw, 2.625rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: #fff;
+  max-width: 18ch;
+  margin: clamp(1.5rem, 3vw, 2rem) 0 0;
+  text-wrap: balance;
+}
+
+.buy__quote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+  /* Light type on dark reads lighter; it needs the extra leading. */
+  line-height: 1.6;
+  color: var(--quote);
+  max-width: 34ch;
+  margin: clamp(1.75rem, 4vw, 2.5rem) 0 0;
+  padding-left: 1.1rem;
+  border-left: 1px solid rgba(220, 220, 170, 0.32);
+}
+
+.buy__quote cite {
+  display: block;
+  margin-top: 0.75rem;
+  font-family: inherit;
+  font-style: normal;
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(220, 220, 170, 0.75);
+}
+
+/* --- Purchase ---------------------------------------------------------- */
+
+.buy__purchase {
+  margin-top: clamp(2.25rem, 5vw, 3rem);
+  padding-top: clamp(1.75rem, 4vw, 2.25rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+}
+
+.buy__price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  margin: 0 0 0.4rem;
+}
+
+.buy__price b {
+  font-weight: 400;
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  line-height: 1;
+  color: var(--numeral);
+  letter-spacing: -0.01em;
+}
+
+.buy__price span {
+  font-size: 0.8125rem;
+  color: var(--ink-dim);
+}
+
+.buy__ships {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--comment);
+  margin: 0 0 1.5rem;
+  max-width: 42ch;
+}
+
+/* --- Colophon ---------------------------------------------------------- */
+/* A book's own device rather than a feature grid. Cards would be the lazy
+   answer here and would drag the page toward the SaaS register we ruled out. */
+
+.buy__colophon {
+  margin: clamp(3rem, 7vw, 4.5rem) 0 0;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+}
+
+.buy__row {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 1.25rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: 0.875rem;
+  align-items: baseline;
+}
+
+@media (max-width: 32rem) {
+  .buy__row {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+}
+
+.buy__row dt {
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--comment);
+}
+
+.buy__row dd {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+/* --- Retailers --------------------------------------------------------- */
+
+.buy__alt {
+  margin-top: clamp(3rem, 6vw, 4rem);
+}
+
+.buy__alt p {
+  font-size: 0.8125rem;
+  color: var(--comment);
+  margin: 0 0 1rem;
+}
+
+.buy__retailers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.buy__retailer {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.6rem 1.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 3px;
+  font-size: 0.8125rem;
+  color: var(--ink);
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.03);
+  transition:
+    border-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.buy__retailer:hover {
+  border-color: rgba(78, 201, 176, 0.55);
+  background-color: rgba(78, 201, 176, 0.08);
+  color: #fff;
+}
+
+.buy__retailer:focus-visible,
+.buy__cta:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+/* --- Entrance ---------------------------------------------------------- */
+/* A CSS animation rather than a class-toggled transition: it runs on load
+   without JavaScript, so the content can never ship invisible if a reveal
+   fails to fire. */
+
+@keyframes buy-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes buy-lift {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.buy__cover {
+  animation: buy-lift 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.buy__reveal {
+  animation: buy-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.buy__reveal--1 {
+  animation-delay: 90ms;
+}
+.buy__reveal--2 {
+  animation-delay: 180ms;
+}
+.buy__reveal--3 {
+  animation-delay: 270ms;
+}
+.buy__reveal--4 {
+  animation-delay: 360ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buy__cover,
+  .buy__reveal {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .buy__retailer {
+    transition: none;
+  }
+}
+
+/* --- Call to action ---------------------------------------------------- */
+
+.checkout__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  width: min(24rem, 100%);
+  min-height: 56px;
+  padding: 0.95rem 1.4rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--teal);
+  color: #062018;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    background-color 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.checkout__button:hover:not(:disabled) {
+  background-color: #6fdcc6;
+  transform: translateY(-1px);
+}
+
+.checkout__button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.checkout__button:disabled {
+  opacity: 0.62;
+  cursor: progress;
+}
+
+.checkout__arrow {
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.checkout__button:hover:not(:disabled) .checkout__arrow {
+  transform: translateX(4px);
+}
+
+.checkout__reassure {
+  font-size: 0.75rem;
+  color: var(--comment);
+  margin: 0.85rem 0 0;
+}
+
+.checkout__error {
+  font-size: 0.8125rem;
+  color: #f14c4c;
+  margin: 0.85rem 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkout__button,
+  .checkout__arrow {
+    transition: none;
+  }
+
+  .checkout__button:hover:not(:disabled) {
+    transform: none;
+  }
+}

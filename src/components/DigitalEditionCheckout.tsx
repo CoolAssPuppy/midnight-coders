@@ -6,9 +6,9 @@ import { trackBeginCheckout, PRODUCTS } from "@/lib/analytics";
 /**
  * Starts a Stripe Checkout session for the digital edition.
  *
- * There is deliberately no captcha here. This endpoint creates a Stripe session
- * and nothing else, so the abuse ceiling is low, and a challenge on a buy button
- * costs real sales. The route is rate limited instead.
+ * No captcha here by design. The endpoint creates a Stripe session and nothing
+ * else, so the abuse ceiling is low, and a challenge on a buy button costs real
+ * sales. The route is rate limited instead.
  */
 export function DigitalEditionCheckout(): React.ReactElement {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +29,7 @@ export function DigitalEditionCheckout(): React.ReactElement {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to create checkout session");
+        throw new Error(data.error || "Could not start checkout");
       }
 
       if (data.url) {
@@ -39,34 +39,36 @@ export function DigitalEditionCheckout(): React.ReactElement {
 
       throw new Error("Checkout session did not return a URL");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.",
+      );
       setIsLoading(false);
     }
   }
 
   return (
-    <div className="w-full max-w-md">
+    <div className="checkout">
       <button
         type="button"
         onClick={handleCheckout}
         disabled={isLoading}
-        className="w-full px-6 py-4 rounded-lg font-medium transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-        style={{
-          backgroundColor: "#4EC9B0",
-          color: "#0a1628",
-          fontFamily: "var(--font-mono)",
-        }}
+        className="buy__cta checkout__button"
       >
-        {isLoading ? "redirecting()..." : "buyDigitalEdition($14.99)"}
+        <span>{isLoading ? "Opening secure checkout" : "Pre-order the ebook"}</span>
+        <span aria-hidden="true" className="checkout__arrow">
+          &rarr;
+        </span>
       </button>
 
+      <p className="checkout__reassure">
+        Secure checkout by Stripe. Card details never touch this site.
+      </p>
+
       {error && (
-        <p
-          className="mt-3 text-sm text-center"
-          role="alert"
-          style={{ color: "#f14c4c", fontFamily: "var(--font-mono)" }}
-        >
-          {`// Error: ${error}`}
+        <p className="checkout__error" role="alert">
+          {error}
         </p>
       )}
     </div>
