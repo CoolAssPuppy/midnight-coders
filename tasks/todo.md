@@ -25,11 +25,17 @@ Values in `backticks` are exact. Type them exactly.
 
 ## Part A: Stripe account
 
+> **Status: partly done.** The account exists as *Bodhi Press Publications*
+> (`acct_1TvyuFPDk9uLJgQG`) and the CLI is paired. Test-mode product and price
+> are created and verified. Outstanding: A1 verification, A2 descriptor, A3 tax.
+
 - [ ] Go to https://dashboard.stripe.com
 - [ ] Click the **account picker** (top left, shows "Strategic Nerds")
 - [ ] Click **New account**
-- [ ] Account name: `Midnight Coders`
+- [x] Account created: **Bodhi Press Publications** (`acct_1TvyuFPDk9uLJgQG`)
 - [ ] Complete business verification (legal name, address, bank account, SSN/EIN)
+  - [ ] Currently `charges_enabled: false`, `details_submitted: false`.
+        Until this is done the account cannot take live money at all.
 
 ### A2: Statement descriptor
 
@@ -37,8 +43,14 @@ This is the entire reason for a separate account. Buyers who see an unfamiliar
 name on their card statement file chargebacks.
 
 - [ ] **Settings** → **Business** → **Public details**
-- [ ] Statement descriptor: `MIDNIGHT CODERS`
-- [ ] Shortened descriptor: `MIDNIGHTCODERS`
+- [ ] Statement descriptor: `BODHI PRESS`
+- [ ] Shortened descriptor: `BODHIPRESS`
+- [ ] The account descriptor is the **imprint**, shared by every future title.
+      The book name is appended per checkout by
+      `STATEMENT_DESCRIPTOR_SUFFIX` in `src/lib/stripe.ts`, so buyers see
+      `BODHI PRESS MIDNIGHT`. Give each new book its own suffix.
+- [ ] This cannot be set via the API. Stripe blocks own-account settings
+      entirely, connected accounts only. Dashboard is the only route.
 - [ ] Support email: your real address
 - [ ] Save
 
@@ -52,6 +64,9 @@ name on their card statement file chargebacks.
       Leave empty if US-only and below your state's nexus threshold.
 
 ### A4: Create the product
+
+> **Done in test mode** by the CLI: `prod_UvqhU7V6PsD0vL`.
+> Repeat in live mode after verification completes.
 
 - [ ] **Products** → **Add product**
 - [ ] Name: `The Midnight Coder's Children (Digital Edition)`
@@ -71,6 +86,9 @@ name on their card statement file chargebacks.
 - [ ] Save the product
 
 ### A5: Set the price lookup key
+
+> **Done in test mode**: `price_1Tvz0LPDk9uLJgQGKFog6Ngz`, verified
+> 1499 / usd / inclusive / one_time / active, resolving by lookup key.
 
 The code resolves the price by lookup key, never by a hardcoded `price_...` id,
 so you can change the price later without a deploy. Without this key, **checkout
@@ -240,6 +258,9 @@ Set every secret in **both** `stg` and `prd`.
       ```
 - [ ] `STRIPE_WEBHOOK_SECRET` is not available until Part G. Set everything else
       now, come back for that one.
+- [x] **`dev` config is already loaded** with the Stripe test key, the
+      `stripe listen` webhook secret, a generated `DOWNLOAD_TOKEN_SECRET`, and
+      `NEXT_PUBLIC_SITE_URL=http://localhost:3000`. Part I can run now.
 
 ### F2: Read this before deploying
 

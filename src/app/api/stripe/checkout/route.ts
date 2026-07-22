@@ -5,6 +5,7 @@ import {
   resolvePriceId,
   DIGITAL_EDITION_LOOKUP_KEY,
   ALLOWED_COUNTRIES,
+  STATEMENT_DESCRIPTOR_SUFFIX,
 } from "@/lib/stripe";
 import { readRefsFromCookies, toStripeMetadata } from "@/lib/analytics/ad-refs";
 
@@ -41,6 +42,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       // Stripe Tax. The price is configured tax-inclusive, so the buyer always
       // pays exactly $14.99 and VAT comes out of that.
       automatic_tax: { enabled: true },
+
+      // The account descriptor is the imprint, which will carry other titles.
+      // Naming the book here is what stops a buyer seeing an unfamiliar line on
+      // their statement and calling their bank.
+      payment_intent_data: {
+        statement_descriptor_suffix: STATEMENT_DESCRIPTOR_SUFFIX,
+      },
 
       // A billing address is required to determine VAT jurisdiction. There is
       // no shipping address because nothing ships.
