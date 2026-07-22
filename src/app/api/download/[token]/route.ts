@@ -1,17 +1,15 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 import { applyRateLimit, getClientIp } from "@/lib/rate-limit";
 import { verifyDownloadToken } from "@/lib/download-token";
+import { readR2Config, presignEbookUrl } from "@/lib/r2";
 
 /**
  * Token-gated download for the digital edition.
  *
- * The file lives outside `public/` so it is never directly fetchable; it
- * reaches the deployment through `outputFileTracingIncludes` in next.config.ts.
+ * The file lives in a private R2 bucket. This route verifies the buyer's signed
+ * token, checks the release date, then redirects to a short-lived presigned URL.
+ * The bytes never pass through this function.
  */
-const EBOOK_PATH = "private/ebook/the-midnight-coders-children.epub";
-const EBOOK_FILENAME = "The Midnight Coders Children.epub";
 
 function releaseDateLabel(notBefore: number): string {
   return new Date(notBefore).toLocaleDateString("en-US", {
@@ -62,7 +60,8 @@ export async function GET(
       return NextResponse.json(
         {
           error: "Link expired",
-          message: "This download link has expired. Reply to your receipt and I will send a fresh one.",
+          message:
+            "This download link has expired. Reply to your receipt and I will send a fresh one.",
         },
         { status: 410 },
       );
@@ -71,21 +70,32 @@ export async function GET(
     return NextResponse.json({ error: "Invalid download link" }, { status: 404 });
   }
 
-  try {
-    const file = await readFile(path.resolve(process.cwd(), EBOOK_PATH));
+  const configResult = readR2Config();
 
-    return new NextResponse(new Uint8Array(file), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/epub+zip",
-        "Content-Disposition": `attachment; filename="${EBOOK_FILENAME}"`,
-        "Content-Length": String(file.byteLength),
-        // Never let a CDN or browser cache a per-buyer URL.
-        "Cache-Control": "private, no-store",
-      },
-    });
+  if (!configResult.ok) {
+    // A paying customer is standing at this door, so say exactly what is
+    // unconfigured rather than a generic failure.
+    console.error(
+      `Download blocked, R2 not configured. Missing: ${configResult.missing.join(", ")}`,
+    );
+    return NextResponse.json(
+      { error: "The file is temporarily unavailable. Please try again shortly." },
+      { status: 503 },
+    );
+  }
+
+  try {
+    const url = await presignEbookUrl(configResult.config);
+
+    // 302 rather than 307: this is a GET either way, and 302 is the better
+    // understood status for a temporary handoff to storage.
+    const response = NextResponse.redirect(url, 302);
+    // Never let a CDN or browser cache a per-buyer redirect to a URL that
+    // expires in minutes.
+    response.headers.set("Cache-Control", "private, no-store");
+    return response;
   } catch (error) {
-    console.error(`Ebook file unreadable at ${EBOOK_PATH}:`, error);
+    console.error(`Failed to presign R2 URL for session ${verification.payload.sessionId}:`, error);
     return NextResponse.json(
       { error: "The file is temporarily unavailable. Please try again shortly." },
       { status: 500 },

@@ -20,12 +20,6 @@ const nextConfig: NextConfig = {
   // PostHog requires this alongside the rewrites above; without it a trailing
   // slash redirect breaks ingest requests.
   skipTrailingSlashRedirect: true,
-
-  // The ebook lives outside public/ and is only ever read by the download
-  // route, so Next has no way to infer that it must ship with the deployment.
-  outputFileTracingIncludes: {
-    "/api/download/[token]": ["./private/ebook/**"],
-  },
 };
 
 export default nextConfig;
