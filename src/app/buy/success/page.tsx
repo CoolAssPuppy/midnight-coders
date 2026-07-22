@@ -23,7 +23,7 @@ const steps: { when: string; what: string }[] = [
   },
   {
     when: "22 September",
-    what: "A download link arrives by email on release day. EPUB, no DRM, yours to keep.",
+    what: "A download link arrives by email. EPUB, no DRM, yours to keep.",
   },
   {
     when: "Between now and then",
@@ -73,7 +73,7 @@ export default async function BuySuccessPage({
           ) : (
             <>Your copy is reserved.</>
           )}{" "}
-          The book arrives on release day.
+          The book arrives 22 September.
         </p>
 
         <div className="buy__reveal buy__reveal--3">
