@@ -29,9 +29,6 @@ Values in `backticks` are exact. Type them exactly.
 > (`acct_1TvyuFPDk9uLJgQG`) and the CLI is paired. Test-mode product and price
 > are created and verified. Outstanding: A1 verification, A2 descriptor, A3 tax.
 
-- [ ] Go to https://dashboard.stripe.com
-- [ ] Click the **account picker** (top left, shows "Strategic Nerds")
-- [ ] Click **New account**
 - [x] Account created: **Bodhi Press Publications** (`acct_1TvyuFPDk9uLJgQG`)
 - [ ] Complete business verification (legal name, address, bank account, SSN/EIN)
   - [ ] Currently `charges_enabled: false`, `details_submitted: false`.
@@ -107,10 +104,12 @@ returns a 500**.
 ### A6: API keys
 
 - [ ] **Developers** → **API keys**
-- [ ] Confirm the **top-left account picker says Midnight Coders**, not Strategic
-      Nerds. Copying the wrong account's key is the single easiest mistake here
-      and it will silently charge the wrong business.
-- [ ] Reveal and copy the **Secret key** (`sk_live_...`)
+- [ ] Confirm the **top-left account picker says Bodhi Press Publications**, not
+      Strategic Nerds. Copying the wrong account's key is the easiest mistake
+      here and it would silently charge the wrong business.
+- [ ] Reveal and copy the live key. Note the CLI issued a **restricted**
+      `rk_live_` key, which could not write account settings. If product or
+      webhook creation fails on scope, use a full `sk_live_` from this page.
 - [ ] Hold it for Part F. Do not paste it into a file.
 
 ---
