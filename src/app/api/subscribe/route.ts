@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { verifyCaptcha } from "@/lib/captcha";
-
-const KIT_FORM_ID = "8927583";
-const KIT_MCC_TAG_ID = "13946969";
-// Also used to route Advanced Reader Copy (ARC) requests from the signup form.
-const KIT_BETA_TAG_ID = "13946978";
+import {
+  subscribeToForm,
+  KIT_FORM_ID,
+  KIT_MCC_TAG_ID,
+  // Also used to route Advanced Reader Copy (ARC) requests from the signup form.
+  KIT_BETA_TAG_ID,
+} from "@/lib/kit";
 
 interface SubscribeRequest {
   firstName: string;
@@ -74,9 +76,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       );
     }
 
-    const apiKey = process.env.KIT_API_KEY;
-
-    if (!apiKey) {
+    if (!process.env.KIT_API_KEY) {
       console.error("KIT_API_KEY environment variable is not set");
       return NextResponse.json(
         { error: "Server configuration error" },
@@ -84,34 +84,23 @@ export async function POST(request: Request): Promise<NextResponse> {
       );
     }
 
-    const kitResponse = await fetch(
-      `https://api.convertkit.com/v3/forms/${KIT_FORM_ID}/subscribe`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
+    try {
+      await subscribeToForm({
+        email,
+        firstName,
+        formId: KIT_FORM_ID,
+        fields: {
+          last_name: lastName,
+          source: "Website",
+          referrer: referrer || "",
         },
-        body: JSON.stringify({
-          api_key: apiKey,
-          email,
-          first_name: firstName,
-          fields: {
-            last_name: lastName,
-            source: "Website",
-            referrer: referrer || "",
-          },
-          tags: [
-            KIT_MCC_TAG_ID,
-            ...(interestedInBeta ? [KIT_BETA_TAG_ID] : []),
-          ],
-        }),
-      }
-    );
-
-    const kitResult = await kitResponse.json();
-
-    if (!kitResponse.ok) {
-      console.error("Kit subscription failed:", kitResult);
+        tagIds: [
+          KIT_MCC_TAG_ID,
+          ...(interestedInBeta ? [KIT_BETA_TAG_ID] : []),
+        ],
+      });
+    } catch (error) {
+      console.error("Kit subscription failed:", error);
       return NextResponse.json(
         { error: "Failed to subscribe" },
         { status: 500 }

@@ -1,4 +1,9 @@
+import Link from "next/link";
 import { BUY_LINKS } from "@/lib/buy-links";
+import { RetailerLink } from "@/components/RetailerLink";
+
+const BUTTON_CLASS =
+  "px-6 py-3 text-xs tracking-wider uppercase rounded text-center transition-colors border border-white/35 bg-white/[0.06] text-white/85 hover:bg-white/[0.12] hover:text-white hover:border-white/50";
 
 type BuyTheBookProps = {
   /** Show the BookLife pull quote beneath the buttons. Homepage only. */
@@ -22,15 +27,18 @@ export function BuyTheBook({
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
         {BUY_LINKS.map((link) => (
           <span key={link.label} className="flex flex-col items-center">
-            {link.href ? (
-              <a
+            {link.href && link.retailer ? (
+              <RetailerLink
                 href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3 text-xs tracking-wider uppercase rounded text-center transition-colors border border-white/35 bg-white/[0.06] text-white/85 hover:bg-white/[0.12] hover:text-white hover:border-white/50"
+                retailer={link.retailer}
+                className={BUTTON_CLASS}
               >
                 {link.label}
-              </a>
+              </RetailerLink>
+            ) : link.href ? (
+              <Link href={link.href} className={BUTTON_CLASS}>
+                {link.label}
+              </Link>
             ) : (
               <>
                 <span
