@@ -12,6 +12,7 @@ export type OpenAiEventName =
   | "order_created"
   | "items_added"
   | "checkout_started"
+  | "contents_viewed"
   | "lead_created";
 
 /** The payload category, which is distinct from the event name. */
@@ -61,6 +62,7 @@ const EVENT_MAP: Record<string, EventMapping> = {
   purchase: { name: "order_created", type: "contents" },
   begin_checkout: { name: "items_added", type: "contents" },
   book_retailer_click: { name: "checkout_started", type: "contents" },
+  view_content: { name: "contents_viewed", type: "contents" },
   newsletter_signup: { name: "lead_created", type: "customer_action" },
 };
 

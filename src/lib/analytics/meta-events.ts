@@ -12,6 +12,7 @@ export type MetaEventName =
   | "Purchase"
   | "AddToCart"
   | "InitiateCheckout"
+  | "ViewContent"
   | "Lead";
 
 /** Meta takes major units, unlike OpenAI. $14.99 stays 14.99. */
@@ -44,6 +45,7 @@ const EVENT_MAP: Record<string, MetaEventName> = {
   purchase: "Purchase",
   begin_checkout: "AddToCart",
   book_retailer_click: "InitiateCheckout",
+  view_content: "ViewContent",
   newsletter_signup: "Lead",
 };
 

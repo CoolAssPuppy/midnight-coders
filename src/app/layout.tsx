@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { PostHogProvider } from "@/components/PostHogProvider";
+import { MetaPageView } from "@/components/MetaPageView";
 import { PRIMARY_BUY_URL } from "@/lib/buy-links";
 import { OPENAI_PIXEL_ID, META_DATASET_ID } from "@/lib/analytics";
 import "./globals.css";
@@ -222,7 +223,7 @@ n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
 n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','${META_DATASET_ID}');fbq('track','PageView');`,
+fbq('init','${META_DATASET_ID}');`,
               }}
             />
           </>
@@ -242,6 +243,7 @@ fbq('init','${META_DATASET_ID}');fbq('track','PageView');`,
           />
         </noscript>
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded focus:text-sm">Skip to content</a>
+        {META_DATASET_ID && <MetaPageView />}
         <PostHogProvider>
           <Navigation />
           <div className="flex-1">

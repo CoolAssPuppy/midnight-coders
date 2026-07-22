@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { DigitalEditionCheckout } from "@/components/DigitalEditionCheckout";
+import { ProductViewEvent } from "@/components/ProductViewEvent";
 import { RetailerLink } from "@/components/RetailerLink";
 import { BUY_LINKS } from "@/lib/buy-links";
 import "./buy.css";
@@ -30,6 +31,7 @@ export default function BuyPage(): React.ReactElement {
 
   return (
     <main id="main-content" className="buy">
+      <ProductViewEvent />
       <div className="buy__inner">
         <div className="buy__lede">
           <div className="buy__cover">

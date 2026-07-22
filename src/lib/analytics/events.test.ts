@@ -57,6 +57,14 @@ describe("OpenAI Ads event mapping", () => {
     expect(result?.data.contents).toBeUndefined();
   });
 
+  it("reports a product view as contents_viewed", () => {
+    const result = toOpenAiEvent("view_content", getPurchaseProperties());
+
+    expect(result?.name).toBe("contents_viewed");
+    expect(result?.data.type).toBe("contents");
+    expect(result?.data.amount).toBe(1499);
+  });
+
   it("drops events that are not conversions", () => {
     expect(toOpenAiEvent("some_future_event", {})).toBeNull();
   });
@@ -114,6 +122,13 @@ describe("Meta event mapping", () => {
     expect(result?.customData.contents).toBeUndefined();
   });
 
+  it("reports a product view as ViewContent in major units", () => {
+    const result = toMetaEvent("view_content", getPurchaseProperties());
+
+    expect(result?.name).toBe("ViewContent");
+    expect(result?.customData.value).toBe(14.99);
+  });
+
   it("drops events that are not conversions", () => {
     expect(toMetaEvent("some_future_event", {})).toBeNull();
   });
@@ -136,6 +151,18 @@ describe("both platforms agree on the same purchase", () => {
     expect(openai?.data.amount).toBe(1499);
     expect(meta?.customData.value).toBe(14.99);
     expect(openai?.data.amount).toBe(toMinorUnits(meta!.customData.value!));
+  });
+});
+
+describe("the mid-funnel event both platforms optimize on", () => {
+  it("exists on both platforms under each one's own name", () => {
+    const properties = getPurchaseProperties();
+
+    // Ad platforms need ~50 optimization events a week to exit the learning
+    // phase. Purchases will not reach that before launch, so this event has to
+    // work on both platforms or campaigns cannot be optimized at all.
+    expect(toOpenAiEvent("view_content", properties)?.name).toBe("contents_viewed");
+    expect(toMetaEvent("view_content", properties)?.name).toBe("ViewContent");
   });
 });
 

@@ -68,6 +68,26 @@ export function trackPurchase(product: Product, transactionId: string): void {
   });
 }
 
+/**
+ * Someone viewed the product. The highest-volume mid-funnel signal there is.
+ *
+ * Ad platforms need roughly 50 optimization events a week to train on. A $14.99
+ * pre-order will never produce that many purchases before launch, so this is
+ * the event campaigns should optimize for until real sales volume arrives.
+ */
+export function trackProductView(product: Product): void {
+  send("view_content", {
+    value: product.price,
+    currency: product.currency,
+    item_id: product.item_id,
+    ecommerce: {
+      currency: product.currency,
+      value: product.price,
+      items: [{ ...product, quantity: 1 } as EcommerceItem],
+    },
+  });
+}
+
 export function trackNewsletterSignup(): void {
   send("newsletter_signup", {});
 }
