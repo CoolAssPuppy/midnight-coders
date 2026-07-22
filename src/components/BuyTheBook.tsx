@@ -2,8 +2,15 @@ import Link from "next/link";
 import { BUY_LINKS } from "@/lib/buy-links";
 import { RetailerLink } from "@/components/RetailerLink";
 
+/* Retailer links: neutral. The sale completes on someone else's site. */
 const BUTTON_CLASS =
   "px-6 py-3 text-xs tracking-wider uppercase rounded text-center transition-colors border border-white/35 bg-white/[0.06] text-white/85 hover:bg-white/[0.12] hover:text-white hover:border-white/50";
+
+/* Buying direct: same control, teal. It is the only route that keeps the full
+   margin, and it matches the primary CTA on /buy so the two read as one action
+   wherever a reader meets it. */
+const DIRECT_BUTTON_CLASS =
+  "px-6 py-3 text-xs tracking-wider uppercase rounded text-center transition-colors border border-[#4ec9b0]/60 bg-[#4ec9b0]/[0.08] text-[#4ec9b0] hover:bg-[#4ec9b0]/[0.16] hover:border-[#4ec9b0] hover:text-[#7fe3cd]";
 
 type BuyTheBookProps = {
   /** Show the BookLife pull quote beneath the buttons. Homepage only. */
@@ -36,7 +43,7 @@ export function BuyTheBook({
                 {link.label}
               </RetailerLink>
             ) : link.href ? (
-              <Link href={link.href} className={BUTTON_CLASS}>
+              <Link href={link.href} className={DIRECT_BUTTON_CLASS}>
                 {link.label}
               </Link>
             ) : (
