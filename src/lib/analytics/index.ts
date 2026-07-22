@@ -38,6 +38,13 @@ interface EcommerceItem extends Product {
 
 export function trackBeginCheckout(product: Product): void {
   send("begin_checkout", {
+    // Flat copies alongside the nested object. GA4 and the ad platforms read
+    // `ecommerce`; PostHog insights are far simpler against top-level
+    // properties, and a revenue chart that silently reads zero from a nested
+    // path is worse than no chart.
+    value: product.price,
+    currency: product.currency,
+    item_id: product.item_id,
     ecommerce: {
       currency: product.currency,
       value: product.price,
@@ -48,6 +55,10 @@ export function trackBeginCheckout(product: Product): void {
 
 export function trackPurchase(product: Product, transactionId: string): void {
   send("purchase", {
+    value: product.price,
+    currency: product.currency,
+    item_id: product.item_id,
+    transaction_id: transactionId,
     ecommerce: {
       currency: product.currency,
       value: product.price,
