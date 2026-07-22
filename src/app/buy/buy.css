@@ -254,13 +254,15 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  padding: 0.6rem 1.15rem;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 3px;
-  font-size: 0.8125rem;
-  color: var(--ink);
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: rgba(255, 255, 255, 0.06);
   transition:
     border-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
     background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -268,8 +270,8 @@
 }
 
 .buy__retailer:hover {
-  border-color: rgba(78, 201, 176, 0.55);
-  background-color: rgba(78, 201, 176, 0.08);
+  border-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.12);
   color: #fff;
 }
 
@@ -342,47 +344,41 @@
 
 /* --- Call to action ---------------------------------------------------- */
 
+/* Same shape and typography as the site-wide buy button in BuyTheBook, so the
+   purchase actions share one language. The border and label carry the brand
+   teal because this is the primary action on the page: the one that keeps the
+   full margin. Retailer links stay neutral. */
 .checkout__button {
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.25rem;
-  width: min(24rem, 100%);
-  min-height: 56px;
-  padding: 0.95rem 1.4rem;
-  border: none;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(78, 201, 176, 0.6);
   border-radius: 4px;
-  background-color: var(--teal);
-  color: #062018;
+  background-color: rgba(78, 201, 176, 0.08);
+  color: var(--teal);
   font-family: inherit;
-  font-size: 0.9375rem;
-  letter-spacing: 0.01em;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: center;
   cursor: pointer;
   transition:
     background-color 200ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+    border-color 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .checkout__button:hover:not(:disabled) {
-  background-color: #6fdcc6;
-  transform: translateY(-1px);
-}
-
-.checkout__button:active:not(:disabled) {
-  transform: translateY(0);
+  background-color: rgba(78, 201, 176, 0.16);
+  border-color: var(--teal);
+  color: #7fe3cd;
 }
 
 .checkout__button:disabled {
   opacity: 0.62;
   cursor: progress;
-}
-
-.checkout__arrow {
-  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.checkout__button:hover:not(:disabled) .checkout__arrow {
-  transform: translateX(4px);
 }
 
 .checkout__reassure {
@@ -398,12 +394,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .checkout__button,
-  .checkout__arrow {
+  .checkout__button {
     transition: none;
-  }
-
-  .checkout__button:hover:not(:disabled) {
-    transform: none;
   }
 }

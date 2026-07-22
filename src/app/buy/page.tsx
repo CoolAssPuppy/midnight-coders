@@ -71,12 +71,10 @@ export default function BuyPage(): React.ReactElement {
             <div className="buy__purchase buy__reveal buy__reveal--4">
               <p className="buy__price">
                 <b>$14.99</b>
-                <span>direct from the author, tax included</span>
               </p>
 
               <p className="buy__ships">
-                This is a pre-order. Your download link is emailed on release
-                day, 22 September 2026.
+                Pre-order. Download link active on 22 September 2026.
               </p>
 
               <DigitalEditionCheckout />

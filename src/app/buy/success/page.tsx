@@ -91,10 +91,7 @@ export default async function BuySuccessPage({
 
         <div className="thanks__actions buy__reveal buy__reveal--4">
           <Link href="/excerpt" className="checkout__button thanks__cta">
-            <span>Read chapter one now</span>
-            <span aria-hidden="true" className="checkout__arrow">
-              &rarr;
-            </span>
+            Read chapter one
           </Link>
           <Link href="/" className="buy__retailer">
             Back to the book

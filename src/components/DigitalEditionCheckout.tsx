@@ -56,10 +56,7 @@ export function DigitalEditionCheckout(): React.ReactElement {
         disabled={isLoading}
         className="buy__cta checkout__button"
       >
-        <span>{isLoading ? "Opening secure checkout" : "Pre-order the ebook"}</span>
-        <span aria-hidden="true" className="checkout__arrow">
-          &rarr;
-        </span>
+        {isLoading ? "Opening checkout" : "Pre-order the ebook"}
       </button>
 
       <p className="checkout__reassure">Secure checkout by Stripe.</p>
