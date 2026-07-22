@@ -10,7 +10,7 @@ import {
 import { readRefsFromCookies, toStripeMetadata } from "@/lib/analytics/ad-refs";
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://midnightcoderschildren.com";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.midnightcoderschildren.com";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
