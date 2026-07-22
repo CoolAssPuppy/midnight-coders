@@ -63,6 +63,12 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  other: {
+    // Proves domain ownership to Meta, which gates Aggregated Event
+    // Measurement. Without AEM, conversions from iOS users who opted out of
+    // tracking are not attributed at all.
+    "facebook-domain-verification": "txrig70v3w0eeg2tjf2cebh1agfynt",
+  },
 };
 
 export const viewport: Viewport = {
