@@ -8,7 +8,7 @@ import "./buy.css";
 
 const title = "Buy the digital edition";
 const description =
-  "Pre-order The Midnight Coder's Children digital edition direct from the author for $14.99. EPUB, DRM-free, delivered 22 September 2026.";
+  "Pre-order The Midnight Coder's Children digital edition direct from the author for $14.99. EPUB, DRM-free, delivered 15 September 2026.";
 const canonical = "https://www.midnightcoderschildren.com/buy";
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 const colophon: { term: string; detail: string }[] = [
   { term: "Format", detail: "EPUB, readable on Kindle, Kobo, Apple Books, and anything else" },
   { term: "Protection", detail: "None. No DRM, no account, no reader app. The file is yours." },
-  { term: "Released", detail: "22 September 2026" },
+  { term: "Released", detail: "15 September 2026" },
   { term: "Delivery", detail: "A download link by email" },
 ];
 
@@ -76,7 +76,7 @@ export default function BuyPage(): React.ReactElement {
               </p>
 
               <p className="buy__ships">
-                Pre-order. Download link active on 22 September 2026.
+                Pre-order. Download link active on 15 September 2026.
               </p>
 
               <DigitalEditionCheckout />

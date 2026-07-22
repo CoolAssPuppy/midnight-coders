@@ -38,6 +38,6 @@ describe("Stripe configuration constants", () => {
     expect(Number.isNaN(Date.parse(RELEASE_DATE_ISO))).toBe(false);
     expect(new Date(RELEASE_DATE_ISO).getUTCFullYear()).toBe(2026);
     expect(new Date(RELEASE_DATE_ISO).getUTCMonth()).toBe(8); // September
-    expect(new Date(RELEASE_DATE_ISO).getUTCDate()).toBe(22);
+    expect(new Date(RELEASE_DATE_ISO).getUTCDate()).toBe(15);
   });
 });

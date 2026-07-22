@@ -126,7 +126,7 @@ export function verifyDownloadToken(
   }
 
   // Signature is verified before these checks, so the timestamps are trusted
-  // and can be surfaced to the buyer ("unlocks September 22").
+  // and can be surfaced to the buyer ("unlocks September 15").
   if (now < payload.notBefore) {
     return { valid: false, reason: "not_yet_valid", payload };
   }

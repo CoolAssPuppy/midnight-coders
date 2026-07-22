@@ -142,7 +142,7 @@ const jsonLd = {
       bookFormat: "https://schema.org/Paperback",
       numberOfPages: 348,
       isbn: "9798999111128",
-      datePublished: "2026-09-22",
+      datePublished: "2026-09-15",
       offers: {
         "@type": "Offer",
         price: "18.99",
@@ -158,7 +158,7 @@ const jsonLd = {
       "@id": `${baseUrl}/#release`,
       name: "The Midnight Coder's Children - Book Release",
       description: "The release of The Midnight Coder's Children by Prashant Sridharan",
-      startDate: "2026-09-22",
+      startDate: "2026-09-15",
       eventStatus: "https://schema.org/EventScheduled",
       eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
       organizer: {

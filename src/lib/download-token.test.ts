@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { createDownloadToken, verifyDownloadToken } from "./download-token";
 
-const RELEASE = Date.parse("2026-09-22T00:00:00.000Z");
+const RELEASE = Date.parse("2026-09-15T00:00:00.000Z");
 const YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 
 const getToken = (overrides?: Partial<Parameters<typeof createDownloadToken>[0]>) =>

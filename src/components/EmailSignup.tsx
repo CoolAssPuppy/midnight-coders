@@ -26,7 +26,7 @@ interface TimeRemaining {
   seconds: number;
 }
 
-const RELEASE_DATE = new Date("2026-09-22T00:00:00");
+const RELEASE_DATE = new Date("2026-09-15T00:00:00");
 
 export const SIGNUP_HEADLINE =
   "Deleted scenes, writing background, and the world behind the book.";

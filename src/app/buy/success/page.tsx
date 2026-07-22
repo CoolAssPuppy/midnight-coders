@@ -22,7 +22,7 @@ const steps: { when: string; what: string }[] = [
     what: "Stripe has emailed your receipt. Nothing else is needed from you.",
   },
   {
-    when: "22 September",
+    when: "15 September",
     what: "A download link arrives by email. EPUB, no DRM, yours to keep.",
   },
   {
@@ -73,7 +73,7 @@ export default async function BuySuccessPage({
           ) : (
             <>Your copy is reserved.</>
           )}{" "}
-          The book arrives 22 September.
+          The book arrives 15 September.
         </p>
 
         <div className="buy__reveal buy__reveal--3">

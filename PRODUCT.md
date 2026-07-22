@@ -16,7 +16,7 @@ the blurb, and the assets quickly and without a pitch.
 
 ## Product Purpose
 
-Sell *The Midnight Coder's Children* ahead of its 22 September 2026 release, through
+Sell *The Midnight Coder's Children* ahead of its 15 September 2026 release, through
 three routes: pre-orders of the $14.99 digital edition direct from the author, print
 sales at Amazon and Barnes & Noble, and email list growth for launch day.
 

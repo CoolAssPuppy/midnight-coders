@@ -8,7 +8,7 @@ import Stripe from "stripe";
 export const DIGITAL_EDITION_LOOKUP_KEY = "midnight-coders-digital";
 
 /** Release day. Download tokens refuse to serve the file before this. */
-export const RELEASE_DATE_ISO = "2026-09-22T00:00:00.000Z";
+export const RELEASE_DATE_ISO = "2026-09-15T00:00:00.000Z";
 
 /**
  * The account-level statement descriptor, set in the Stripe dashboard. Declared

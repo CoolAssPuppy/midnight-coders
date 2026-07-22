@@ -58,9 +58,23 @@ Missing from all three configs. Pixels no-op until set; nothing breaks.
       `/ingest/...`, not `us.i.posthog.com`.
 - [ ] OpenAI pixel → `NEXT_PUBLIC_OPENAI_PIXEL_ID`, `OPENAI_CONVERSIONS_API_KEY`
 - [ ] OpenAI conversion events (Part D2)
-- [ ] Meta dataset → `NEXT_PUBLIC_META_DATASET_ID`, `META_CONVERSIONS_ACCESS_TOKEN`
-- [ ] Meta payloads have **never** been validated against the live API. Unit
-      tested only. Verify with `test_event_code` once the token exists.
+- [x] Meta dataset → `NEXT_PUBLIC_META_DATASET_ID`, `META_CONVERSIONS_ACCESS_TOKEN`
+      set. Dataset `1561129122079440` appears twice in the served HTML and
+      `fbq('init')` fires with it.
+- [x] Meta payloads validated against the live API on 2026-07-22. Server event
+      accepted with `events_received: 1` and shows Processed in Test Events
+      (code `TEST83504`). Browser half is still unverified: `fbevents.js` is
+      blocked by a local ad blocker, so `fbq.getState` is undefined and the
+      queue never drains. Retest in Incognito.
+- [ ] **Confirm pixel/CAPI deduplication.** One visit should produce two rows in
+      Test Events for the same event, one Browser and one Server, sharing an
+      `event_id`. Untested. If dedup is broken every conversion double-counts.
+- [ ] **Rotate both Conversions API tokens.** Both appeared in a working
+      transcript. They cannot move money but they can inject fabricated
+      conversions, and poisoned optimization data cannot be cleaned up after.
+- [ ] **Set Aggregated Event Measurement rankings** on both domains, ordered by
+      value per event. Purchase, InitiateCheckout, Lead, AddToCart, ViewContent.
+      No API for this; Events Manager UI only.
 
 ### 4. Housekeeping
 
@@ -189,7 +203,7 @@ is blocking you.
 - [ ] Go to https://us.posthog.com
 - [ ] Click the **project dropdown** (top left)
 - [ ] **New project**
-- [ ] Name: `Midnight Coders`
+- [x] Name: `Midnight Coders`
 - [ ] Copy the **Project API key** (`phc_...`) from the onboarding screen
 - [ ] Hold it for Part F
 
@@ -276,10 +290,10 @@ clicks will not be.
 
 ## Part E: Meta Ads
 
-- [ ] Go to https://business.facebook.com/events_manager
-- [ ] **Connect data sources** → **Web** → **Meta Pixel**
+- [x] Go to https://business.facebook.com/events_manager
+- [x] **Connect data sources** → **Web** → **Meta Pixel**
 - [ ] Name: `Midnight Coders`
-- [ ] Copy the **Dataset ID** (aka Pixel ID) → Part F as `NEXT_PUBLIC_META_DATASET_ID`
+- [x] Copy the **Dataset ID** (aka Pixel ID) → Part F as `NEXT_PUBLIC_META_DATASET_ID`
 
 ### E2: Conversions API token
 

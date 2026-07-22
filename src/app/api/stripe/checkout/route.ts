@@ -61,7 +61,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       custom_text: {
         submit: {
           message:
-            "Pre-order. Your download link arrives by email now and unlocks on release day, 22 September 2026.",
+            "Pre-order. Your download link arrives by email now and unlocks on release day, 15 September 2026.",
         },
       },
 
