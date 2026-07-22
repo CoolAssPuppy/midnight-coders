@@ -39,8 +39,12 @@ Values in `backticks` are exact. Type them exactly.
 
 - [ ] **Push and deploy.** 7 commits unpushed. Production `/buy` is **404** and
       the live webhook points at a route that does not exist yet.
-- [ ] **Vercel env vars.** `NEXT_PUBLIC_*` are inlined at build time and
-      `next build` does not run under `doppler run`. Confirm they reach Vercel.
+- [x] **Vercel env vars.** A Doppler to Vercel integration is active and
+      syncing; verified against the Vercel project.
+- [ ] **Redeploy after adding any `NEXT_PUBLIC_*`.** These are inlined into the
+      bundle at build time, so syncing the value is not enough. Until you
+      rebuild, the shipped bundle still contains `""` and PostHog and both
+      pixels do nothing, while every dashboard shows the variable as set.
 - [ ] **Local end-to-end test on test mode.** Detail in Part I.
 - [ ] **Live smoke test.** Buy with a real card, confirm the Kit email, refund.
 
@@ -57,8 +61,10 @@ Missing from all three configs. Pixels no-op until set; nothing breaks.
 
 ### 4. Housekeeping
 
-- [ ] **Delete `STRIPE_PROVISIONING_KEY` from Doppler prd** and revoke the key in
-      Stripe. Still present. It appeared in a chat transcript with live write scope.
+- [ ] **Delete `STRIPE_PROVISIONING_KEY`, now in two places.** It synced through
+      to **Vercel Production** as well as Doppler prd. Remove from Doppler,
+      confirm the sync removes it from Vercel, then revoke the key in Stripe.
+      Live write scope, and it appeared in a chat transcript.
 - [ ] `R2_*` missing from `dev` — needed to exercise the download path locally
 - [ ] `STRIPE_WEBHOOK_SECRET` missing from `stg` — only matters if staging takes payments
 - [ ] Re-login the clobbered CLI profile: `stripe login --project-name agent-panel`
