@@ -13,7 +13,7 @@ import { sendMetaConversion } from "@/lib/analytics/meta-capi";
 import { PRODUCTS } from "@/lib/analytics/products";
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.midnightcoderschildren.com";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://midnightcoderschildren.com";
 
 /** How long a download link stays valid after release day. */
 const DOWNLOAD_WINDOW_MS = 365 * 24 * 60 * 60 * 1000;
