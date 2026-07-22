@@ -4,7 +4,9 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { PostHogProvider } from "@/components/PostHogProvider";
 import { PRIMARY_BUY_URL } from "@/lib/buy-links";
+import { OPENAI_PIXEL_ID, META_DATASET_ID } from "@/lib/analytics";
 import "./globals.css";
 
 const GTM_ID = "GTM-W663MCWC";
@@ -183,6 +185,48 @@ export default function RootLayout({
             `,
           }}
         />
+        {/*
+          Ad measurement pixels. Both are afterInteractive rather than
+          lazyOnload because a retailer click can happen well before the browser
+          goes idle, and a queued-but-unsent conversion is a lost conversion.
+          Each renders only when its id is configured, so an unconfigured
+          environment ships no dead script.
+        */}
+        {OPENAI_PIXEL_ID && (
+          <>
+            <link rel="preconnect" href="https://bzrcdn.openai.com" />
+            <Script
+              id="oaiq-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `window.oaiq=window.oaiq||function(){(window.oaiq.q=window.oaiq.q||[]).push(arguments)};
+oaiq("init",{pixelId:"${OPENAI_PIXEL_ID}"});`,
+              }}
+            />
+            <Script
+              id="oaiq-sdk"
+              strategy="afterInteractive"
+              src="https://bzrcdn.openai.com/sdk/oaiq.min.js"
+            />
+          </>
+        )}
+        {META_DATASET_ID && (
+          <>
+            <link rel="preconnect" href="https://connect.facebook.net" />
+            <Script
+              id="meta-pixel"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','${META_DATASET_ID}');fbq('track','PageView');`,
+              }}
+            />
+          </>
+        )}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -198,11 +242,13 @@ export default function RootLayout({
           />
         </noscript>
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded focus:text-sm">Skip to content</a>
-        <Navigation />
-        <div className="flex-1">
-          {children}
-        </div>
-        <Footer />
+        <PostHogProvider>
+          <Navigation />
+          <div className="flex-1">
+            {children}
+          </div>
+          <Footer />
+        </PostHogProvider>
         <Analytics />
         <SpeedInsights />
       </body>

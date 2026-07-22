@@ -6,6 +6,9 @@ allowBuilds:
   # node-canvas builds a native binary used by the book-club PDF generation
   # script (scripts/generate-book-club-pdf.tsx).
   canvas: true
+  # Pulled in transitively by posthog-js. Its postinstall only prints a funding
+  # banner, so there is nothing to run.
+  core-js: false
   # Next.js image optimization uses sharp's platform-specific native binary.
   sharp: true
   # Next 16 / eslint-plugin-import use unrs-resolver to fetch a platform-specific
