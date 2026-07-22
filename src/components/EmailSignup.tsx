@@ -29,7 +29,7 @@ interface TimeRemaining {
 const RELEASE_DATE = new Date("2026-09-22T00:00:00");
 
 export const SIGNUP_HEADLINE =
-  "Deleted scenes, limited editions, and word from behind the book. Sent rarely.";
+  "Deleted scenes, writing background, and the world behind the book.";
 
 function useCountdown(targetDate: Date): TimeRemaining | null {
   const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(
