@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { trackNewsletterSignup } from "@/lib/analytics";
+import "./email-signup.css";
 
 interface EmailSignupProps {
   scrollProgress: number;
@@ -27,7 +28,8 @@ interface TimeRemaining {
 
 const RELEASE_DATE = new Date("2026-09-22T00:00:00");
 
-export const SIGNUP_HEADLINE = "Get exclusive updates, behind-the-scenes info, deleted scenes, limited edition content, and more";
+export const SIGNUP_HEADLINE =
+  "Deleted scenes, limited editions, and word from behind the book. Sent rarely.";
 
 function useCountdown(targetDate: Date): TimeRemaining | null {
   const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(
@@ -65,39 +67,33 @@ function CountdownTimer(): React.ReactElement {
   const timeRemaining = useCountdown(RELEASE_DATE);
 
   if (timeRemaining === null) {
-    return <div style={{ height: "80px" }} aria-hidden="true" />;
+    return <div style={{ height: "104px" }} aria-hidden="true" />;
   }
 
-  const padNumber = (num: number): string => num.toString().padStart(2, "0");
+  const pad = (n: number): string => n.toString().padStart(2, "0");
+
+  const units: { value: string; label: string }[] = [
+    { value: String(timeRemaining.days), label: "days" },
+    { value: pad(timeRemaining.hours), label: "hrs" },
+    { value: pad(timeRemaining.minutes), label: "min" },
+    { value: pad(timeRemaining.seconds), label: "sec" },
+  ];
 
   return (
-    <div
-      className="flex items-baseline justify-center gap-1 mb-8"
-      aria-label={`${timeRemaining.days} days, ${timeRemaining.hours} hours, ${timeRemaining.minutes} minutes, ${timeRemaining.seconds} seconds until release`}
-    >
-      <span className="text-3xl md:text-5xl" style={{ color: "#B5CEA8" }}>
-        {timeRemaining.days}
-      </span>
-      <span className="text-sm md:text-base" style={{ color: "#9CDCFE" }}>d</span>
-      <span className="text-sm md:text-base mx-1" style={{ color: "#D4D4D4" }}>:</span>
-
-      <span className="text-3xl md:text-5xl" style={{ color: "#B5CEA8" }}>
-        {padNumber(timeRemaining.hours)}
-      </span>
-      <span className="text-sm md:text-base" style={{ color: "#9CDCFE" }}>h</span>
-      <span className="text-sm md:text-base mx-1" style={{ color: "#D4D4D4" }}>:</span>
-
-      <span className="text-3xl md:text-5xl" style={{ color: "#B5CEA8" }}>
-        {padNumber(timeRemaining.minutes)}
-      </span>
-      <span className="text-sm md:text-base" style={{ color: "#9CDCFE" }}>m</span>
-      <span className="text-sm md:text-base mx-1" style={{ color: "#D4D4D4" }}>:</span>
-
-      <span className="text-sm md:text-base" style={{ color: "#B5CEA8" }}>
-        {padNumber(timeRemaining.seconds)}
-      </span>
-      <span className="text-sm md:text-base" style={{ color: "#9CDCFE" }}>s</span>
-    </div>
+    <>
+      <div
+        className="signup__countdown"
+        aria-label={`${timeRemaining.days} days until release`}
+      >
+        {units.map((unit) => (
+          <div className="signup__unit" key={unit.label}>
+            <span className="signup__value">{unit.value}</span>
+            <span className="signup__unit-label">{unit.label}</span>
+          </div>
+        ))}
+      </div>
+      <p className="signup__countdown-caption">Until release</p>
+    </>
   );
 }
 
@@ -293,134 +289,87 @@ function EmailSignupComponent({
       }}
       aria-label="Email signup"
     >
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md signup">
 
         <CountdownTimer />
 
-        <p
-          className="text-lg md:text-xl mb-8 leading-relaxed text-center"
-          style={{
-            color: "#6A9955",
-          }}
-        >
-          {SIGNUP_HEADLINE}
-        </p>
+        <p className="signup__heading">{SIGNUP_HEADLINE}</p>
 
         {status === "success" ? (
-          <div
-            className="py-4 px-6 rounded-lg"
-            style={{ backgroundColor: "rgba(39, 201, 63, 0.1)" }}
-          >
-            <p
-              className="text-lg mb-2"
-              style={{ color: "#4EC9B0" }}
-            >
-              {"// Success: Thank you for subscribing."}
-            </p>
-            <p style={{ color: "#6A9955" }}>
-              Please check your email and verify your email address. If you
-              don&apos;t see it, check your spam folder.
+          <div className="signup__success">
+            <p className="signup__success-title">You&rsquo;re on the list.</p>
+            <p className="signup__success-body">
+              Check your email and confirm your address. If it is not there,
+              look in spam.
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div className="flex gap-4">
-              <input
-                type="text"
-                value={formData.firstName}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, firstName: e.target.value }))
-                }
-                placeholder="firstName"
-                required
-                disabled={status === "submitting"}
-                className="w-1/2 px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
-                style={{
-                  backgroundColor: "rgba(30, 30, 30, 0.9)",
-                  borderColor: "rgba(255, 255, 255, 0.2)",
-                  color: "#9CDCFE",
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = "#569CD6";
-                  e.target.style.backgroundColor = "rgba(40, 40, 40, 0.95)";
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                  e.target.style.backgroundColor = "rgba(30, 30, 30, 0.9)";
-                }}
-                aria-label="First name"
-              />
-              <input
-                type="text"
-                value={formData.lastName}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, lastName: e.target.value }))
-                }
-                placeholder="lastName"
-                required
-                disabled={status === "submitting"}
-                className="w-1/2 px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
-                style={{
-                  backgroundColor: "rgba(30, 30, 30, 0.9)",
-                  borderColor: "rgba(255, 255, 255, 0.2)",
-                  color: "#9CDCFE",
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = "#569CD6";
-                  e.target.style.backgroundColor = "rgba(40, 40, 40, 0.95)";
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                  e.target.style.backgroundColor = "rgba(30, 30, 30, 0.9)";
-                }}
-                aria-label="Last name"
-              />
+          <form onSubmit={handleSubmit} className="signup__form">
+            <div className="signup__row">
+              <div className="signup__field">
+                <label className="signup__label" htmlFor="signup-first-name">
+                  First name
+                </label>
+                <input
+                  id="signup-first-name"
+                  type="text"
+                  autoComplete="given-name"
+                  value={formData.firstName}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, firstName: e.target.value }))
+                  }
+                  required
+                  disabled={status === "submitting"}
+                  className="signup__input"
+                />
+              </div>
+
+              <div className="signup__field">
+                <label className="signup__label" htmlFor="signup-last-name">
+                  Last name
+                </label>
+                <input
+                  id="signup-last-name"
+                  type="text"
+                  autoComplete="family-name"
+                  value={formData.lastName}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, lastName: e.target.value }))
+                  }
+                  required
+                  disabled={status === "submitting"}
+                  className="signup__input"
+                />
+              </div>
             </div>
 
-            <div className="relative">
+            <div className="signup__field">
+              <label className="signup__label" htmlFor="signup-email">
+                Email address
+              </label>
               <input
+                id="signup-email"
                 type="email"
+                autoComplete="email"
                 value={formData.email}
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, email: e.target.value }))
                 }
-                onBlur={(e) => {
-                  setEmailTouched(true);
-                  e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                  e.target.style.backgroundColor = "rgba(30, 30, 30, 0.9)";
-                }}
-                placeholder="email"
+                onBlur={() => setEmailTouched(true)}
                 required
                 disabled={status === "submitting"}
-                className="w-full px-5 py-4 text-base md:text-lg rounded-lg border-2 transition-all duration-300 focus:outline-none disabled:opacity-50"
-                style={{
-                  backgroundColor: "rgba(30, 30, 30, 0.9)",
-                  borderColor: showEmailError
-                    ? "#f14c4c"
-                    : "rgba(255, 255, 255, 0.2)",
-                  color: "#CE9178",
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = showEmailError
-                    ? "#f14c4c"
-                    : "#569CD6";
-                  e.target.style.backgroundColor = "rgba(40, 40, 40, 0.95)";
-                }}
-                aria-label="Email address"
+                className="signup__input"
                 aria-invalid={showEmailError}
+                aria-describedby={showEmailError ? "signup-email-error" : undefined}
               />
               {showEmailError && (
-                <p
-                  className="text-sm mt-1"
-                  style={{ color: "#f14c4c" }}
-                  role="alert"
-                >
-                  {"// Error: Invalid email format"}
+                <p className="signup__error" id="signup-email-error" role="alert">
+                  That does not look like an email address.
                 </p>
               )}
             </div>
 
-            <label className="flex items-start gap-3 cursor-pointer">
+            <label className="signup__check">
               <input
                 type="checkbox"
                 checked={formData.agreedToContact}
@@ -431,23 +380,11 @@ function EmailSignupComponent({
                   }))
                 }
                 disabled={status === "submitting"}
-                className="mt-1 w-5 h-5 flex-shrink-0 rounded cursor-pointer"
-                style={{
-                  accentColor: "#4EC9B0",
-                }}
-                aria-label="Agree to be contacted about Bodhi Press publications"
               />
-              <span
-                className="text-sm md:text-base leading-relaxed"
-                style={{ color: "#D4D4D4" }}
-              >
-                <span style={{ color: "#6A9955" }}>
-                  {"I agree to be contacted about Bodhi Press publications"}
-                </span>
-              </span>
+              <span>I agree to be contacted about Bodhi Press publications</span>
             </label>
 
-            <label className="flex items-start gap-3 cursor-pointer">
+            <label className="signup__check">
               <input
                 type="checkbox"
                 checked={formData.interestedInBeta}
@@ -458,23 +395,11 @@ function EmailSignupComponent({
                   }))
                 }
                 disabled={status === "submitting"}
-                className="mt-1 w-5 h-5 flex-shrink-0 rounded cursor-pointer"
-                style={{
-                  accentColor: "#4EC9B0",
-                }}
-                aria-label="Requesting an Advanced Reader Copy"
               />
-              <span
-                className="text-sm md:text-base leading-relaxed"
-                style={{ color: "#D4D4D4" }}
-              >
-                <span style={{ color: "#6A9955" }}>
-                  {"I am requesting an Advanced Reader Copy (ARC)"}
-                </span>
-              </span>
+              <span>I am requesting an Advanced Reader Copy (ARC)</span>
             </label>
 
-            <div className="flex justify-center">
+            <div className="signup__captcha">
               <HCaptcha
                 ref={captchaRef}
                 sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || ""}
@@ -488,31 +413,14 @@ function EmailSignupComponent({
             <button
               type="submit"
               disabled={status === "submitting" || !isFormValid}
-              className="px-8 py-4 text-base md:text-lg font-medium rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{
-                backgroundColor: isFormValid ? "#0e639c" : "rgba(14, 99, 156, 0.4)",
-                color: "#ffffff",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-              }}
-              onMouseEnter={(e) => {
-                if (status !== "submitting" && isFormValid) {
-                  e.currentTarget.style.backgroundColor = "#1177bb";
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                }
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = isFormValid
-                  ? "#0e639c"
-                  : "rgba(14, 99, 156, 0.4)";
-                e.currentTarget.style.transform = "translateY(0)";
-              }}
+              className="signup__submit"
             >
-              {status === "submitting" ? "subscribe()" : "signUp()"}
+              {status === "submitting" ? "Signing up" : "Sign up"}
             </button>
 
             {status === "error" && (
-              <p className="text-sm" style={{ color: "#f14c4c" }} role="alert">
-                {"// Error: Request failed. Please try again."}
+              <p className="signup__error" role="alert">
+                Something went wrong. Please try again.
               </p>
             )}
           </form>
