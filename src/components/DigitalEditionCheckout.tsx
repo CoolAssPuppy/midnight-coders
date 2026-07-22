@@ -62,9 +62,7 @@ export function DigitalEditionCheckout(): React.ReactElement {
         </span>
       </button>
 
-      <p className="checkout__reassure">
-        Secure checkout by Stripe. Card details never touch this site.
-      </p>
+      <p className="checkout__reassure">Secure checkout by Stripe.</p>
 
       {error && (
         <p className="checkout__error" role="alert">

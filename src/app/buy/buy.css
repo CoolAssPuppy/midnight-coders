@@ -26,26 +26,8 @@
   background-color: var(--midnight);
 }
 
-/* The room. A single light source behind the cover, falling off into dark. */
-.buy::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(
-      44rem 34rem at 26% 22%,
-      rgba(78, 201, 176, 0.1),
-      transparent 64%
-    ),
-    radial-gradient(
-      30rem 30rem at 88% 4%,
-      rgba(220, 220, 170, 0.045),
-      transparent 70%
-    ),
-    linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.45));
-  pointer-events: none;
-}
+/* Flat midnight, matching /author and the rest of the site. Depth comes from
+   the cover's own lighting rather than a page-level gradient. */
 
 .buy__inner {
   max-width: 68rem;
@@ -88,7 +70,7 @@
   box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.7),
     0 1.5rem 3rem rgba(0, 0, 0, 0.55),
-    0 0 5rem rgba(78, 201, 176, 0.18);
+    0 0 3.5rem rgba(78, 201, 176, 0.13);
 }
 
 /* Reflected light on the surface beneath. */
@@ -101,7 +83,7 @@
   height: 3rem;
   background: radial-gradient(
     50% 100% at 50% 0%,
-    rgba(78, 201, 176, 0.22),
+    rgba(78, 201, 176, 0.16),
     transparent 72%
   );
   filter: blur(6px);

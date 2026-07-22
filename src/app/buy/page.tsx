@@ -23,7 +23,6 @@ const colophon: { term: string; detail: string }[] = [
   { term: "Protection", detail: "None. No DRM, no account, no reader app. The file is yours." },
   { term: "Released", detail: "22 September 2026" },
   { term: "Delivery", detail: "A download link by email on release day" },
-  { term: "Territory", detail: "Worldwide. Tax included in the price you see." },
 ];
 
 export default function BuyPage(): React.ReactElement {
@@ -72,7 +71,7 @@ export default function BuyPage(): React.ReactElement {
             <div className="buy__purchase buy__reveal buy__reveal--4">
               <p className="buy__price">
                 <b>$14.99</b>
-                <span>direct from the author</span>
+                <span>direct from the author, tax included</span>
               </p>
 
               <p className="buy__ships">
