@@ -1,4 +1,6 @@
-const baseUrl = "https://midnightcoderschildren.com";
+import { SITE_URL } from "@/lib/site";
+
+const baseUrl = SITE_URL;
 
 interface BreadcrumbItem {
   name: string;

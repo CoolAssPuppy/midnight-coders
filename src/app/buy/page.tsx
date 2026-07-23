@@ -4,12 +4,13 @@ import { DigitalEditionCheckout } from "@/components/DigitalEditionCheckout";
 import { ProductViewEvent } from "@/components/ProductViewEvent";
 import { RetailerLink } from "@/components/RetailerLink";
 import { BUY_LINKS } from "@/lib/buy-links";
+import { siteUrl } from "@/lib/site";
 import "./buy.css";
 
 const title = "Buy the digital edition";
 const description =
   "Pre-order The Midnight Coder's Children digital edition direct from the author for $14.99. EPUB, DRM-free, delivered 15 September 2026.";
-const canonical = "https://www.midnightcoderschildren.com/buy";
+const canonical = siteUrl("/buy");
 
 export const metadata: Metadata = {
   title: `${title} | The Midnight Coder's Children`,

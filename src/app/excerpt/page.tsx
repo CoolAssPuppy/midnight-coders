@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ExcerptReader } from "@/components/ExcerptReader";
 import { ExcerptTracker } from "@/components/ExcerptTracker";
+import { SITE_URL, siteUrl } from "@/lib/site";
 import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 
 export const metadata: Metadata = {
@@ -8,13 +9,13 @@ export const metadata: Metadata = {
   description:
     "Read the opening chapter of The Midnight Coder's Children. Sydney McEnroe arrives at JR Eastman at 5:43 a.m. to discover the worst has happened.",
   alternates: {
-    canonical: "https://midnightcoderschildren.com/excerpt",
+    canonical: siteUrl("/excerpt"),
   },
   openGraph: {
     title: "Read Chapter 1 | The Midnight Coder's Children",
     description:
       "Read Chapter 1 of The Midnight Coder's Children by Prashant Sridharan.",
-    url: "https://midnightcoderschildren.com/excerpt",
+    url: siteUrl("/excerpt"),
     type: "article",
   },
   twitter: {
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   },
 };
 
-const baseUrl = "https://midnightcoderschildren.com";
+const baseUrl = SITE_URL;
 
 const articleJsonLd = {
   "@context": "https://schema.org",

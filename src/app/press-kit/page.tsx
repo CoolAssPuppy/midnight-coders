@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BuyTheBook } from "@/components/BuyTheBook";
 import { MediaAssets } from "@/components/MediaAssets";
+import { siteUrl } from "@/lib/site";
 import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 
 export const metadata: Metadata = {
@@ -8,13 +9,13 @@ export const metadata: Metadata = {
   description:
     "Press kit for The Midnight Coder's Children by Prashant Sridharan. Premise, themes, comparable titles, and book details for a dual-timeline techno-thriller. Coming September 2026.",
   alternates: {
-    canonical: "https://midnightcoderschildren.com/press-kit",
+    canonical: siteUrl("/press-kit"),
   },
   openGraph: {
     title: "Press Kit | The Midnight Coder's Children",
     description:
       "A dual-timeline techno-thriller by Prashant Sridharan. Coming September 2026.",
-    url: "https://midnightcoderschildren.com/press-kit",
+    url: siteUrl("/press-kit"),
   },
   twitter: {
     card: "summary_large_image",

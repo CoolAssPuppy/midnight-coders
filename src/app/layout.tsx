@@ -8,11 +8,12 @@ import { PostHogProvider } from "@/components/PostHogProvider";
 import { MetaPageView } from "@/components/MetaPageView";
 import { PRIMARY_BUY_URL } from "@/lib/buy-links";
 import { OPENAI_PIXEL_ID, META_DATASET_ID } from "@/lib/analytics";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const GTM_ID = "GTM-W663MCWC";
 
-const baseUrl = "https://midnightcoderschildren.com";
+const baseUrl = SITE_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),

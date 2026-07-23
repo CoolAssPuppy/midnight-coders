@@ -3,19 +3,20 @@ import Image from "next/image";
 import { BuyTheBook } from "@/components/BuyTheBook";
 import { AuthorBio } from "@/components/AuthorBio";
 import { BIO_JSONLD, BIO_META_LONG, BIO_SHORT } from "@/lib/bio";
+import { siteUrl } from "@/lib/site";
 import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "About Prashant Sridharan | The Midnight Coder's Children",
   description: BIO_META_LONG,
   alternates: {
-    canonical: "https://midnightcoderschildren.com/author",
+    canonical: siteUrl("/author"),
   },
   openGraph: {
     title: "About the Author | The Midnight Coder's Children",
     description:
       "Prashant Sridharan -- author, technologist, storyteller.",
-    url: "https://midnightcoderschildren.com/author",
+    url: siteUrl("/author"),
   },
   twitter: {
     card: "summary_large_image",
@@ -30,11 +31,11 @@ const authorJsonLd = {
   "@type": "ProfilePage",
   mainEntity: {
     "@type": "Person",
-    "@id": "https://midnightcoderschildren.com/#author",
+    "@id": siteUrl("/#author"),
     name: "Prashant Sridharan",
     jobTitle: "Author",
     url: "https://www.strategicnerds.com",
-    image: "https://midnightcoderschildren.com/images/author/prashant-sridharan.jpg",
+    image: siteUrl("/images/author/prashant-sridharan.jpg"),
     description: BIO_JSONLD,
     sameAs: [
       "https://twitter.com/CoolAssPuppy",

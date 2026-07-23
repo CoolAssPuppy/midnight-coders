@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DownloadLink } from "@/components/DownloadLink";
 import { BuyTheBook } from "@/components/BuyTheBook";
 import { AuthorBio } from "@/components/AuthorBio";
+import { siteUrl } from "@/lib/site";
 import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 
 export const metadata: Metadata = {
@@ -9,13 +10,13 @@ export const metadata: Metadata = {
   description:
     "Discussion questions, themes, and resources for your book club reading of The Midnight Coder's Children by Prashant Sridharan.",
   alternates: {
-    canonical: "https://midnightcoderschildren.com/book-club",
+    canonical: siteUrl("/book-club"),
   },
   openGraph: {
     title: "Book Club Guide | The Midnight Coder's Children",
     description:
       "Everything your book club needs to discuss The Midnight Coder's Children.",
-    url: "https://midnightcoderschildren.com/book-club",
+    url: siteUrl("/book-club"),
   },
   twitter: {
     card: "summary_large_image",
