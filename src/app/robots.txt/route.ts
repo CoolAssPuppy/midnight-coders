@@ -5,6 +5,7 @@ const baseUrl = SITE_URL;
 const body = `User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /ads/
 
 Content-Signal: search=yes, ai-input=yes, ai-train=no
 
