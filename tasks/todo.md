@@ -15,14 +15,6 @@ Release date is **15 September 2026**.
 
 ## Measurement
 
-- [ ] **Verify the browser pixel end to end.** `fbevents.js` is blocked by an ad
-      blocker on your machine, so `fbq.getState` is undefined and the init and
-      PageView calls sit in the queue forever. Retest in Incognito. This is the
-      only part of the Meta setup with no confirmation behind it.
-- [ ] **Set Aggregated Event Measurement rankings** on both domains, ordered by
-      value per event: Purchase, InitiateCheckout, Lead, AddToCart, ViewContent.
-      For an opted-out iOS user only the single highest-ranked event they trigger
-      is counted. No API for this, Events Manager UI only.
 - [ ] **PostHog reverse proxy.** After the next deploy, confirm in devtools that
       requests go to `midnightcoderschildren.com/ingest/...` and not to
       `us.i.posthog.com`. If they go direct, ad blockers will eat your analytics.
@@ -57,6 +49,7 @@ Kept as a record so nobody redoes them.
 | Meta dataset | `1561129122079440`, appears twice in served HTML, `fbq('init')` fires with it |
 | Meta CAPI validated | Server event accepted, `events_received: 1`, Processed in Test Events |
 | `STRIPE_WEBHOOK_SECRET` in `stg` | Copied from `prd`, both now `whsec_pqa2…` |
+| Browser pixel fires | Clean headless Chrome: `fbevents.js` 200, signals config 200, `facebook.com/tr/?id=1561129122079440&ev=PageView` 200, `fbq.loaded === true`. The ad blocker was the only thing suppressing it |
 | Canonicals on the www host | `src/lib/site.ts` is the only origin; no apex URL left outside test fixtures (commit `50f98b7`) |
 
 ## Decided against
@@ -87,6 +80,12 @@ Recorded so the decision does not get relitigated.
 
 ## Removed as no longer applicable
 
+- **Aggregated Event Measurement rankings.** Meta dropped the eight-event limit
+  and manual prioritization for web conversions in mid-2025 and removed the AEM
+  tab from Events Manager. All eligible events are aggregated automatically.
+  Confirmed against the live UI: the left rail is Connect data, Overview,
+  Datasets, Custom conversions, Integrations. The old model still applies to iOS
+  app campaigns, which this account does not run.
 - **Part D, OpenAI Ads.** The paid plan is Meta and LinkedIn. No OpenAI pixel or
   conversions key exists in any Doppler config. Reinstate if that changes.
 - **Part H as written.** It said to place the EPUB at `private/ebook/` and commit
