@@ -12,7 +12,7 @@ type NavItem = {
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Pre-Order", href: "/#buy" },
+  { label: "Pre-Order", href: "/buy" },
   { label: "Read Chapter 1", href: "/excerpt" },
   { label: "About Prashant", href: "/author" },
   { label: "Book Club Guide", href: "/book-club" },
