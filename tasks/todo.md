@@ -29,12 +29,8 @@ Release date is **15 September 2026**.
 
 ## Housekeeping
 
-- [ ] `STRIPE_WEBHOOK_SECRET` missing from Doppler `stg`. Only matters if
-      staging ever takes payments.
 - [ ] Re-login the clobbered Stripe CLI profile:
       `stripe login --project-name agent-panel`
-- [ ] `layout.tsx` sets `baseUrl` to the apex domain, but production 307s apex to
-      `www`. Canonicals and JSON-LD point at a redirecting host.
 
 ---
 
@@ -60,6 +56,8 @@ Kept as a record so nobody redoes them.
 | Live smoke test | Real card purchase confirmed by Prashant |
 | Meta dataset | `1561129122079440`, appears twice in served HTML, `fbq('init')` fires with it |
 | Meta CAPI validated | Server event accepted, `events_received: 1`, Processed in Test Events |
+| `STRIPE_WEBHOOK_SECRET` in `stg` | Copied from `prd`, both now `whsec_pqa2…` |
+| Canonicals on the www host | `src/lib/site.ts` is the only origin; no apex URL left outside test fixtures (commit `50f98b7`) |
 
 ## Decided against
 
