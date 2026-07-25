@@ -33,9 +33,8 @@ function validateRequest(body: unknown): SubscribeRequest | null {
   } = body as Record<string, unknown>;
 
   // The form requires this box before it will submit, but that check lives in
-  // the browser. Rejecting here is what makes the consent real: it is the only
-  // record that the subscriber actually agreed, and it is why this route does
-  // not ask them to confirm by email as well.
+  // the browser. Rejecting here is what makes the consent real, rather than a
+  // claim the UI makes on the subscriber's behalf.
   if (agreedToContact !== true) {
     return null;
   }
@@ -93,11 +92,11 @@ export async function POST(request: Request): Promise<NextResponse> {
       lastName,
       referringSite: referrer || undefined,
       utm: { source: "midnightcoderschildren.com", medium: "website" },
-      // The form will not submit without an explicit "contact me" box, checked
-      // server-side above, so a confirmation email would ask for consent that
-      // has already been given. hCaptcha and the rate limit are what stop this
-      // endpoint being used to sign up other people.
-      doubleOptIn: "off",
+      // Confirmation stays on. The consent box makes it legally redundant, but
+      // it is also what stops this endpoint being used to sign up an address
+      // that is not the sender's, and beehiiv's confirmation doubles as the
+      // welcome email.
+      doubleOptIn: "on",
       customFields: {
         "ARC Interest": interestedInBeta ? "yes" : "no",
       },
