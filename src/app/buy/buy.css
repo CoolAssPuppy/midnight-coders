@@ -400,3 +400,25 @@
     transition: none;
   }
 }
+
+/* Newsletter opt-in beside the checkout button. Ticked by default; the label
+   has to be readable rather than fine print, or the default is a trick. */
+.checkout__optin {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
+  cursor: pointer;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--ink-dim);
+  text-align: left;
+}
+
+.checkout__optin input {
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+  accent-color: var(--teal);
+  cursor: pointer;
+}

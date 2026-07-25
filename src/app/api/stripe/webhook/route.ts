@@ -98,7 +98,9 @@ async function deliverToBuyer(
   // Never allowed to fail the delivery: this runs after the email and discards
   // its own error. No confirmation step and no welcome email, because they
   // consented explicitly a moment ago and are already receiving their book.
-  if (session.consent?.promotions !== "opt_in") {
+  // Collected by a checkbox on this site rather than by Stripe, whose own
+  // consent control cannot be pre-checked and never renders outside the US.
+  if (session.metadata?.newsletter_opt_in !== "true") {
     return;
   }
 

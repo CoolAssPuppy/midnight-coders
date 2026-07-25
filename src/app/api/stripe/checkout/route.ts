@@ -12,7 +12,24 @@ import { readRefsFromCookies, toStripeMetadata } from "@/lib/analytics/ad-refs";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.midnightcoderschildren.com";
 
+/**
+ * Whether the buyer left the newsletter box ticked.
+ *
+ * Stripe's own consent checkbox cannot be pre-checked, cannot be reworded, and
+ * only renders for US customers, so buyers elsewhere could never opt in. The
+ * choice is collected on this site instead and carried through metadata.
+ */
+function readOptIn(value: unknown): string {
+  return value === false ? "false" : "true";
+}
+
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  // The only field this endpoint accepts. A malformed body is not worth
+  // failing a purchase over, so it falls back to opted in.
+  const { newsletterOptIn } = await request
+    .json()
+    .catch(() => ({ newsletterOptIn: true }));
+
   try {
     const rateLimit = applyRateLimit({
       key: `api:digital-checkout:${getClientIp(request)}`,
@@ -35,10 +52,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      // Shows a newsletter opt-in checkbox on the Stripe page. The webhook
-      // subscribes only those who tick it, which is what makes adding a buyer
-      // to a marketing list an explicit choice rather than an assumption.
-      consent_collection: { promotions: "auto" },
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${SITE_URL}/buy/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${SITE_URL}/buy`,
@@ -71,6 +84,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
       metadata: {
         productType: "digital-edition",
+        newsletter_opt_in: readOptIn(newsletterOptIn),
         // Captured here because this is the last request that still carries the
         // browser's cookies, IP, and user agent. The webhook has none of them.
         ...toStripeMetadata({

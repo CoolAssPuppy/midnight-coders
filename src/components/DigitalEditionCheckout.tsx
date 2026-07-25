@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { trackBeginCheckout, PRODUCTS } from "@/lib/analytics";
+import { NewsletterOptIn } from "./NewsletterOptIn";
 
 /**
  * Starts a Stripe Checkout session for the digital edition.
@@ -13,6 +14,9 @@ import { trackBeginCheckout, PRODUCTS } from "@/lib/analytics";
 export function DigitalEditionCheckout(): React.ReactElement {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Opted in by default. Unchecking is one click, and the box is the only
+  // record of the choice, so it is sent to Stripe rather than assumed.
+  const [newsletterOptIn, setNewsletterOptIn] = useState(true);
 
   async function handleCheckout(): Promise<void> {
     setIsLoading(true);
@@ -24,6 +28,7 @@ export function DigitalEditionCheckout(): React.ReactElement {
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ newsletterOptIn }),
       });
 
       const data = await response.json();
@@ -58,6 +63,8 @@ export function DigitalEditionCheckout(): React.ReactElement {
       >
         {isLoading ? "Opening checkout" : "Pre-order the ebook"}
       </button>
+
+      <NewsletterOptIn checked={newsletterOptIn} onChange={setNewsletterOptIn} />
 
       <p className="checkout__reassure">Secure checkout by Stripe.</p>
 
