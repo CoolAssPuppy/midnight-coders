@@ -26,9 +26,9 @@ function readOptIn(value: unknown): string {
 export async function POST(request: NextRequest): Promise<NextResponse> {
   // The only field this endpoint accepts. A malformed body is not worth
   // failing a purchase over, so it falls back to opted in.
-  const { newsletterOptIn } = await request
+  const { newsletterOptIn, betaReader } = await request
     .json()
-    .catch(() => ({ newsletterOptIn: true }));
+    .catch(() => ({ newsletterOptIn: true, betaReader: false }));
 
   try {
     const rateLimit = applyRateLimit({
@@ -85,6 +85,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       metadata: {
         productType: "digital-edition",
         newsletter_opt_in: readOptIn(newsletterOptIn),
+        beta_reader: betaReader === true ? "true" : "false",
         // Captured here because this is the last request that still carries the
         // browser's cookies, IP, and user agent. The webhook has none of them.
         ...toStripeMetadata({

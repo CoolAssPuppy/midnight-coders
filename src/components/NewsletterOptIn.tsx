@@ -15,9 +15,11 @@
 export function NewsletterOptIn({
   checked,
   onChange,
+  label,
 }: {
   checked: boolean;
   onChange: (checked: boolean) => void;
+  label: string;
 }): React.ReactElement {
   return (
     <label className="checkout__optin">
@@ -26,7 +28,7 @@ export function NewsletterOptIn({
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
       />
-      <span>Stay in touch with the author</span>
+      <span>{label}</span>
     </label>
   );
 }

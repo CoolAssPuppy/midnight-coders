@@ -110,7 +110,16 @@ async function deliverToBuyer(
     doubleOptIn: "off",
     sendWelcomeEmail: false,
     utm: { source: "midnightcoderschildren.com", medium: "purchase" },
-    tags: ["mcc", "digital"],
+    customFields: {
+      "ARC Interest": session.metadata?.beta_reader === "true" ? "yes" : "no",
+    },
+    // Advance reader copy is opt-in on the buy page, so it is only applied
+    // when asked for. Nothing added it before, which meant pre-order buyers
+    // could not volunteer at all.
+    tags:
+      session.metadata?.beta_reader === "true"
+        ? ["mcc", "digital", "beta"]
+        : ["mcc", "digital"],
   });
 
   if (!listed.ok) {
