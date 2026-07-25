@@ -77,10 +77,12 @@ export async function POST(request: Request): Promise<NextResponse> {
       referringSite: referrer || undefined,
       utm: { source: "midnightcoderschildren.com", medium: "website" },
       customFields: {
-        // Advanced Reader Copy interest, previously a Kit tag. Segment on this
-        // in beehiiv to pull the ARC list ahead of release.
         "ARC Interest": interestedInBeta ? "yes" : "no",
       },
+      // Everyone joins the one book's list. Advance reader copy requests also
+      // get "beta", matching how the imported subscribers are tagged, so the
+      // two populations segment the same way.
+      tags: interestedInBeta ? ["mcc", "beta"] : ["mcc"],
     });
 
     if (!result.ok) {

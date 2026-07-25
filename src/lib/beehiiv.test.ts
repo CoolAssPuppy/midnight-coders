@@ -64,6 +64,51 @@ describe("Newsletter subscription", () => {
     expect(lastBody(fetchMock).double_opt_override).toBe("not_set");
   });
 
+  it("tags a subscription in a second call, since create has no tags field", async () => {
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => CREATED })
+      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ data: {} }) });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await subscribeToNewsletter({
+      email: "buyer@example.com",
+      tags: ["nerds", "picksandshovels", "bundle"],
+    });
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    const [url, init] = fetchMock.mock.calls[1];
+    expect(url).toContain(`/subscriptions/${CREATED.data.id}/tags`);
+    expect(JSON.parse(init.body).tags).toEqual([
+      "nerds",
+      "picksandshovels",
+      "bundle",
+    ]);
+  });
+
+  it("still reports success when tagging fails", async () => {
+    // The subscribe already worked. A lost tag is a segmentation problem, not
+    // a reason to tell someone their signup failed.
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => CREATED })
+      .mockResolvedValueOnce({ ok: false, status: 500, json: async () => ({}) });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await subscribeToNewsletter({
+      email: "buyer@example.com",
+      tags: ["nerds"],
+    });
+
+    expect(result.ok).toBe(true);
+  });
+
+  it("makes no tagging call when there are no tags", async () => {
+    const fetchMock = mockFetch(200, CREATED);
+
+    await subscribeToNewsletter({ email: "reader@example.com" });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it("sends names as custom fields, omitting the ones not supplied", async () => {
     const fetchMock = mockFetch(200, CREATED);
 

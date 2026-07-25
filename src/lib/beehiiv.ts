@@ -52,6 +52,20 @@ export interface SubscribeParams {
    */
   doubleOptIn?: "on" | "off" | "not_set";
   /**
+   * Whether beehiiv sends its welcome email.
+   *
+   * Off for buyers: they are already receiving a purchase confirmation, and a
+   * welcome landing beside it reads as two emails for one action.
+   */
+  sendWelcomeEmail?: boolean;
+  /**
+   * Tags to apply after subscribing.
+   *
+   * beehiiv has no tags field on the create endpoint, so these go in a second
+   * call. Unknown tags are created on the publication automatically.
+   */
+  tags?: readonly string[];
+  /**
    * Extra beehiiv custom fields, beyond first and last name.
    *
    * Each name must already exist as a custom field on the publication;
@@ -143,7 +157,7 @@ export async function subscribeToNewsletter(
         body: JSON.stringify({
           email: params.email,
           reactivate_existing: true,
-          send_welcome_email: true,
+          send_welcome_email: params.sendWelcomeEmail ?? true,
           double_opt_override: params.doubleOptIn ?? "on",
           referring_site: params.referringSite,
           utm_source: params.utm?.source,
@@ -182,6 +196,10 @@ export async function subscribeToNewsletter(
       };
     }
 
+    if (params.tags?.length) {
+      await applyTags(config, data.id, params.tags);
+    }
+
     return { ok: true, id: data.id, status: data.status };
   } catch (cause) {
     // Timeouts and network failures land here. Worth retrying: the request may
@@ -190,6 +208,43 @@ export async function subscribeToNewsletter(
     console.error(`beehiiv subscribe threw: ${error}`);
 
     return { ok: false, error, retryable: true };
+  }
+}
+
+/**
+ * Tag a subscription.
+ *
+ * Deliberately swallows its own failure. The subscribe already succeeded, and
+ * losing a tag is a segmentation problem rather than a reason to tell a caller
+ * their signup failed and have them try again.
+ */
+async function applyTags(
+  config: BeehiivConfig,
+  subscriptionId: string,
+  tags: readonly string[],
+): Promise<void> {
+  try {
+    const response = await fetch(
+      `${BEEHIIV_API_BASE}/publications/${config.publicationId}/subscriptions/${subscriptionId}/tags`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${config.apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ tags: [...tags] }),
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      },
+    );
+
+    if (!response.ok) {
+      console.error(
+        `beehiiv tagging failed (${response.status}) for ${subscriptionId}`,
+      );
+    }
+  } catch (cause) {
+    const error = cause instanceof Error ? cause.message : String(cause);
+    console.error(`beehiiv tagging threw for ${subscriptionId}: ${error}`);
   }
 }
 

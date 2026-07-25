@@ -94,14 +94,16 @@ async function deliverToBuyer(
   // Newsletter membership only, and never allowed to fail the delivery: this
   // runs after the email and discards its own error.
   //
-  // Confirmation is left to whatever the beehiiv publication is configured to
-  // do. The abuse case that justifies forcing it on the public signup form
-  // does not apply to someone who has just completed a payment.
+  // No confirmation step and no welcome email: they handed over the address in
+  // a transaction, and they are already receiving their book. The abuse case
+  // that justifies double opt-in on the public form does not apply here.
   const listed = await subscribeToNewsletter({
     email,
     firstName,
-    doubleOptIn: "not_set",
+    doubleOptIn: "off",
+    sendWelcomeEmail: false,
     utm: { source: "midnightcoderschildren.com", medium: "purchase" },
+    tags: ["mcc", "digital"],
   });
 
   if (!listed.ok) {
