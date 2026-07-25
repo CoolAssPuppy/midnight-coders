@@ -1,11 +1,20 @@
 /** Sends one of every transactional email. Delete once reviewed. */
 import { notify } from "../src/notifications/index.js";
 import { RELEASE_DATE_ISO } from "../src/lib/stripe.js";
+import { createDownloadToken } from "../src/lib/download-token.js";
 import type { Notification } from "../src/notifications/types.js";
 
 const to = process.argv[2];
 const stamp = Date.now();
-const URL = "https://www.midnightcoderschildren.com/api/download/preview.signature";
+const RELEASE_AT = Date.parse(RELEASE_DATE_ISO);
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.midnightcoderschildren.com";
+// A genuine signed token, so the link in the preview behaves exactly as a
+// buyer's would: it refuses to open until release day.
+const URL = `${SITE}/api/download/${createDownloadToken({
+  sessionId: "cs_live_preview",
+  notBefore: RELEASE_AT,
+  expiresAt: RELEASE_AT + 365 * 24 * 60 * 60 * 1000,
+})}`;
 const order = { amount: "$14.99", orderReference: "cs_live_9KpQm2Xt", purchasedOn: "July 25, 2026",
   receiptUrl: "https://pay.stripe.com/receipts/preview" };
 
