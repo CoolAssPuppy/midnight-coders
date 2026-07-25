@@ -35,6 +35,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      // Shows a newsletter opt-in checkbox on the Stripe page. The webhook
+      // subscribes only those who tick it, which is what makes adding a buyer
+      // to a marketing list an explicit choice rather than an assumption.
+      consent_collection: { promotions: "auto" },
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${SITE_URL}/buy/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${SITE_URL}/buy`,

@@ -91,12 +91,17 @@ async function deliverToBuyer(
     throw new Error(`Notification failed: ${result.error}`);
   }
 
-  // Newsletter membership only, and never allowed to fail the delivery: this
-  // runs after the email and discards its own error.
+  // Newsletter membership only, and only for buyers who ticked the opt-in box
+  // on the Stripe page. Everyone gets their book regardless; this is the
+  // marketing list, and joining it is the buyer's choice to make.
   //
-  // No confirmation step and no welcome email: they handed over the address in
-  // a transaction, and they are already receiving their book. The abuse case
-  // that justifies double opt-in on the public form does not apply here.
+  // Never allowed to fail the delivery: this runs after the email and discards
+  // its own error. No confirmation step and no welcome email, because they
+  // consented explicitly a moment ago and are already receiving their book.
+  if (session.consent?.promotions !== "opt_in") {
+    return;
+  }
+
   const listed = await subscribeToNewsletter({
     email,
     firstName,
