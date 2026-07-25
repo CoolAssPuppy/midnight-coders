@@ -72,3 +72,35 @@ export async function resolvePriceId(lookupKey: string): Promise<string> {
 
   return price.id;
 }
+
+/**
+ * The hosted Stripe receipt for a completed checkout.
+ *
+ * Stripe only produces PDF documents for invoices, so a one-time payment has
+ * no attachable file. What it does have is `charge.receipt_url`, a hosted page
+ * the buyer can view or print, which is what gets linked in their email.
+ *
+ * The charge is not on the session object the webhook receives, so this
+ * re-fetches with the payment intent expanded. Returns null rather than
+ * throwing: a missing receipt link must never hold up delivery of something
+ * already paid for.
+ */
+export async function getReceiptUrl(sessionId: string): Promise<string | null> {
+  try {
+    const stripe = getStripeClient();
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ["payment_intent.latest_charge"],
+    });
+
+    const intent = session.payment_intent;
+    if (!intent || typeof intent === "string") return null;
+
+    const charge = intent.latest_charge;
+    if (!charge || typeof charge === "string") return null;
+
+    return charge.receipt_url ?? null;
+  } catch (error) {
+    console.error(`Could not read receipt URL for ${sessionId}:`, error);
+    return null;
+  }
+}

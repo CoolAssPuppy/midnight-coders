@@ -1,12 +1,6 @@
 import { NextResponse } from "next/server";
 import { verifyCaptcha } from "@/lib/captcha";
-import {
-  subscribeToForm,
-  KIT_FORM_ID,
-  KIT_MCC_TAG_ID,
-  // Also used to route Advanced Reader Copy (ARC) requests from the signup form.
-  KIT_BETA_TAG_ID,
-} from "@/lib/kit";
+import { subscribeToNewsletter } from "@/lib/beehiiv";
 
 interface SubscribeRequest {
   firstName: string;
@@ -76,37 +70,32 @@ export async function POST(request: Request): Promise<NextResponse> {
       );
     }
 
-    if (!process.env.KIT_API_KEY) {
-      console.error("KIT_API_KEY environment variable is not set");
-      return NextResponse.json(
-        { error: "Server configuration error" },
-        { status: 500 }
-      );
-    }
+    const result = await subscribeToNewsletter({
+      email,
+      firstName,
+      lastName,
+      referringSite: referrer || undefined,
+      utm: { source: "midnightcoderschildren.com", medium: "website" },
+      customFields: {
+        // Advanced Reader Copy interest, previously a Kit tag. Segment on this
+        // in beehiiv to pull the ARC list ahead of release.
+        "ARC Interest": interestedInBeta ? "yes" : "no",
+      },
+    });
 
-    try {
-      await subscribeToForm({
-        email,
-        firstName,
-        formId: KIT_FORM_ID,
-        fields: {
-          last_name: lastName,
-          source: "Website",
-          referrer: referrer || "",
-        },
-        tagIds: [
-          KIT_MCC_TAG_ID,
-          ...(interestedInBeta ? [KIT_BETA_TAG_ID] : []),
-        ],
-      });
-    } catch (error) {
-      console.error("Kit subscription failed:", error);
+    if (!result.ok) {
       return NextResponse.json(
         { error: "Failed to subscribe" },
-        { status: 500 }
+        { status: result.retryable ? 503 : 500 }
       );
     }
 
+    // beehiiv sends the confirmation and owns the welcome sequence from here,
+    // so this route deliberately sends nothing itself.
+    //
+    // The same response comes back whether the address was new or already on
+    // the list, so this endpoint cannot be used to test whether a given person
+    // is a subscriber.
     return NextResponse.json(
       { success: true, message: "Successfully subscribed" },
       { status: 200 }

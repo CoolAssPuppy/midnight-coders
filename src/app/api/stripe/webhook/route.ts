@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { getStripeClient, RELEASE_DATE_ISO } from "@/lib/stripe";
-import {
-  subscribeToForm,
-  KIT_MCC_TAG_ID,
-  KIT_DIGITAL_PURCHASE_TAG_ID,
-} from "@/lib/kit";
+import { getReceiptUrl, getStripeClient, RELEASE_DATE_ISO } from "@/lib/stripe";
+import { subscribeToNewsletter } from "@/lib/beehiiv";
 import { createDownloadToken } from "@/lib/download-token";
+import { notify } from "@/notifications";
+import { formatAmount } from "@/notifications/templates/_components/theme";
 import { fromStripeMetadata } from "@/lib/analytics/ad-refs";
 import { sendOpenAiConversion } from "@/lib/analytics/openai-capi";
 import { sendMetaConversion } from "@/lib/analytics/meta-capi";
@@ -19,9 +17,16 @@ const SITE_URL =
 const DOWNLOAD_WINDOW_MS = 365 * 24 * 60 * 60 * 1000;
 
 /**
- * Deliver the book by tagging the buyer in Kit with their personal download URL
- * in a custom field. A Kit automation triggered by the purchase tag sends the
- * email and merges `{{ subscriber.download_url }}`.
+ * Deliver the book by emailing the buyer their personal download link.
+ *
+ * Delivery used to run through Kit: the URL went into a custom field and a Kit
+ * automation, triggered by a purchase tag, sent the mail. That made a paid
+ * product depend on a marketing tool. The notification engine now sends it
+ * directly, and no Kit tag is applied any more, so the old automation cannot
+ * fire a duplicate even if it is still switched on over there.
+ *
+ * The buyer is still added to the newsletter afterwards, which is list
+ * membership rather than delivery.
  */
 async function deliverToBuyer(
   session: Stripe.Checkout.Session,
@@ -35,18 +40,75 @@ async function deliverToBuyer(
     expiresAt: releaseAt + DOWNLOAD_WINDOW_MS,
   });
 
-  const tagIds = [KIT_MCC_TAG_ID];
-  if (KIT_DIGITAL_PURCHASE_TAG_ID) tagIds.push(KIT_DIGITAL_PURCHASE_TAG_ID);
+  const firstName = session.customer_details?.name?.split(" ")[0] ?? "";
+  const downloadUrl = `${SITE_URL}/api/download/${token}`;
+  const purchasedOn = new Date(session.created * 1000).toLocaleDateString(
+    "en-US",
+    { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" },
+  );
+  const amount = formatAmount(session.amount_total, session.currency);
 
-  await subscribeToForm({
+  // Stripe has no PDF for a one-time payment, only a hosted receipt page.
+  const receiptUrl = await getReceiptUrl(session.id);
+
+  // Before release day the link exists but refuses to open, so the buyer needs
+  // to be told that plainly rather than handed a link that looks broken.
+  const result =
+    Date.now() < releaseAt
+      ? await notify(
+          {
+            type: "preorder.confirmed",
+            to: email,
+            data: {
+              firstName,
+              downloadUrl,
+              releaseDateIso: RELEASE_DATE_ISO,
+              amount,
+              orderReference: session.id,
+              purchasedOn,
+              receiptUrl,
+            },
+          },
+          session.id,
+        )
+      : await notify(
+          {
+            type: "purchase.delivered",
+            to: email,
+            data: {
+              firstName,
+              downloadUrl,
+              amount,
+              orderReference: session.id,
+              purchasedOn,
+              receiptUrl,
+            },
+          },
+          session.id,
+        );
+
+  if (!result.ok) {
+    throw new Error(`Notification failed: ${result.error}`);
+  }
+
+  // Newsletter membership only, and never allowed to fail the delivery: this
+  // runs after the email and discards its own error.
+  //
+  // Confirmation is left to whatever the beehiiv publication is configured to
+  // do. The abuse case that justifies forcing it on the public signup form
+  // does not apply to someone who has just completed a payment.
+  const listed = await subscribeToNewsletter({
     email,
-    firstName: session.customer_details?.name?.split(" ")[0] ?? "",
-    tagIds,
-    fields: {
-      download_url: `${SITE_URL}/api/download/${token}`,
-      purchase_source: "direct-digital",
-    },
+    firstName,
+    doubleOptIn: "not_set",
+    utm: { source: "midnightcoderschildren.com", medium: "purchase" },
   });
+
+  if (!listed.ok) {
+    console.error(
+      `beehiiv subscribe failed for session ${session.id}: ${listed.error}`,
+    );
+  }
 }
 
 /**
