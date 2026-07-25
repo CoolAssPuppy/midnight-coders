@@ -7,6 +7,7 @@ interface SubscribeRequest {
   lastName: string;
   email: string;
   referrer: string;
+  agreedToContact: boolean;
   interestedInBeta: boolean;
   captchaToken: string;
 }
@@ -21,8 +22,23 @@ function validateRequest(body: unknown): SubscribeRequest | null {
     return null;
   }
 
-  const { firstName, lastName, email, referrer, interestedInBeta, captchaToken } =
-    body as Record<string, unknown>;
+  const {
+    firstName,
+    lastName,
+    email,
+    referrer,
+    agreedToContact,
+    interestedInBeta,
+    captchaToken,
+  } = body as Record<string, unknown>;
+
+  // The form requires this box before it will submit, but that check lives in
+  // the browser. Rejecting here is what makes the consent real: it is the only
+  // record that the subscriber actually agreed, and it is why this route does
+  // not ask them to confirm by email as well.
+  if (agreedToContact !== true) {
+    return null;
+  }
 
   if (
     typeof firstName !== "string" ||
@@ -42,6 +58,7 @@ function validateRequest(body: unknown): SubscribeRequest | null {
     lastName: lastName.trim(),
     email: email.trim().toLowerCase(),
     referrer: typeof referrer === "string" ? referrer.trim() : "",
+    agreedToContact: true,
     interestedInBeta: interestedInBeta === true,
     captchaToken: captchaToken.trim(),
   };
@@ -76,6 +93,11 @@ export async function POST(request: Request): Promise<NextResponse> {
       lastName,
       referringSite: referrer || undefined,
       utm: { source: "midnightcoderschildren.com", medium: "website" },
+      // The form will not submit without an explicit "contact me" box, checked
+      // server-side above, so a confirmation email would ask for consent that
+      // has already been given. hCaptcha and the rate limit are what stop this
+      // endpoint being used to sign up other people.
+      doubleOptIn: "off",
       customFields: {
         "ARC Interest": interestedInBeta ? "yes" : "no",
       },

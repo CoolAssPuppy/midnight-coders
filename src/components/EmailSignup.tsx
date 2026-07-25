@@ -232,6 +232,7 @@ function EmailSignupComponent({
             lastName: formData.lastName,
             email: formData.email,
             referrer: getReferrerFromUrl(),
+            agreedToContact: formData.agreedToContact,
             interestedInBeta: formData.interestedInBeta,
             captchaToken,
           }),
@@ -270,7 +271,16 @@ function EmailSignupComponent({
         captchaRef.current?.resetCaptcha();
       }
     },
-    [isFormValid, status, formData.firstName, formData.lastName, formData.email, formData.interestedInBeta, captchaToken]
+    [
+      isFormValid,
+      status,
+      formData.firstName,
+      formData.lastName,
+      formData.email,
+      formData.agreedToContact,
+      formData.interestedInBeta,
+      captchaToken,
+    ]
   );
 
   if (opacity <= 0) {
