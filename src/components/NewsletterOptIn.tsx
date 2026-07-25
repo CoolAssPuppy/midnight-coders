@@ -26,7 +26,7 @@ export function NewsletterOptIn({
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
       />
-      <span>Email me about the book and what comes next. Unsubscribe anytime.</span>
+      <span>Stay in touch with the author</span>
     </label>
   );
 }
