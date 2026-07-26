@@ -4,12 +4,10 @@ import {
   useState,
   useEffect,
   useCallback,
-  useRef,
   memo,
   type FormEvent,
 } from "react";
 import Image from "next/image";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { trackNewsletterSignup } from "@/lib/analytics";
 import "./email-signup.css";
 
@@ -182,14 +180,12 @@ function EmailSignupComponent({
   });
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [emailTouched, setEmailTouched] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const captchaRef = useRef<HCaptcha>(null);
 
   const isFormValid =
     formData.firstName.trim() !== "" &&
     formData.lastName.trim() !== "" &&
     isValidEmail(formData.email) &&
-    captchaToken !== null;
+    isValidEmail(formData.email);
 
   const showEmailError =
     emailTouched && formData.email.trim() !== "" && !isValidEmail(formData.email);
@@ -230,7 +226,6 @@ function EmailSignupComponent({
             email: formData.email,
             referrer: getReferrerFromUrl(),
             interestedInBeta: formData.interestedInBeta,
-            captchaToken,
           }),
         });
 
@@ -258,12 +253,8 @@ function EmailSignupComponent({
                 interestedInBeta: false,
         });
         setEmailTouched(false);
-        setCaptchaToken(null);
-        captchaRef.current?.resetCaptcha();
       } catch {
         setStatus("error");
-        setCaptchaToken(null);
-        captchaRef.current?.resetCaptcha();
       }
     },
     [
@@ -273,7 +264,6 @@ function EmailSignupComponent({
       formData.lastName,
       formData.email,
       formData.interestedInBeta,
-      captchaToken,
     ]
   );
 
@@ -387,17 +377,6 @@ function EmailSignupComponent({
               />
               <span>I am requesting an Advanced Reader Copy (ARC)</span>
             </label>
-
-            <div className="signup__captcha">
-              <HCaptcha
-                ref={captchaRef}
-                sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || ""}
-                onVerify={(token) => setCaptchaToken(token)}
-                onExpire={() => setCaptchaToken(null)}
-                onError={() => setCaptchaToken(null)}
-                theme="dark"
-              />
-            </div>
 
             <button
               type="submit"

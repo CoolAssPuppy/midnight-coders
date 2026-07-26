@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { verifyCaptcha } from "@/lib/captcha";
 import { applyRateLimit, getClientIp } from "@/lib/rate-limit";
 import { subscribeToNewsletter } from "@/lib/beehiiv";
 
@@ -9,7 +8,6 @@ interface SubscribeRequest {
   email: string;
   referrer: string;
   interestedInBeta: boolean;
-  captchaToken: string;
 }
 
 function isValidEmail(email: string): boolean {
@@ -28,19 +26,17 @@ function validateRequest(body: unknown): SubscribeRequest | null {
     email,
     referrer,
     interestedInBeta,
-    captchaToken,
   } = body as Record<string, unknown>;
 
   if (
     typeof firstName !== "string" ||
     typeof lastName !== "string" ||
-    typeof email !== "string" ||
-    typeof captchaToken !== "string"
+    typeof email !== "string"
   ) {
     return null;
   }
 
-  if (!firstName.trim() || !lastName.trim() || !isValidEmail(email) || !captchaToken.trim()) {
+  if (!firstName.trim() || !lastName.trim() || !isValidEmail(email)) {
     return null;
   }
 
@@ -50,7 +46,6 @@ function validateRequest(body: unknown): SubscribeRequest | null {
     email: email.trim().toLowerCase(),
     referrer: typeof referrer === "string" ? referrer.trim() : "",
     interestedInBeta: interestedInBeta === true,
-    captchaToken: captchaToken.trim(),
   };
 }
 
@@ -58,8 +53,9 @@ export async function POST(request: Request): Promise<NextResponse> {
   try {
     // Signups now land active rather than waiting on a confirmation, so this
     // endpoint can add a real address to a real list in one unauthenticated
-    // request. The captcha stops scripted abuse; this bounds what a human
-    // driving a browser can do.
+    // request, and there is no captcha in front of it. Double opt-in means a
+    // bad address only ever becomes a pending row that never confirms, but
+    // this still bounds how fast one source can create them.
     const rateLimit = applyRateLimit({
       key: `api:subscribe:${getClientIp(request)}`,
       max: 5,
@@ -86,16 +82,9 @@ export async function POST(request: Request): Promise<NextResponse> {
       );
     }
 
-    const { firstName, lastName, email, referrer, interestedInBeta, captchaToken } =
+    const { firstName, lastName, email, referrer, interestedInBeta } =
       validatedData;
 
-    const isCaptchaValid = await verifyCaptcha(captchaToken);
-    if (!isCaptchaValid) {
-      return NextResponse.json(
-        { error: "Captcha verification failed" },
-        { status: 400 }
-      );
-    }
 
     const result = await subscribeToNewsletter({
       email,
