@@ -92,11 +92,15 @@ export async function POST(request: Request): Promise<NextResponse> {
       lastName,
       referringSite: referrer || undefined,
       utm: { source: "midnightcoderschildren.com", medium: "website" },
-      // Confirmation stays on. The consent box makes it legally redundant, but
-      // it is also what stops this endpoint being used to sign up an address
-      // that is not the sender's, and beehiiv's confirmation doubles as the
-      // welcome email.
-      doubleOptIn: "on",
+      // No confirmation step. The form will not submit without the "agree to
+      // be contacted" box, which is checked server-side above, so consent is
+      // already explicit.
+      //
+      // More practically: beehiiv's signup trigger only fires once someone is
+      // confirmed. Leaving them pending meant the Welcome Sequence, whose own
+      // first email is the welcome, could never enrol them. They sat pending
+      // and heard nothing.
+      doubleOptIn: "off",
       customFields: {
         "ARC Interest": interestedInBeta ? "yes" : "no",
       },
