@@ -155,7 +155,6 @@ interface FormData {
   firstName: string;
   lastName: string;
   email: string;
-  agreedToContact: boolean;
   interestedInBeta: boolean;
 }
 
@@ -179,7 +178,6 @@ function EmailSignupComponent({
     firstName: "",
     lastName: "",
     email: "",
-    agreedToContact: false,
     interestedInBeta: false,
   });
   const [status, setStatus] = useState<SubmitStatus>("idle");
@@ -191,7 +189,6 @@ function EmailSignupComponent({
     formData.firstName.trim() !== "" &&
     formData.lastName.trim() !== "" &&
     isValidEmail(formData.email) &&
-    formData.agreedToContact &&
     captchaToken !== null;
 
   const showEmailError =
@@ -232,7 +229,6 @@ function EmailSignupComponent({
             lastName: formData.lastName,
             email: formData.email,
             referrer: getReferrerFromUrl(),
-            agreedToContact: formData.agreedToContact,
             interestedInBeta: formData.interestedInBeta,
             captchaToken,
           }),
@@ -259,8 +255,7 @@ function EmailSignupComponent({
           firstName: "",
           lastName: "",
           email: "",
-          agreedToContact: false,
-          interestedInBeta: false,
+                interestedInBeta: false,
         });
         setEmailTouched(false);
         setCaptchaToken(null);
@@ -277,7 +272,6 @@ function EmailSignupComponent({
       formData.firstName,
       formData.lastName,
       formData.email,
-      formData.agreedToContact,
       formData.interestedInBeta,
       captchaToken,
     ]
@@ -378,21 +372,6 @@ function EmailSignupComponent({
                 </p>
               )}
             </div>
-
-            <label className="signup__check">
-              <input
-                type="checkbox"
-                checked={formData.agreedToContact}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    agreedToContact: e.target.checked,
-                  }))
-                }
-                disabled={status === "submitting"}
-              />
-              <span>I agree to be contacted about Bodhi Press publications</span>
-            </label>
 
             <label className="signup__check">
               <input

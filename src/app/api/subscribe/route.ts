@@ -8,7 +8,6 @@ interface SubscribeRequest {
   lastName: string;
   email: string;
   referrer: string;
-  agreedToContact: boolean;
   interestedInBeta: boolean;
   captchaToken: string;
 }
@@ -28,17 +27,9 @@ function validateRequest(body: unknown): SubscribeRequest | null {
     lastName,
     email,
     referrer,
-    agreedToContact,
     interestedInBeta,
     captchaToken,
   } = body as Record<string, unknown>;
-
-  // The form requires this box before it will submit, but that check lives in
-  // the browser. Rejecting here is what makes the consent real, rather than a
-  // claim the UI makes on the subscriber's behalf.
-  if (agreedToContact !== true) {
-    return null;
-  }
 
   if (
     typeof firstName !== "string" ||
@@ -58,7 +49,6 @@ function validateRequest(body: unknown): SubscribeRequest | null {
     lastName: lastName.trim(),
     email: email.trim().toLowerCase(),
     referrer: typeof referrer === "string" ? referrer.trim() : "",
-    agreedToContact: true,
     interestedInBeta: interestedInBeta === true,
     captchaToken: captchaToken.trim(),
   };
@@ -113,15 +103,11 @@ export async function POST(request: Request): Promise<NextResponse> {
       lastName,
       referringSite: referrer || undefined,
       utm: { source: "midnightcoderschildren.com", medium: "website" },
-      // No confirmation step. The form will not submit without the "agree to
-      // be contacted" box, which is checked server-side above, so consent is
-      // already explicit.
-      //
-      // More practically: beehiiv's signup trigger only fires once someone is
-      // confirmed. Leaving them pending meant the Welcome Sequence, whose own
-      // first email is the welcome, could never enrol them. They sat pending
-      // and heard nothing.
-      doubleOptIn: "off",
+      // Left to the publication's own double opt-in setting, which sends a
+      // branded confirmation email and holds the subscriber pending until they
+      // click it. That click is the consent record, and it verifies the person
+      // controls the address, which a checkbox on this site cannot.
+      doubleOptIn: "not_set",
       customFields: {
         "ARC Interest": interestedInBeta ? "yes" : "no",
       },
