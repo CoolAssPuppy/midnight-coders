@@ -92,11 +92,11 @@ export async function POST(request: Request): Promise<NextResponse> {
       lastName,
       referringSite: referrer || undefined,
       utm: { source: "midnightcoderschildren.com", medium: "website" },
-      // Left to the publication's own double opt-in setting, which sends a
-      // branded confirmation email and holds the subscriber pending until they
-      // click it. That click is the consent record, and it verifies the person
-      // controls the address, which a checkbox on this site cannot.
-      doubleOptIn: "not_set",
+      // Forced off, overriding the publication setting. Pending subscribers
+      // receive nothing at all from beehiiv until they confirm, and no
+      // confirmation email has ever arrived, so deferring to the publication
+      // stranded every signup. Active is the state that works today.
+      doubleOptIn: "off",
       customFields: {
         "ARC Interest": interestedInBeta ? "yes" : "no",
       },
