@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { verifyCaptcha } from "@/lib/captcha";
+import { applyRateLimit, getClientIp } from "@/lib/rate-limit";
 import { subscribeToNewsletter } from "@/lib/beehiiv";
 
 interface SubscribeRequest {
@@ -65,6 +66,26 @@ function validateRequest(body: unknown): SubscribeRequest | null {
 
 export async function POST(request: Request): Promise<NextResponse> {
   try {
+    // Signups now land active rather than waiting on a confirmation, so this
+    // endpoint can add a real address to a real list in one unauthenticated
+    // request. The captcha stops scripted abuse; this bounds what a human
+    // driving a browser can do.
+    const rateLimit = applyRateLimit({
+      key: `api:subscribe:${getClientIp(request)}`,
+      max: 5,
+      windowMs: 10 * 60 * 1000,
+    });
+
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: "Too many attempts. Please try again later." },
+        {
+          status: 429,
+          headers: { "Retry-After": String(rateLimit.retryAfterSeconds) },
+        }
+      );
+    }
+
     const body: unknown = await request.json();
     const validatedData = validateRequest(body);
 
