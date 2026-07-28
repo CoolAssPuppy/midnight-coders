@@ -7,7 +7,7 @@ import { Footer } from "@/components/Footer";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { MetaPageView } from "@/components/MetaPageView";
 import { PRIMARY_BUY_URL } from "@/lib/buy-links";
-import { OPENAI_PIXEL_ID, META_DATASET_ID } from "@/lib/analytics";
+import { OPENAI_PIXEL_ID, META_DATASET_ID, GA_MEASUREMENT_ID } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -193,6 +193,31 @@ export default function RootLayout({
             `,
           }}
         />
+        {/*
+          GA4 via gtag, loaded directly rather than through the GTM container
+          above. Do NOT also add a GA4 Configuration tag for this measurement id
+          inside GTM — both pipes would fire and every metric would read double.
+          GTM stays for the ad-platform tags that already live in it.
+        */}
+        {GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              id="ga4-lib"
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+            />
+            <Script
+              id="ga4-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config','${GA_MEASUREMENT_ID}');`,
+              }}
+            />
+          </>
+        )}
         {/*
           Ad measurement pixels. Both are afterInteractive rather than
           lazyOnload because a retailer click can happen well before the browser

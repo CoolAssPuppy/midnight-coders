@@ -3,12 +3,14 @@ import { gtmDestination } from "./destinations/gtm";
 import { posthogDestination } from "./destinations/posthog";
 import { openaiDestination } from "./destinations/openai";
 import { metaDestination } from "./destinations/meta";
+import { googleAnalyticsDestination } from "./destinations/google-analytics";
 
 export type { Product } from "./types";
 export { PRODUCTS } from "./products";
 export { initPostHog } from "./destinations/posthog";
 export { OPENAI_PIXEL_ID } from "./destinations/openai";
 export { META_DATASET_ID } from "./destinations/meta";
+export { GA_MEASUREMENT_ID } from "./destinations/google-analytics";
 
 // ---------------------------------------------------------------------------
 // Destination registry
@@ -17,6 +19,7 @@ export { META_DATASET_ID } from "./destinations/meta";
 const destinations: AnalyticsDestination[] = [
   gtmDestination,
   posthogDestination,
+  googleAnalyticsDestination,
   openaiDestination,
   metaDestination,
 ];
