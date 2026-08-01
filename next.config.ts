@@ -20,6 +20,17 @@ const nextConfig: NextConfig = {
   // PostHog requires this alongside the rewrites above; without it a trailing
   // slash redirect breaks ingest requests.
   skipTrailingSlashRedirect: true,
+
+  images: {
+    // Social posts keep stable filenames across rebuilds, so their URLs carry a
+    // content hash to stop the optimizer serving the render it cached before
+    // the copy changed. Omitting `search` here is what allows that query
+    // string; every other local image is still required to have none.
+    localPatterns: [
+      { pathname: "/social/**" },
+      { pathname: "/**", search: "" },
+    ],
+  },
 };
 
 export default nextConfig;

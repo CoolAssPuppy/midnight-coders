@@ -17,7 +17,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "press-kit:zip": "node scripts/build-press-kit-zip.mjs"
+    "press-kit:zip": "node scripts/build-press-kit-zip.mjs",
+    "social:build": "node scripts/social/generate.mjs"
   },
   "dependencies": {
     "@hcaptcha/react-hcaptcha": "^1.17.3",

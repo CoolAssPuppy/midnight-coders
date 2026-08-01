@@ -111,7 +111,11 @@ export function trackExcerptOpened(): void {
   send("excerpt_opened", {});
 }
 
-export type DownloadCategory = "press_kit" | "book_club" | "media_asset";
+export type DownloadCategory =
+  | "press_kit"
+  | "book_club"
+  | "media_asset"
+  | "social_asset";
 
 /** A file download that is not the book itself. */
 export function trackFileDownload(params: {
