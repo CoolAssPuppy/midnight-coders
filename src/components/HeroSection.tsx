@@ -58,7 +58,7 @@ function HeroSectionComponent({
           (Coming September 2026)
         </p>
       </div>
-      <BuyTheBook showPullQuote />
+      <BuyTheBook showPullQuote showShareLink={false} />
     </div>
   );
 }

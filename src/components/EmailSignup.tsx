@@ -8,6 +8,7 @@ import {
   type FormEvent,
 } from "react";
 import Image from "next/image";
+import { BuyTheBook } from "@/components/BuyTheBook";
 import { trackNewsletterSignup } from "@/lib/analytics";
 import "./email-signup.css";
 
@@ -393,35 +394,40 @@ function EmailSignupComponent({
             )}
           </form>
         )}
-
-        <footer
-          className="mt-12 text-center text-xs"
-          style={{
-            color: "#6A9955",
-          }}
-        >
-          <p className="mb-1">&copy; 2026 Bodhi Press</p>
-          <div className="flex items-center justify-center gap-2">
-            <PrivacyPolicy />
-          </div>
-          <div className="mt-8 flex items-center justify-center gap-6">
-            <Image
-              src="/images/midnight-coders-logotype.svg"
-              alt="The Midnight Coder's Children"
-              width={75}
-              height={75}
-              className="h-[75px] w-auto"
-            />
-            <Image
-              src="/images/bodhi-press.svg"
-              alt="Bodhi Press"
-              width={75}
-              height={75}
-              className="h-[75px] w-auto"
-            />
-          </div>
-        </footer>
       </div>
+
+      {/* Outside the form column so the retailer buttons sit on one row rather
+          than wrapping. The last thing on the homepage before the copyright:
+          a reader who scrolled this far should not have to go back up. */}
+      <BuyTheBook id="buy-signup" isCompact />
+
+      <footer
+        className="text-center text-xs"
+        style={{
+          color: "#6A9955",
+        }}
+      >
+        <p className="mb-1">&copy; 2026 Bodhi Press</p>
+        <div className="flex items-center justify-center gap-2">
+          <PrivacyPolicy />
+        </div>
+        <div className="mt-5 flex items-center justify-center gap-6">
+          <Image
+            src="/images/midnight-coders-logotype.svg"
+            alt="The Midnight Coder's Children"
+            width={75}
+            height={75}
+            className="h-[52px] w-auto"
+          />
+          <Image
+            src="/images/bodhi-press.svg"
+            alt="Bodhi Press"
+            width={75}
+            height={75}
+            className="h-[52px] w-auto"
+          />
+        </div>
+      </footer>
     </div>
   );
 }

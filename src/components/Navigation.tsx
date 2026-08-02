@@ -15,7 +15,6 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Pre-Order", href: "/buy" },
   { label: "Read Chapter 1", href: "/excerpt" },
   { label: "About Prashant", href: "/author" },
-  { label: "Tell Your Friends", href: "/socials" },
   { label: "Book Club Guide", href: "/book-club" },
   { label: "Press Kit", href: "/press-kit" },
 ];
@@ -50,9 +49,9 @@ export function Navigation(): React.ReactElement {
           : "1px solid transparent",
       }}
     >
-      <div className="max-w-5xl mx-auto px-6 py-4">
+      <div className="max-w-3xl mx-auto px-6 py-4">
         {/* Desktop nav */}
-        <ul className="hidden md:flex items-center justify-center gap-6 lg:gap-7 list-none m-0 p-0">
+        <ul className="hidden md:flex items-center justify-center gap-8 list-none m-0 p-0">
           {NAV_ITEMS.map((item) => (
             <li key={item.label} className="relative text-center">
               {item.isDisabled ? (

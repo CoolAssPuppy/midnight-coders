@@ -20,16 +20,29 @@ type BuyTheBookProps = {
    * copy does not repeat an id the first one already owns.
    */
   id?: string;
+  /** Turn the share link off on /socials, where it would point at itself. */
+  showShareLink?: boolean;
+  /**
+   * Tighter vertical rhythm. The homepage holds its last stage in a fixed,
+   * viewport-centred column, so every pixel here comes out of the countdown at
+   * the top or the logos at the bottom.
+   */
+  isCompact?: boolean;
 };
 
 export function BuyTheBook({
   showPullQuote = false,
   id = "buy",
+  showShareLink = true,
+  isCompact = false,
 }: BuyTheBookProps): React.ReactElement {
   return (
-    <section id={id} className="py-10 flex flex-col items-center scroll-mt-24">
+    <section
+      id={id}
+      className={`${isCompact ? "py-6" : "py-10"} flex flex-col items-center scroll-mt-24`}
+    >
       <p
-        className="text-xs tracking-[0.15em] uppercase mb-5"
+        className={`text-xs tracking-[0.15em] uppercase ${isCompact ? "mb-4" : "mb-5"}`}
         style={{
           color: "rgba(255, 255, 255, 0.4)",
           fontFamily: "var(--font-mono)",
@@ -37,7 +50,7 @@ export function BuyTheBook({
       >
         Get the book
       </p>
-      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+      <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center sm:items-start gap-4">
         {BUY_LINKS.map((link) => (
           <span key={link.label} className="flex flex-col items-center">
             {link.href && link.retailer ? (
@@ -98,6 +111,16 @@ export function BuyTheBook({
             BookLife
           </footer>
         </blockquote>
+      )}
+
+      {showShareLink && (
+        <Link
+          href="/socials"
+          className={`${isCompact ? "mt-5" : "mt-7"} text-[10px] tracking-[0.18em] uppercase underline underline-offset-4 transition-colors text-white/30 hover:text-white/60`}
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          Tell your friends
+        </Link>
       )}
     </section>
   );

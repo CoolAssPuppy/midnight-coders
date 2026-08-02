@@ -59,11 +59,7 @@ export default function SocialsPage(): React.ReactElement {
             >
               by Prashant Sridharan
             </p>
-            {/* Held to a narrower column so the centred CTA sits under the
-                title rather than drifting into the middle of the grid. */}
-            <div className="max-w-2xl">
-              <BuyTheBook />
-            </div>
+            <BuyTheBook showShareLink={false} />
           </div>
 
           <SocialPostGallery posts={SOCIAL_POSTS} />
@@ -72,7 +68,7 @@ export default function SocialsPage(): React.ReactElement {
             className="mt-24 md:mt-32 pt-4"
             style={{ borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}
           >
-            <BuyTheBook id="buy-footer" />
+            <BuyTheBook id="buy-footer" showShareLink={false} />
           </div>
         </div>
       </main>
