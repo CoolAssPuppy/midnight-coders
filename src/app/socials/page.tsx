@@ -1,24 +1,31 @@
 import type { Metadata } from "next";
 
+import { BuyTheBook } from "@/components/BuyTheBook";
 import { SocialPostGallery } from "@/components/SocialPostGallery";
 import { SocialsBackground } from "@/components/SocialsBackground";
 import { SOCIAL_POSTS } from "@/lib/social-posts.generated";
 import { siteUrl } from "@/lib/site";
+import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 
-/**
- * Nothing links here yet, so the page is kept out of search. Remove the robots
- * block when it goes into the navigation.
- */
 export const metadata: Metadata = {
-  title: "Social Assets | The Midnight Coder's Children",
+  title: "Tell Your Friends | The Midnight Coder's Children",
   description:
-    "Ready-to-post images for The Midnight Coder's Children, in vertical, story, and square sizes.",
+    "Ready-to-post images and looping videos for The Midnight Coder's Children, in vertical, story, and square sizes.",
   alternates: { canonical: siteUrl("/socials") },
-  robots: { index: false, follow: false },
+  openGraph: {
+    title: "Tell Your Friends | The Midnight Coder's Children",
+    description:
+      "Ready-to-post images and looping videos for The Midnight Coder's Children.",
+    url: siteUrl("/socials"),
+  },
 };
 
 const MONO = { fontFamily: "var(--font-mono)" } as const;
 const SERIF = { fontFamily: "Georgia, 'Times New Roman', serif" } as const;
+
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Tell Your Friends", path: "/socials" },
+]);
 
 export default function SocialsPage(): React.ReactElement {
   return (
@@ -28,6 +35,10 @@ export default function SocialsPage(): React.ReactElement {
         id="main-content"
         className="relative z-10 pt-24 pb-20 md:pt-32 md:pb-28 px-6"
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        />
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
             <p
@@ -43,14 +54,26 @@ export default function SocialsPage(): React.ReactElement {
               The Midnight Coder&apos;s Children
             </h1>
             <p
-              className="text-sm leading-relaxed"
+              className="text-sm leading-relaxed mb-8"
               style={{ ...MONO, color: "rgba(255, 255, 255, 0.5)" }}
             >
               by Prashant Sridharan
             </p>
+            {/* Held to a narrower column so the centred CTA sits under the
+                title rather than drifting into the middle of the grid. */}
+            <div className="max-w-2xl">
+              <BuyTheBook />
+            </div>
           </div>
 
           <SocialPostGallery posts={SOCIAL_POSTS} />
+
+          <div
+            className="mt-24 md:mt-32 pt-4"
+            style={{ borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}
+          >
+            <BuyTheBook id="buy-footer" />
+          </div>
         </div>
       </main>
     </>

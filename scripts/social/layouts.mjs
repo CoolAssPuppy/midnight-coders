@@ -43,12 +43,53 @@ function headline(text, scale) {
 
 function callToAction(scale) {
   return `<div class="cta">
-      <span class="cta-button">${CTA.button}</span>
-      <div class="cta-meta">
-        <span class="cta-url">${CTA.url}</span>
-        <span class="cta-release">${CTA.release}</span>
-      </div>
+      <span class="cta-url">${CTA.url}</span>
+      <span class="cta-release">${CTA.release}</span>
     </div>`;
+}
+
+function ribbon() {
+  return `<div class="ribbon"><span>${CTA.ribbon}</span></div>`;
+}
+
+/**
+ * Ribbon geometry, and how far the top copy has to stay clear of it.
+ *
+ * The band cuts the top-right corner, crossing the top edge `cut` px left of
+ * it and the right edge `cut` px below it. Both ends have to run off the
+ * canvas: if either one stops inside the clip box it gets squared off
+ * mid-air, which is what a naive "centre the band in a square" version does.
+ * So the band is longer than the chord it has to cover, and the box is sized
+ * to hold the whole thing except where it leaves through the two canvas
+ * edges.
+ *
+ * Its inner edge is the centre line pushed back by half the thickness. That
+ * edge runs away to the right as it descends, so the tightest point is
+ * wherever the top copy starts.
+ */
+function ribbonMetrics(size) {
+  const { scale, width, pad, padTop } = size;
+  const cut = 230 * scale;
+  const thickness = 63 * scale;
+  const overhang = 90 * scale;
+  const length = cut * Math.SQRT2 + overhang;
+  const box = Math.ceil(cut / 2 + ((length + thickness) / 2) * Math.SQRT1_2 + 20);
+
+  // Where the headline's first line sits: the rule, then the gap under it.
+  const copyTop = padTop + 2 + 26 * scale;
+  const innerEdgeX = width - cut - thickness * Math.SQRT1_2 + copyTop;
+
+  return {
+    box,
+    length: Math.round(length),
+    thickness,
+    // Centre of the band, in coordinates local to the clip box.
+    centreX: Math.round(box - cut / 2),
+    centreY: Math.round(cut / 2),
+    fontSize: 19 * scale,
+    padY: 20 * scale,
+    topCopyWidth: Math.round(innerEdgeX - pad - 20),
+  };
 }
 
 function cover(assetUrl, layout, sizeId) {
@@ -73,6 +114,7 @@ const LAYOUTS = {
           ${sub}
         </div>
         ${callToAction(scale)}
+        ${ribbon()}
       </div>`;
   },
 
@@ -89,6 +131,7 @@ const LAYOUTS = {
           <p class="sub" style="font-size:${px(23, scale)}">${concept.sub}</p>
         </div>
         ${callToAction(scale)}
+        ${ribbon()}
       </div>`;
   },
 };
@@ -103,6 +146,7 @@ export function renderLayout(concept, size, assetUrl) {
 
 export function layoutStyles(size) {
   const { scale, pad, padTop, padBottom } = size;
+  const ribbonStyle = ribbonMetrics(size);
 
   return `
     .frame {
@@ -126,7 +170,28 @@ export function layoutStyles(size) {
     .headline {
       margin:0; font-family:${FONTS.display};
       color:${COLORS.white}; letter-spacing:-0.008em;
-      max-width:${px(880, scale)};
+      max-width:${ribbonStyle.topCopyWidth}px;
+    }
+
+    .ribbon {
+      position:absolute; top:0; right:0;
+      width:${ribbonStyle.box}px; height:${ribbonStyle.box}px;
+      overflow:hidden;
+    }
+    .ribbon span {
+      position:absolute;
+      left:${ribbonStyle.centreX}px; top:${ribbonStyle.centreY}px;
+      display:block; width:${ribbonStyle.length}px;
+      padding:${px(ribbonStyle.padY, 1)} 0;
+      transform:translate(-50%, -50%) rotate(45deg);
+      background:${COLORS.signal};
+      color:#000000;
+      text-align:center;
+      font-family:${FONTS.mono};
+      font-size:${px(ribbonStyle.fontSize, 1)};
+      font-weight:bold;
+      letter-spacing:0.16em; text-transform:uppercase;
+      box-shadow:0 ${px(6, scale)} ${px(24, scale)} rgba(0,0,0,0.45);
     }
 
     .cover-well { flex:1; display:flex; align-items:center; justify-content:center; min-height:0; }
@@ -160,6 +225,7 @@ export function layoutStyles(size) {
     .quote {
       margin:0; font-family:${FONTS.display};
       color:${COLORS.quote}; letter-spacing:-0.01em;
+      max-width:${ribbonStyle.topCopyWidth}px;
     }
     .attribution {
       margin:0; display:flex; align-items:center; gap:${px(14, scale)};
@@ -169,19 +235,9 @@ export function layoutStyles(size) {
     .attribution .rule { background:rgba(220,220,170,0.6); }
 
     .cta {
-      display:flex; align-items:center; gap:${px(26, scale)}; flex-wrap:wrap;
-      margin-top:${px(42, scale)};
+      display:flex; flex-direction:column; gap:${px(6, scale)};
+      margin-top:${px(38, scale)};
     }
-    .cta-button {
-      font-family:${FONTS.mono}; font-size:${px(17, scale)};
-      letter-spacing:0.18em; text-transform:uppercase;
-      color:${COLORS.accent};
-      border:1px solid rgba(78,201,176,0.6);
-      background:rgba(78,201,176,0.09);
-      border-radius:${px(5, scale)};
-      padding:${px(21, scale)} ${px(32, scale)};
-    }
-    .cta-meta { display:flex; flex-direction:column; gap:${px(5, scale)}; }
     .cta-url {
       font-family:${FONTS.mono}; font-size:${px(17, scale)};
       letter-spacing:0.04em; color:${COLORS.dim};

@@ -15,13 +15,19 @@ const DIRECT_BUTTON_CLASS =
 type BuyTheBookProps = {
   /** Show the BookLife pull quote beneath the buttons. Homepage only. */
   showPullQuote?: boolean;
+  /**
+   * Anchor id. Override it when a page carries the CTA twice, so the second
+   * copy does not repeat an id the first one already owns.
+   */
+  id?: string;
 };
 
 export function BuyTheBook({
   showPullQuote = false,
+  id = "buy",
 }: BuyTheBookProps): React.ReactElement {
   return (
-    <section id="buy" className="py-10 flex flex-col items-center scroll-mt-24">
+    <section id={id} className="py-10 flex flex-col items-center scroll-mt-24">
       <p
         className="text-xs tracking-[0.15em] uppercase mb-5"
         style={{

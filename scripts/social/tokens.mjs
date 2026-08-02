@@ -16,6 +16,8 @@ export const COLORS = {
   dimmer: "rgba(255, 255, 255, 0.45)",
   faint: "rgba(255, 255, 255, 0.28)",
   quote: "#DCDCAA",
+  /** The yellow already used for the glitch highlight on the homepage blurb. */
+  signal: "#FCDE09",
 };
 
 export const FONTS = {

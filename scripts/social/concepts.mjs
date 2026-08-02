@@ -11,7 +11,10 @@
  */
 
 export const CTA = {
-  button: "Pre-order the book now",
+  /* A button drawn inside a still reads as broken UI: people tap it and
+     nothing happens. The ask goes on a corner ribbon instead, which is a
+     sticker rather than a control. */
+  ribbon: "Pre-order now",
   url: "midnightcoderschildren.com",
   release: "Out 15 September 2026",
 };

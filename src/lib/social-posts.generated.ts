@@ -36,36 +36,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/01-architect-4x5.png?v=6414a5b1",
-        "jpg": "/social/01-architect-4x5.jpg?v=fc249674",
-        "mov": "/social/01-architect-4x5.mov?v=05dc8ea5",
-        "pngBytes": 2006654,
-        "jpgBytes": 513814,
-        "movBytes": 2122801
+        "png": "/social/01-architect-4x5.png?v=0814d372",
+        "jpg": "/social/01-architect-4x5.jpg?v=1bb6dbb7",
+        "mov": "/social/01-architect-4x5.mov?v=146ea306",
+        "pngBytes": 1987322,
+        "jpgBytes": 517674,
+        "movBytes": 2121357
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/01-architect-9x16.png?v=276a67dd",
-        "jpg": "/social/01-architect-9x16.jpg?v=6713148f",
-        "mov": "/social/01-architect-9x16.mov?v=348ab773",
-        "pngBytes": 2811178,
-        "jpgBytes": 702923,
-        "movBytes": 2825000
+        "png": "/social/01-architect-9x16.png?v=e0003915",
+        "jpg": "/social/01-architect-9x16.jpg?v=6a26a09c",
+        "mov": "/social/01-architect-9x16.mov?v=5d3870c6",
+        "pngBytes": 2791515,
+        "jpgBytes": 707040,
+        "movBytes": 2885237
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/01-architect-1x1.png?v=89a26a46",
-        "jpg": "/social/01-architect-1x1.jpg?v=4f89e2c6",
-        "mov": "/social/01-architect-1x1.mov?v=02b851a6",
-        "pngBytes": 1541584,
-        "jpgBytes": 393422,
-        "movBytes": 1494560
+        "png": "/social/01-architect-1x1.png?v=455d766d",
+        "jpg": "/social/01-architect-1x1.jpg?v=22cb6b85",
+        "mov": "/social/01-architect-1x1.mov?v=d2fe07ec",
+        "pngBytes": 1529156,
+        "jpgBytes": 396777,
+        "movBytes": 1436964
       }
     ]
   },
@@ -80,36 +80,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/02-praise-4x5.png?v=510e6b96",
-        "jpg": "/social/02-praise-4x5.jpg?v=94bb6ce7",
-        "mov": "/social/02-praise-4x5.mov?v=db7b5775",
-        "pngBytes": 1968442,
-        "jpgBytes": 502901,
-        "movBytes": 2129249
+        "png": "/social/02-praise-4x5.png?v=2daff976",
+        "jpg": "/social/02-praise-4x5.jpg?v=8aa2890d",
+        "mov": "/social/02-praise-4x5.mov?v=fe72007d",
+        "pngBytes": 1947587,
+        "jpgBytes": 505145,
+        "movBytes": 2134979
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/02-praise-9x16.png?v=ed6aeb4d",
-        "jpg": "/social/02-praise-9x16.jpg?v=a0ccd6f6",
-        "mov": "/social/02-praise-9x16.mov?v=549558f3",
-        "pngBytes": 2777815,
-        "jpgBytes": 689549,
-        "movBytes": 2720024
+        "png": "/social/02-praise-9x16.png?v=4f0279ab",
+        "jpg": "/social/02-praise-9x16.jpg?v=78899dbe",
+        "mov": "/social/02-praise-9x16.mov?v=e6646060",
+        "pngBytes": 2755683,
+        "jpgBytes": 696112,
+        "movBytes": 2713301
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/02-praise-1x1.png?v=d07e6f9b",
-        "jpg": "/social/02-praise-1x1.jpg?v=2c5200bb",
-        "mov": "/social/02-praise-1x1.mov?v=346d5a30",
-        "pngBytes": 1534521,
-        "jpgBytes": 388696,
-        "movBytes": 1470954
+        "png": "/social/02-praise-1x1.png?v=846f8b6e",
+        "jpg": "/social/02-praise-1x1.jpg?v=c5b5846e",
+        "mov": "/social/02-praise-1x1.mov?v=56d17cc7",
+        "pngBytes": 1520766,
+        "jpgBytes": 392414,
+        "movBytes": 1395717
       }
     ]
   },
@@ -124,36 +124,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/03-timelines-4x5.png?v=33916344",
-        "jpg": "/social/03-timelines-4x5.jpg?v=8997b5ae",
-        "mov": "/social/03-timelines-4x5.mov?v=14780b43",
-        "pngBytes": 1997636,
-        "jpgBytes": 507319,
-        "movBytes": 2323185
+        "png": "/social/03-timelines-4x5.png?v=52e27330",
+        "jpg": "/social/03-timelines-4x5.jpg?v=80de66d1",
+        "mov": "/social/03-timelines-4x5.mov?v=bb2e5a41",
+        "pngBytes": 1980264,
+        "jpgBytes": 510219,
+        "movBytes": 2363653
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/03-timelines-9x16.png?v=a22077b5",
-        "jpg": "/social/03-timelines-9x16.jpg?v=e27991c1",
-        "mov": "/social/03-timelines-9x16.mov?v=b63e60b1",
-        "pngBytes": 2803237,
-        "jpgBytes": 695003,
-        "movBytes": 2783209
+        "png": "/social/03-timelines-9x16.png?v=22a5e8e8",
+        "jpg": "/social/03-timelines-9x16.jpg?v=8abab2da",
+        "mov": "/social/03-timelines-9x16.mov?v=468396d6",
+        "pngBytes": 2783215,
+        "jpgBytes": 699585,
+        "movBytes": 2857546
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/03-timelines-1x1.png?v=8c01ae1e",
-        "jpg": "/social/03-timelines-1x1.jpg?v=91568df4",
-        "mov": "/social/03-timelines-1x1.mov?v=403bf4ee",
-        "pngBytes": 1533846,
-        "jpgBytes": 388191,
-        "movBytes": 1508269
+        "png": "/social/03-timelines-1x1.png?v=271fc959",
+        "jpg": "/social/03-timelines-1x1.jpg?v=d655a486",
+        "mov": "/social/03-timelines-1x1.mov?v=c4bb2ca5",
+        "pngBytes": 1522414,
+        "jpgBytes": 392419,
+        "movBytes": 1518710
       }
     ]
   },
@@ -168,36 +168,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/04-cipher-4x5.png?v=eed9e973",
-        "jpg": "/social/04-cipher-4x5.jpg?v=b13230de",
-        "mov": "/social/04-cipher-4x5.mov?v=60f1616f",
-        "pngBytes": 1979030,
-        "jpgBytes": 504226,
-        "movBytes": 2236004
+        "png": "/social/04-cipher-4x5.png?v=8b303e0c",
+        "jpg": "/social/04-cipher-4x5.jpg?v=3c6d4191",
+        "mov": "/social/04-cipher-4x5.mov?v=cf7d1400",
+        "pngBytes": 1961152,
+        "jpgBytes": 505787,
+        "movBytes": 2253078
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/04-cipher-9x16.png?v=979df785",
-        "jpg": "/social/04-cipher-9x16.jpg?v=26f544b9",
-        "mov": "/social/04-cipher-9x16.mov?v=5c08bd60",
-        "pngBytes": 2777966,
-        "jpgBytes": 690419,
-        "movBytes": 2635730
+        "png": "/social/04-cipher-9x16.png?v=55cf0440",
+        "jpg": "/social/04-cipher-9x16.jpg?v=32502b0c",
+        "mov": "/social/04-cipher-9x16.mov?v=145d1301",
+        "pngBytes": 2757888,
+        "jpgBytes": 694473,
+        "movBytes": 2626641
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/04-cipher-1x1.png?v=49f35adb",
-        "jpg": "/social/04-cipher-1x1.jpg?v=3a67b3fd",
-        "mov": "/social/04-cipher-1x1.mov?v=7fe0d37e",
-        "pngBytes": 1520702,
-        "jpgBytes": 384985,
-        "movBytes": 1476571
+        "png": "/social/04-cipher-1x1.png?v=fc732d4e",
+        "jpg": "/social/04-cipher-1x1.jpg?v=fbd6e185",
+        "mov": "/social/04-cipher-1x1.mov?v=47d18fb5",
+        "pngBytes": 1505054,
+        "jpgBytes": 388313,
+        "movBytes": 1471070
       }
     ]
   }
