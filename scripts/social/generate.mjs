@@ -2,7 +2,7 @@
  * Renders the social post set to public/social.
  *
  * Each concept produces, at each size, a PNG master, a JPG for upload, and a
- * looping .mov of the glitch background running under the same composition.
+ * looping .mp4 of the glitch background running under the same composition.
  * Run with `pnpm social:build`, or pass a concept id fragment to redo one.
  */
 
@@ -33,7 +33,7 @@ const MANIFEST_PATH = path.join(ROOT, "src", "lib", "social-posts.generated.ts")
 async function pruneStale(expected) {
   const existing = await readdir(OUT_DIR).catch(() => []);
   const stale = existing.filter(
-    (name) => /\.(png|jpg|mov)$/.test(name) && !expected.has(name)
+    (name) => /\.(png|jpg|mov|mp4)$/.test(name) && !expected.has(name)
   );
   await Promise.all(stale.map((name) => rm(path.join(OUT_DIR, name))));
   return stale;
@@ -76,10 +76,10 @@ async function writeManifest(concepts) {
             height: size.height,
             png: await versioned(`${base}.png`),
             jpg: await versioned(`${base}.jpg`),
-            mov: await versioned(`${base}.mov`),
+            mp4: await versioned(`${base}.mp4`),
             pngBytes: await bytesOf(`${base}.png`),
             jpgBytes: await bytesOf(`${base}.jpg`),
-            movBytes: await bytesOf(`${base}.mov`),
+            mp4Bytes: await bytesOf(`${base}.mp4`),
           };
         })
       ),
@@ -96,10 +96,10 @@ export type SocialRendition = {
   height: number;
   png: string;
   jpg: string;
-  mov: string;
+  mp4: string;
   pngBytes: number;
   jpgBytes: number;
-  movBytes: number;
+  mp4Bytes: number;
 };
 
 export type SocialPost = {
@@ -130,8 +130,9 @@ async function buildRendition(chrome, concept, size) {
   /* Two plates feed the loop: everything but the cover, and the cover alone on
      a transparent frame. The loop paints its own bands, so neither carries
      the baked-in ones. */
+  const layers = concept.markSub ? ["base", "cover", "mark"] : ["base", "cover"];
   const plates = {};
-  for (const layer of ["base", "cover"]) {
+  for (const layer of layers) {
     const html = path.join(WORK_DIR, `${name}-${layer}.html`);
     plates[layer] = path.join(WORK_DIR, `${name}-${layer}.png`);
     await writeFile(
@@ -140,20 +141,21 @@ async function buildRendition(chrome, concept, size) {
       "utf8"
     );
     await shoot(chrome, html, plates[layer], size, {
-      transparent: layer === "cover",
+      transparent: layer !== "base",
     });
   }
 
   const loop = await renderLoop({
     basePlatePath: plates.base,
     coverPlatePath: plates.cover,
-    outPath: path.join(OUT_DIR, `${name}.mov`),
+    markPlatePath: plates.mark ?? null,
+    outPath: path.join(OUT_DIR, `${name}.mp4`),
     size,
     seed: seedFrom(`${name}-motion`),
   });
 
   console.log(
-    `rendered ${name}: png${jpeg ? " jpg" : ""} mov (${loop.bursts} bursts)`
+    `rendered ${name}: png${jpeg ? " jpg" : ""} mp4 (${loop.bursts} bursts)`
   );
 }
 
@@ -177,7 +179,7 @@ async function main() {
   const expected = new Set(
     CONCEPTS.flatMap((concept) =>
       SIZES.flatMap((size) =>
-        ["png", "jpg", "mov"].map(
+        ["png", "jpg", "mp4"].map(
           (extension) => `${concept.id}-${size.id}.${extension}`
         )
       )

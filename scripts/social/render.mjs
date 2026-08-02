@@ -52,11 +52,25 @@ export const assetUrl = (relativePath) =>
  * where they are.
  */
 const LAYER_STYLES = {
-  base: `.cover { visibility:hidden !important; }`,
+  /* The marked line starts the loop unhighlighted, so the base plate draws it
+     as ordinary body copy and the mark plate supplies the selected state. */
+  base: `
+    .cover { visibility:hidden !important; }
+    .sub-marked mark {
+      background:transparent !important;
+      color:rgba(255, 255, 255, 0.72) !important;
+    }
+  `,
   cover: `
     html, body { background:transparent !important; }
     .bg { display:none !important; }
     .frame > *:not(.cover-well) { visibility:hidden !important; }
+  `,
+  mark: `
+    html, body { background:transparent !important; }
+    .bg { display:none !important; }
+    .frame > *:not(.copy) { visibility:hidden !important; }
+    .copy > *:not(.sub-marked) { visibility:hidden !important; }
   `,
 };
 

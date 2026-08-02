@@ -126,7 +126,7 @@ const LAYOUTS = {
           <p class="quote" style="font-size:${px(58, scale)};line-height:1.14">&ldquo;${concept.quote}&rdquo;</p>
           <p class="attribution" style="font-size:${px(17, scale)}">${rule(scale, 40)}${concept.attribution}</p>
         </div>
-        <div class="cover-well cover-well-low">${cover(assetUrl, "quote", id)}</div>
+        <div class="cover-well">${cover(assetUrl, "quote", id)}</div>
         <div class="copy">
           <p class="sub" style="font-size:${px(23, scale)}">${concept.sub}</p>
         </div>
@@ -195,7 +195,6 @@ export function layoutStyles(size) {
     }
 
     .cover-well { flex:1; display:flex; align-items:center; justify-content:center; min-height:0; }
-    .cover-well-low { align-items:flex-end; padding-bottom:${px(24, scale)}; }
     .cover { height:auto; filter:drop-shadow(0 ${px(30, scale)} ${px(60, scale)} rgba(0,0,0,0.55)); }
 
     .copy { display:flex; flex-direction:column; gap:${px(16, scale)}; }

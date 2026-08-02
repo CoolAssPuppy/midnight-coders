@@ -25,7 +25,7 @@ function formatBytes(bytes: number): string {
 
 type DownloadLinkProps = {
   href: string;
-  format: "PNG" | "JPG" | "MOV";
+  format: "PNG" | "JPG" | "MP4";
   bytes: number;
   isPrimary: boolean;
 };
@@ -124,7 +124,7 @@ function RenditionCard({
           />
           <video
             ref={videoRef}
-            src={rendition.mov}
+            src={rendition.mp4}
             muted
             loop
             playsInline
@@ -174,9 +174,9 @@ function RenditionCard({
             isPrimary={false}
           />
           <DownloadLink
-            href={rendition.mov}
-            format="MOV"
-            bytes={rendition.movBytes}
+            href={rendition.mp4}
+            format="MP4"
+            bytes={rendition.mp4Bytes}
             isPrimary={false}
           />
         </div>
@@ -274,7 +274,7 @@ export function SocialPostGallery({
             {/* The loop plays here rather than the still, because motion is the
                 thing a preview cannot show any other way. */}
             <video
-              src={preview.rendition.mov}
+              src={preview.rendition.mp4}
               poster={preview.rendition.png}
               autoPlay
               muted
@@ -307,9 +307,9 @@ export function SocialPostGallery({
                 isPrimary={false}
               />
               <DownloadLink
-                href={preview.rendition.mov}
-                format="MOV"
-                bytes={preview.rendition.movBytes}
+                href={preview.rendition.mp4}
+                format="MP4"
+                bytes={preview.rendition.mp4Bytes}
                 isPrimary={false}
               />
             </div>

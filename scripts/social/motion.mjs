@@ -38,6 +38,51 @@ const SLICE_THRESHOLD = 0.78;
  */
 const COVER_DRIFT = { y: 6, x: 2.5, scale: 0.007 };
 
+/**
+ * The highlight sweep, as a fraction of the marked line revealed.
+ *
+ * It reads as somebody dragging a selection across the line: the copy sits
+ * plain, the teal wipes in left to right, it holds, then it wipes back off.
+ * Both ends of the loop rest unhighlighted, so the cut is invisible.
+ */
+const SWEEP = { start: 36, inEnd: 54, holdEnd: 126, outEnd: 144 };
+
+function markReveal(frame) {
+  if (frame <= SWEEP.start || frame >= SWEEP.outEnd) return 0;
+  if (frame >= SWEEP.inEnd && frame <= SWEEP.holdEnd) return 1;
+
+  const ease = (t) => t * t * (3 - 2 * t);
+  if (frame < SWEEP.inEnd) {
+    return ease((frame - SWEEP.start) / (SWEEP.inEnd - SWEEP.start));
+  }
+  return ease(1 - (frame - SWEEP.holdEnd) / (SWEEP.outEnd - SWEEP.holdEnd));
+}
+
+/** The drawn extent of a transparent plate, so the sweep spans the line and
+ *  not the whole frame. */
+function opaqueBounds(image, width, height) {
+  const probe = createCanvas(width, height);
+  const ctx = probe.getContext("2d");
+  ctx.drawImage(image, 0, 0);
+  const { data } = ctx.getImageData(0, 0, width, height);
+
+  let left = width;
+  let right = -1;
+  for (let y = 0; y < height; y += 1) {
+    const row = y * width * 4;
+    for (let x = 0; x < width; x += 1) {
+      if (data[row + x * 4 + 3] > 8) {
+        if (x < left) left = x;
+        if (x > right) right = x;
+      }
+    }
+  }
+
+  return right < left
+    ? { left: 0, width: 0 }
+    : { left, width: right - left + 1 };
+}
+
 function coverTransform(frame) {
   const turn = (frame / TOTAL_FRAMES) * Math.PI * 2;
   return {
@@ -163,21 +208,29 @@ function write(stream, chunk) {
 }
 
 /**
- * Encode one loop. `platePath` is the still with no bands on it; `outPath`
- * takes an H.264 .mov, which every platform accepts on upload.
+ * Encode one loop.
+ *
+ * MP4 rather than QuickTime, and with a silent stereo AAC track: Buffer and
+ * the platforms reject or mangle a video-only .mov, and several of them treat
+ * a missing audio stream as a malformed file rather than as silence. The
+ * keyframe interval is pinned to two seconds because that is what the
+ * transcoders on the other end expect.
  */
 export async function renderLoop({
   basePlatePath,
   coverPlatePath,
+  markPlatePath = null,
   outPath,
   size,
   seed,
 }) {
   const { width, height } = size;
-  const [base, cover] = await Promise.all([
+  const [base, cover, mark] = await Promise.all([
     loadImage(basePlatePath),
     loadImage(coverPlatePath),
+    markPlatePath ? loadImage(markPlatePath) : Promise.resolve(null),
   ]);
+  const markBounds = mark ? opaqueBounds(mark, width, height) : null;
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext("2d");
   // Slices are torn from the composed frame, not from the plate, so a tear
@@ -195,12 +248,25 @@ export async function renderLoop({
     "-s", `${width}x${height}`,
     "-r", String(MOTION.fps),
     "-i", "pipe:0",
+    // Silent stereo track. anullsrc runs forever, so -shortest ends the file
+    // with the video.
+    "-f", "lavfi",
+    "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
+    "-map", "0:v:0",
+    "-map", "1:a:0",
     "-c:v", "libx264",
+    "-profile:v", "high",
+    "-level", "4.2",
     "-pix_fmt", "yuv420p",
     "-crf", "18",
     "-preset", "slow",
+    "-g", String(MOTION.fps * 2),
+    "-c:a", "aac",
+    "-b:a", "128k",
+    "-ar", "44100",
+    "-ac", "2",
+    "-shortest",
     "-movflags", "+faststart",
-    "-an",
     outPath,
   ]);
 
@@ -230,6 +296,17 @@ export async function renderLoop({
     ctx.scale(drift.scale, drift.scale);
     ctx.drawImage(cover, -width / 2, -height / 2, width, height);
     ctx.restore();
+
+    if (markBounds && markBounds.width > 0) {
+      const revealed = Math.round(markBounds.width * markReveal(frame));
+      if (revealed > 0) {
+        ctx.drawImage(
+          mark,
+          markBounds.left, 0, revealed, height,
+          markBounds.left, 0, revealed, height
+        );
+      }
+    }
 
     if (burst) {
       ctx.drawImage(scanlines, 0, 0);

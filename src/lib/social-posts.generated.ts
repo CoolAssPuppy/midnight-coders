@@ -8,10 +8,10 @@ export type SocialRendition = {
   height: number;
   png: string;
   jpg: string;
-  mov: string;
+  mp4: string;
   pngBytes: number;
   jpgBytes: number;
-  movBytes: number;
+  mp4Bytes: number;
 };
 
 export type SocialPost = {
@@ -38,10 +38,10 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "height": 1350,
         "png": "/social/01-architect-4x5.png?v=0814d372",
         "jpg": "/social/01-architect-4x5.jpg?v=1bb6dbb7",
-        "mov": "/social/01-architect-4x5.mov?v=146ea306",
+        "mp4": "/social/01-architect-4x5.mp4?v=a1c5850a",
         "pngBytes": 1987322,
         "jpgBytes": 517674,
-        "movBytes": 2121357
+        "mp4Bytes": 3057292
       },
       {
         "sizeId": "9x16",
@@ -50,10 +50,10 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "height": 1920,
         "png": "/social/01-architect-9x16.png?v=e0003915",
         "jpg": "/social/01-architect-9x16.jpg?v=6a26a09c",
-        "mov": "/social/01-architect-9x16.mov?v=5d3870c6",
+        "mp4": "/social/01-architect-9x16.mp4?v=f967b64f",
         "pngBytes": 2791515,
         "jpgBytes": 707040,
-        "movBytes": 2885237
+        "mp4Bytes": 4319547
       },
       {
         "sizeId": "1x1",
@@ -62,10 +62,10 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "height": 1080,
         "png": "/social/01-architect-1x1.png?v=455d766d",
         "jpg": "/social/01-architect-1x1.jpg?v=22cb6b85",
-        "mov": "/social/01-architect-1x1.mov?v=d2fe07ec",
+        "mp4": "/social/01-architect-1x1.mp4?v=42952775",
         "pngBytes": 1529156,
         "jpgBytes": 396777,
-        "movBytes": 1436964
+        "mp4Bytes": 2206025
       }
     ]
   },
@@ -80,36 +80,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/02-praise-4x5.png?v=2daff976",
-        "jpg": "/social/02-praise-4x5.jpg?v=8aa2890d",
-        "mov": "/social/02-praise-4x5.mov?v=fe72007d",
-        "pngBytes": 1947587,
-        "jpgBytes": 505145,
-        "movBytes": 2134979
+        "png": "/social/02-praise-4x5.png?v=715655db",
+        "jpg": "/social/02-praise-4x5.jpg?v=104e8cc7",
+        "mp4": "/social/02-praise-4x5.mp4?v=cea6edb3",
+        "pngBytes": 1949399,
+        "jpgBytes": 504663,
+        "mp4Bytes": 2986329
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/02-praise-9x16.png?v=4f0279ab",
-        "jpg": "/social/02-praise-9x16.jpg?v=78899dbe",
-        "mov": "/social/02-praise-9x16.mov?v=e6646060",
-        "pngBytes": 2755683,
-        "jpgBytes": 696112,
-        "movBytes": 2713301
+        "png": "/social/02-praise-9x16.png?v=d9f2b152",
+        "jpg": "/social/02-praise-9x16.jpg?v=bde8d015",
+        "mp4": "/social/02-praise-9x16.mp4?v=552744ef",
+        "pngBytes": 2761212,
+        "jpgBytes": 694803,
+        "mp4Bytes": 4398610
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/02-praise-1x1.png?v=846f8b6e",
-        "jpg": "/social/02-praise-1x1.jpg?v=c5b5846e",
-        "mov": "/social/02-praise-1x1.mov?v=56d17cc7",
-        "pngBytes": 1520766,
-        "jpgBytes": 392414,
-        "movBytes": 1395717
+        "png": "/social/02-praise-1x1.png?v=327996d4",
+        "jpg": "/social/02-praise-1x1.jpg?v=d94bb115",
+        "mp4": "/social/02-praise-1x1.mp4?v=26b8c4c4",
+        "pngBytes": 1524605,
+        "jpgBytes": 392151,
+        "mp4Bytes": 2261654
       }
     ]
   },
@@ -126,10 +126,10 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "height": 1350,
         "png": "/social/03-timelines-4x5.png?v=52e27330",
         "jpg": "/social/03-timelines-4x5.jpg?v=80de66d1",
-        "mov": "/social/03-timelines-4x5.mov?v=bb2e5a41",
+        "mp4": "/social/03-timelines-4x5.mp4?v=d7933e56",
         "pngBytes": 1980264,
         "jpgBytes": 510219,
-        "movBytes": 2363653
+        "mp4Bytes": 3137145
       },
       {
         "sizeId": "9x16",
@@ -138,10 +138,10 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "height": 1920,
         "png": "/social/03-timelines-9x16.png?v=22a5e8e8",
         "jpg": "/social/03-timelines-9x16.jpg?v=8abab2da",
-        "mov": "/social/03-timelines-9x16.mov?v=468396d6",
+        "mp4": "/social/03-timelines-9x16.mp4?v=ef77a13f",
         "pngBytes": 2783215,
         "jpgBytes": 699585,
-        "movBytes": 2857546
+        "mp4Bytes": 4260524
       },
       {
         "sizeId": "1x1",
@@ -150,10 +150,10 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "height": 1080,
         "png": "/social/03-timelines-1x1.png?v=271fc959",
         "jpg": "/social/03-timelines-1x1.jpg?v=d655a486",
-        "mov": "/social/03-timelines-1x1.mov?v=c4bb2ca5",
+        "mp4": "/social/03-timelines-1x1.mp4?v=ea85db25",
         "pngBytes": 1522414,
         "jpgBytes": 392419,
-        "movBytes": 1518710
+        "mp4Bytes": 2250603
       }
     ]
   },
@@ -170,10 +170,10 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "height": 1350,
         "png": "/social/04-cipher-4x5.png?v=8b303e0c",
         "jpg": "/social/04-cipher-4x5.jpg?v=3c6d4191",
-        "mov": "/social/04-cipher-4x5.mov?v=cf7d1400",
+        "mp4": "/social/04-cipher-4x5.mp4?v=2e6212e8",
         "pngBytes": 1961152,
         "jpgBytes": 505787,
-        "movBytes": 2253078
+        "mp4Bytes": 3103848
       },
       {
         "sizeId": "9x16",
@@ -182,10 +182,10 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "height": 1920,
         "png": "/social/04-cipher-9x16.png?v=55cf0440",
         "jpg": "/social/04-cipher-9x16.jpg?v=32502b0c",
-        "mov": "/social/04-cipher-9x16.mov?v=145d1301",
+        "mp4": "/social/04-cipher-9x16.mp4?v=c23b0cd5",
         "pngBytes": 2757888,
         "jpgBytes": 694473,
-        "movBytes": 2626641
+        "mp4Bytes": 4015940
       },
       {
         "sizeId": "1x1",
@@ -194,10 +194,10 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "height": 1080,
         "png": "/social/04-cipher-1x1.png?v=fc732d4e",
         "jpg": "/social/04-cipher-1x1.jpg?v=fbd6e185",
-        "mov": "/social/04-cipher-1x1.mov?v=47d18fb5",
+        "mp4": "/social/04-cipher-1x1.mp4?v=6923efc4",
         "pngBytes": 1505054,
         "jpgBytes": 388313,
-        "movBytes": 1471070
+        "mp4Bytes": 2185494
       }
     ]
   }

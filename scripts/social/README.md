@@ -5,28 +5,37 @@ Four concepts, each rendered at three sizes, into `public/social`. The
 `pnpm social:build`, or pass a filter to redo one concept:
 `pnpm social:build 03-timelines`.
 
-Every render writes three files: a PNG master, a JPG, and a six-second .mov
+Every render writes three files: a PNG master, a JPG, and a six-second .mp4
 loop. Upload the JPG for stills. Instagram, LinkedIn, and X all recompress on
 the way in, and starting from a JPG saves a round of that.
 
 ## The loops
 
-The .mov files run the homepage glitch under the same composition: bursts of
+The .mp4 files run the homepage glitch under the same composition: bursts of
 two to six screened bands with a horizontal shift and a matching glow, the scan
 lines lifting for the length of each burst, and a torn slice of the picture on
 the strongest ones. The cover breathes on a single sine cycle per loop, a few
 pixels of drift and a fraction of a percent of scale. Type never moves.
 
+On a concept with `markSub`, the marked line also plays: it rests as plain body
+copy, the highlight wipes in left to right, holds, then wipes back off, the way
+somebody dragging a selection across a sentence would do it.
+
 Everything runs on whole cycles across exactly 180 frames, so the last frame
-lands where the first one started and the loop point is invisible. H.264 in a
-.mov container, 1080 wide, 30fps, under about 1.5 MB each.
+lands where the first one started and the loop point is invisible.
+
+MP4 rather than QuickTime, and with a silent stereo AAC track. Buffer and the
+platforms reject or mangle a video-only .mov, and several of them read a
+missing audio stream as a malformed file rather than as silence. H.264
+High@4.2, yuv420p, 1080 wide, 30fps, keyframe every two seconds.
 
 Frames are synthesised rather than screenshotted. Driving Chrome once per frame
 would mean hundreds of browser launches per video; compositing over rendered
-plates takes a couple of seconds instead. Each rendition renders three plates:
-the still, the composition with the cover hidden, and the cover alone on a
-transparent frame. The last two are what the loop animates, which is why the
-cover can drift without dragging the type with it.
+plates takes a couple of seconds instead. Each rendition renders the still,
+then the composition with the cover hidden and the marked line unhighlighted,
+then the cover alone on a transparent frame, and on a `markSub` concept the
+highlighted line alone on a transparent frame. Splitting them is what lets the
+cover drift and the highlight wipe without dragging the type along.
 
 Motion needs `ffmpeg` on the path. The stills build fine without it.
 
@@ -51,7 +60,7 @@ book worth the evening.
 
 **02-praise.** The BookLife quote. A verdict from a name a reader can go and
 check outranks anything the author says about his own book, so the quote takes
-the top of the frame and the cover moves down.
+the top of the frame.
 
 **03-timelines.** The heist and the structure. Twenty hours against fifty years
 is what separates this book from every other Wall Street thriller.
@@ -80,7 +89,7 @@ the post id and size, so a rebuild is byte-identical and no two posts carry the
 same pattern.
 
 Type follows the site. Monospace is the machine speaking, so it holds the
-button, the URL, and the date. Serif is the book speaking, so it holds the
+ribbon, the URL, and the date. Serif is the book speaking, so it holds the
 headline above the cover and the hook below it.
 
 ## Editing
