@@ -6,8 +6,9 @@
  * post carries one call to action and one URL, because a second ask splits
  * the click.
  *
- * Copy is drawn from the site, the press kit, and the BookLife review. Nothing
- * here is invented.
+ * Copy is drawn from the site, the press kit, and the three published reviews.
+ * Nothing here is invented. Pull quotes are trimmed to a length the frame can
+ * hold, never reworded, and every one is a complete sentence in the original.
  */
 
 export const CTA = {
@@ -16,7 +17,7 @@ export const CTA = {
      sticker rather than a control. */
   ribbon: "Pre-order now",
   url: "midnightcoderschildren.com",
-  release: "Out 15 September 2026",
+  release: "Out September 15, 2026",
 };
 
 export const CONCEPTS = [
@@ -60,5 +61,28 @@ export const CONCEPTS = [
     /* The closing line gets the site's own text-selection colours, so it reads
        as a sentence somebody stopped and marked. */
     markSub: true,
+  },
+  {
+    id: "05-praise-midwest",
+    layout: "quote",
+    title: "The review, Midwest",
+    note: "The second verdict. Midwest Book Review reaches librarians and booksellers, so this one is worth running where a trade name carries more than a blurb does.",
+    kicker: "Readers are already talking about it.",
+    /* Verbatim closing sentence of the review. The first sentence runs to 132
+       characters and will not hold at this type size. */
+    quote: "Sridharan’s tense thriller will delight readers.",
+    attribution: "Midwest Book Review",
+    sub: "The Midnight Coder’s Children, a novel by Prashant Sridharan.",
+  },
+  {
+    id: "06-praise-maturi",
+    layout: "quote",
+    title: "The review, Maturi",
+    note: "An author verdict rather than a trade one. It is the only review that names the South Indian material, which is the part of the book a trade review has no room for.",
+    kicker: "Readers are already talking about it.",
+    /* Verbatim clause from the middle of the review, cut at its own comma. */
+    quote: "Sridharan deftly and elegantly weaves rich details of South Indian life.",
+    attribution: "Dheepa R. Maturi, author of 108",
+    sub: "The Midnight Coder’s Children, a novel by Prashant Sridharan.",
   },
 ];

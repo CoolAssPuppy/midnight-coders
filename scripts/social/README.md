@@ -1,6 +1,6 @@
 # Social posts
 
-Four concepts, each rendered at three sizes, into `public/social`. The
+Six concepts, each rendered at three sizes, into `public/social`. The
 `/socials` page previews them and serves the downloads. Rebuild with
 `pnpm social:build`, or pass a filter to redo one concept:
 `pnpm social:build 03-timelines`.
@@ -52,7 +52,7 @@ behind it.
 | `9x16` | 1080 x 1920 | Instagram and Facebook Stories, TikTok, YouTube Shorts covers. The top 190px and bottom 250px are left empty because the app paints its own buttons there. |
 | `1x1` | 1080 x 1080 | X, Bluesky, and anywhere a square crops better than a tall image. |
 
-## The four concepts
+## The six concepts
 
 **01-architect.** Opens on the money and lands on the person. The attack buys
 the second of attention, and the engineer who saw it coming is what makes the
@@ -70,8 +70,21 @@ family recipe book. The closing line carries the site's own text-selection
 colours, teal on midnight, so it reads as a sentence somebody stopped and
 marked. Set `markSub: true` on a concept to get the same treatment.
 
-Run them as a carousel in that order and it reads as a full pitch: the woman,
-the verdict, the heist, the trick. Carousels and Reels remain the two highest
+**05-praise-midwest.** The second verdict. Midwest Book Review reaches
+librarians and booksellers, where a trade name carries more than a blurb does.
+The quote is the review's closing sentence; its opening one runs to 132
+characters and will not hold at this type size.
+
+**06-praise-maturi.** An author verdict rather than a trade one, and the only
+review that names the South Indian material, which is the part of the book a
+trade review has no room for. The quote is a clause cut at its own comma.
+
+The three praise concepts are built to rotate against each other in paid
+placements. Staging them paused in the ad set gives the ad-spend agent
+somewhere to go when the live creative fatigues.
+
+Run 01 through 04 as a carousel in that order and it reads as a full pitch: the
+woman, the verdict, the heist, the trick. Carousels and Reels remain the two highest
 engagement formats on Instagram, and a carousel is the only one of the two you
 can build out of stills.
 

@@ -36,36 +36,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/01-architect-4x5.png?v=0814d372",
-        "jpg": "/social/01-architect-4x5.jpg?v=1bb6dbb7",
-        "mp4": "/social/01-architect-4x5.mp4?v=a1c5850a",
-        "pngBytes": 1987322,
-        "jpgBytes": 517674,
-        "mp4Bytes": 3057292
+        "png": "/social/01-architect-4x5.png?v=3e90f511",
+        "jpg": "/social/01-architect-4x5.jpg?v=ccc8041e",
+        "mp4": "/social/01-architect-4x5.mp4?v=f29c7a89",
+        "pngBytes": 1987345,
+        "jpgBytes": 517755,
+        "mp4Bytes": 3057151
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/01-architect-9x16.png?v=e0003915",
-        "jpg": "/social/01-architect-9x16.jpg?v=6a26a09c",
-        "mp4": "/social/01-architect-9x16.mp4?v=f967b64f",
-        "pngBytes": 2791515,
-        "jpgBytes": 707040,
-        "mp4Bytes": 4319547
+        "png": "/social/01-architect-9x16.png?v=c488bfa9",
+        "jpg": "/social/01-architect-9x16.jpg?v=acc70d67",
+        "mp4": "/social/01-architect-9x16.mp4?v=f5f8724d",
+        "pngBytes": 2791563,
+        "jpgBytes": 707037,
+        "mp4Bytes": 4319123
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/01-architect-1x1.png?v=455d766d",
-        "jpg": "/social/01-architect-1x1.jpg?v=22cb6b85",
-        "mp4": "/social/01-architect-1x1.mp4?v=42952775",
-        "pngBytes": 1529156,
-        "jpgBytes": 396777,
-        "mp4Bytes": 2206025
+        "png": "/social/01-architect-1x1.png?v=583f9bfd",
+        "jpg": "/social/01-architect-1x1.jpg?v=7bfc5b30",
+        "mp4": "/social/01-architect-1x1.mp4?v=3395e93a",
+        "pngBytes": 1529245,
+        "jpgBytes": 396847,
+        "mp4Bytes": 2205266
       }
     ]
   },
@@ -80,36 +80,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/02-praise-4x5.png?v=715655db",
-        "jpg": "/social/02-praise-4x5.jpg?v=104e8cc7",
-        "mp4": "/social/02-praise-4x5.mp4?v=cea6edb3",
-        "pngBytes": 1949399,
-        "jpgBytes": 504663,
-        "mp4Bytes": 2986329
+        "png": "/social/02-praise-4x5.png?v=db9d640e",
+        "jpg": "/social/02-praise-4x5.jpg?v=92bb1db8",
+        "mp4": "/social/02-praise-4x5.mp4?v=caf14347",
+        "pngBytes": 1949445,
+        "jpgBytes": 504744,
+        "mp4Bytes": 2986310
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/02-praise-9x16.png?v=d9f2b152",
-        "jpg": "/social/02-praise-9x16.jpg?v=bde8d015",
-        "mp4": "/social/02-praise-9x16.mp4?v=552744ef",
-        "pngBytes": 2761212,
-        "jpgBytes": 694803,
-        "mp4Bytes": 4398610
+        "png": "/social/02-praise-9x16.png?v=810e3099",
+        "jpg": "/social/02-praise-9x16.jpg?v=07843e13",
+        "mp4": "/social/02-praise-9x16.mp4?v=184c4c78",
+        "pngBytes": 2761278,
+        "jpgBytes": 694800,
+        "mp4Bytes": 4399301
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/02-praise-1x1.png?v=327996d4",
-        "jpg": "/social/02-praise-1x1.jpg?v=d94bb115",
-        "mp4": "/social/02-praise-1x1.mp4?v=26b8c4c4",
-        "pngBytes": 1524605,
-        "jpgBytes": 392151,
-        "mp4Bytes": 2261654
+        "png": "/social/02-praise-1x1.png?v=46e72f04",
+        "jpg": "/social/02-praise-1x1.jpg?v=9503270f",
+        "mp4": "/social/02-praise-1x1.mp4?v=8ca5a245",
+        "pngBytes": 1524694,
+        "jpgBytes": 392221,
+        "mp4Bytes": 2262389
       }
     ]
   },
@@ -124,36 +124,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/03-timelines-4x5.png?v=52e27330",
-        "jpg": "/social/03-timelines-4x5.jpg?v=80de66d1",
-        "mp4": "/social/03-timelines-4x5.mp4?v=d7933e56",
-        "pngBytes": 1980264,
-        "jpgBytes": 510219,
-        "mp4Bytes": 3137145
+        "png": "/social/03-timelines-4x5.png?v=d76b754b",
+        "jpg": "/social/03-timelines-4x5.jpg?v=e6890056",
+        "mp4": "/social/03-timelines-4x5.mp4?v=a62f914c",
+        "pngBytes": 1980357,
+        "jpgBytes": 510294,
+        "mp4Bytes": 3137605
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/03-timelines-9x16.png?v=22a5e8e8",
-        "jpg": "/social/03-timelines-9x16.jpg?v=8abab2da",
-        "mp4": "/social/03-timelines-9x16.mp4?v=ef77a13f",
-        "pngBytes": 2783215,
-        "jpgBytes": 699585,
-        "mp4Bytes": 4260524
+        "png": "/social/03-timelines-9x16.png?v=be032557",
+        "jpg": "/social/03-timelines-9x16.jpg?v=d0b92855",
+        "mp4": "/social/03-timelines-9x16.mp4?v=a848d6d9",
+        "pngBytes": 2783277,
+        "jpgBytes": 699582,
+        "mp4Bytes": 4262126
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/03-timelines-1x1.png?v=271fc959",
-        "jpg": "/social/03-timelines-1x1.jpg?v=d655a486",
-        "mp4": "/social/03-timelines-1x1.mp4?v=ea85db25",
-        "pngBytes": 1522414,
-        "jpgBytes": 392419,
-        "mp4Bytes": 2250603
+        "png": "/social/03-timelines-1x1.png?v=d5e1cf0c",
+        "jpg": "/social/03-timelines-1x1.jpg?v=20a076ce",
+        "mp4": "/social/03-timelines-1x1.mp4?v=85d29498",
+        "pngBytes": 1522500,
+        "jpgBytes": 392489,
+        "mp4Bytes": 2250089
       }
     ]
   },
@@ -168,36 +168,124 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/04-cipher-4x5.png?v=8b303e0c",
-        "jpg": "/social/04-cipher-4x5.jpg?v=3c6d4191",
-        "mp4": "/social/04-cipher-4x5.mp4?v=2e6212e8",
-        "pngBytes": 1961152,
-        "jpgBytes": 505787,
-        "mp4Bytes": 3103848
+        "png": "/social/04-cipher-4x5.png?v=59857e3a",
+        "jpg": "/social/04-cipher-4x5.jpg?v=f7fc30d7",
+        "mp4": "/social/04-cipher-4x5.mp4?v=24e2a302",
+        "pngBytes": 1961194,
+        "jpgBytes": 505868,
+        "mp4Bytes": 3103847
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/04-cipher-9x16.png?v=55cf0440",
-        "jpg": "/social/04-cipher-9x16.jpg?v=32502b0c",
-        "mp4": "/social/04-cipher-9x16.mp4?v=c23b0cd5",
-        "pngBytes": 2757888,
-        "jpgBytes": 694473,
-        "mp4Bytes": 4015940
+        "png": "/social/04-cipher-9x16.png?v=bfcde545",
+        "jpg": "/social/04-cipher-9x16.jpg?v=81fc700a",
+        "mp4": "/social/04-cipher-9x16.mp4?v=b1897a08",
+        "pngBytes": 2757949,
+        "jpgBytes": 694470,
+        "mp4Bytes": 4017843
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/04-cipher-1x1.png?v=fc732d4e",
-        "jpg": "/social/04-cipher-1x1.jpg?v=fbd6e185",
-        "mp4": "/social/04-cipher-1x1.mp4?v=6923efc4",
-        "pngBytes": 1505054,
-        "jpgBytes": 388313,
-        "mp4Bytes": 2185494
+        "png": "/social/04-cipher-1x1.png?v=6633629d",
+        "jpg": "/social/04-cipher-1x1.jpg?v=14217116",
+        "mp4": "/social/04-cipher-1x1.mp4?v=1cf453ca",
+        "pngBytes": 1505159,
+        "jpgBytes": 388383,
+        "mp4Bytes": 2185408
+      }
+    ]
+  },
+  {
+    "id": "05-praise-midwest",
+    "title": "The review, Midwest",
+    "note": "The second verdict. Midwest Book Review reaches librarians and booksellers, so this one is worth running where a trade name carries more than a blurb does.",
+    "headline": "Sridharan’s tense thriller will delight readers.",
+    "renditions": [
+      {
+        "sizeId": "4x5",
+        "label": "Vertical feed",
+        "width": 1080,
+        "height": 1350,
+        "png": "/social/05-praise-midwest-4x5.png?v=6fc024c0",
+        "jpg": "/social/05-praise-midwest-4x5.jpg?v=8bbded76",
+        "mp4": "/social/05-praise-midwest-4x5.mp4?v=82c735d3",
+        "pngBytes": 1945234,
+        "jpgBytes": 495544,
+        "mp4Bytes": 2921059
+      },
+      {
+        "sizeId": "9x16",
+        "label": "Story and Reel cover",
+        "width": 1080,
+        "height": 1920,
+        "png": "/social/05-praise-midwest-9x16.png?v=2f855a2f",
+        "jpg": "/social/05-praise-midwest-9x16.jpg?v=85e6bf24",
+        "mp4": "/social/05-praise-midwest-9x16.mp4?v=a3564663",
+        "pngBytes": 2754876,
+        "jpgBytes": 683756,
+        "mp4Bytes": 4353303
+      },
+      {
+        "sizeId": "1x1",
+        "label": "Square feed",
+        "width": 1080,
+        "height": 1080,
+        "png": "/social/05-praise-midwest-1x1.png?v=e47abfad",
+        "jpg": "/social/05-praise-midwest-1x1.jpg?v=821a2944",
+        "mp4": "/social/05-praise-midwest-1x1.mp4?v=51518eef",
+        "pngBytes": 1520962,
+        "jpgBytes": 385108,
+        "mp4Bytes": 2152961
+      }
+    ]
+  },
+  {
+    "id": "06-praise-maturi",
+    "title": "The review, Maturi",
+    "note": "An author verdict rather than a trade one. It is the only review that names the South Indian material, which is the part of the book a trade review has no room for.",
+    "headline": "Sridharan deftly and elegantly weaves rich details of South Indian life.",
+    "renditions": [
+      {
+        "sizeId": "4x5",
+        "label": "Vertical feed",
+        "width": 1080,
+        "height": 1350,
+        "png": "/social/06-praise-maturi-4x5.png?v=590512a8",
+        "jpg": "/social/06-praise-maturi-4x5.jpg?v=93b9f773",
+        "mp4": "/social/06-praise-maturi-4x5.mp4?v=9037d323",
+        "pngBytes": 1952713,
+        "jpgBytes": 509406,
+        "mp4Bytes": 2921781
+      },
+      {
+        "sizeId": "9x16",
+        "label": "Story and Reel cover",
+        "width": 1080,
+        "height": 1920,
+        "png": "/social/06-praise-maturi-9x16.png?v=56e64b6c",
+        "jpg": "/social/06-praise-maturi-9x16.jpg?v=d10c3476",
+        "mp4": "/social/06-praise-maturi-9x16.mp4?v=5b9ce0a3",
+        "pngBytes": 2764701,
+        "jpgBytes": 699627,
+        "mp4Bytes": 4271128
+      },
+      {
+        "sizeId": "1x1",
+        "label": "Square feed",
+        "width": 1080,
+        "height": 1080,
+        "png": "/social/06-praise-maturi-1x1.png?v=0f613d20",
+        "jpg": "/social/06-praise-maturi-1x1.jpg?v=72a92de4",
+        "mp4": "/social/06-praise-maturi-1x1.mp4?v=5d5d3724",
+        "pngBytes": 1526950,
+        "jpgBytes": 395725,
+        "mp4Bytes": 2167042
       }
     ]
   }
