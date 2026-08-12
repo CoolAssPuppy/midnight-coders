@@ -7,6 +7,12 @@ import { Footer } from "@/components/Footer";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { MetaPageView } from "@/components/MetaPageView";
 import { PRIMARY_BUY_URL } from "@/lib/buy-links";
+import { PRAISE } from "@/lib/praise";
+import {
+  BOOK_RELEASE_DATE,
+  DIGITAL_PRICE,
+  PAPERBACK_PRICE,
+} from "@/lib/book-facts";
 import { OPENAI_PIXEL_ID, META_DATASET_ID, GA_MEASUREMENT_ID } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -39,6 +45,13 @@ export const metadata: Metadata = {
   publisher: "Bodhi Press",
   alternates: {
     canonical: baseUrl,
+    // The site publishes in American English only, so it is its own alternate.
+    // Declaring it gives crawlers an explicit language signal rather than one
+    // inferred from <html lang>. Pages with their own canonical repeat this.
+    languages: {
+      "en-US": baseUrl,
+      "x-default": baseUrl,
+    },
   },
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
@@ -90,6 +103,15 @@ const jsonLd = {
         "@type": "ImageObject",
         url: `${baseUrl}/favicon.svg`,
       },
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "Media Relations",
+          email: "book@midnightcoderschildren.com",
+          availableLanguage: ["en"],
+          areaServed: "Worldwide",
+        },
+      ],
     },
     {
       "@type": "WebSite",
@@ -100,6 +122,13 @@ const jsonLd = {
         "A propulsive, emotionally grounded thriller about trust, legacy, and the fragile bonds that hold both families and civilizations together.",
       publisher: {
         "@id": `${baseUrl}/#organization`,
+      },
+      inLanguage: "en-US",
+      // Targets the crawlable synopsis, which is the part of the homepage a
+      // voice assistant can usefully read aloud. See CrawlableSynopsis.
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: ["#synopsis"],
       },
     },
     {
@@ -144,13 +173,36 @@ const jsonLd = {
       numberOfPages: 348,
       isbn: "9798999111128",
       datePublished: "2026-09-15",
-      offers: {
-        "@type": "Offer",
-        price: "18.99",
-        priceCurrency: "USD",
-        availability: "https://schema.org/PreOrder",
-        url: PRIMARY_BUY_URL,
-      },
+      // Two editions, two offers. The digital one was missing entirely, which
+      // meant the only price an agent could read was the paperback's.
+      offers: [
+        {
+          "@type": "Offer",
+          name: "Paperback",
+          price: PAPERBACK_PRICE,
+          priceCurrency: "USD",
+          availability: "https://schema.org/PreOrder",
+          availabilityStarts: BOOK_RELEASE_DATE,
+          url: PRIMARY_BUY_URL,
+          seller: { "@id": `${baseUrl}/#organization` },
+        },
+        {
+          "@type": "Offer",
+          name: "Digital edition, DRM-free EPUB",
+          price: DIGITAL_PRICE,
+          priceCurrency: "USD",
+          availability: "https://schema.org/PreOrder",
+          availabilityStarts: BOOK_RELEASE_DATE,
+          url: `${baseUrl}/buy`,
+          seller: { "@id": `${baseUrl}/#organization` },
+        },
+      ],
+      review: PRAISE.map((praise) => ({
+        "@type": "Review",
+        reviewBody: praise.quote,
+        author: { "@type": "Organization", name: praise.source },
+        itemReviewed: { "@id": `${baseUrl}/#book` },
+      })),
       image: `${baseUrl}/opengraph-image`,
       url: baseUrl,
     },

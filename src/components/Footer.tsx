@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const SOCIALS = [
   {
     label: "Website",
@@ -78,6 +80,13 @@ const SOCIALS = [
   },
 ];
 
+const LEGAL_LINKS = [
+  { label: "Contact", href: "/contact" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "Developers", href: "/developers" },
+];
+
 export function Footer(): React.ReactElement {
   return (
     <footer className="py-8 px-6">
@@ -99,6 +108,22 @@ export function Footer(): React.ReactElement {
           );
         })}
       </div>
+
+      <nav
+        aria-label="Legal and site information"
+        className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2"
+      >
+        {LEGAL_LINKS.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="text-[10px] tracking-wider uppercase transition-opacity opacity-25 hover:opacity-50"
+            style={{ color: "#fff", fontFamily: "var(--font-mono)" }}
+          >
+            {link.label}
+          </Link>
+        ))}
+      </nav>
     </footer>
   );
 }
