@@ -39,9 +39,14 @@ const CONTENT_SECURITY_POLICY = [
   // uses analytics.google.com, so both need wildcards or every pageview is
   // silently dropped by the policy.
   "connect-src 'self' https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.facebook.com https://bzr.openai.com https://bzrcdn.openai.com https://api.stripe.com https://*.hcaptcha.com https://hcaptcha.com https://vitals.vercel-insights.com",
-  "frame-src 'self' https://js.stripe.com https://*.hcaptcha.com https://hcaptcha.com https://www.googletagmanager.com",
+  // The Meta pixel does not only use the image beacon. Depending on the
+  // per-pixel config Meta serves, it falls back to POSTing a form to
+  // facebook.com/tr and to an iframe on facebook.com for cookie sync. With
+  // those two blocked, this pixel sent nothing at all: the script loaded, the
+  // config loaded, and then every transport it tried was refused.
+  "frame-src 'self' https://js.stripe.com https://*.hcaptcha.com https://hcaptcha.com https://www.googletagmanager.com https://*.facebook.com",
   "base-uri 'self'",
-  "form-action 'self' https://checkout.stripe.com",
+  "form-action 'self' https://checkout.stripe.com https://www.facebook.com",
   "object-src 'none'",
   "frame-ancestors 'none'",
   "upgrade-insecure-requests",
