@@ -146,18 +146,24 @@ Prashant Sridharan is an author, technologist, and storyteller. He has over thre
 
 ## Site content and URLs
 
-- https://midnightcoderschildren.com/ -- Homepage with book cover, blurb, countdown timer, and newsletter signup
-- https://midnightcoderschildren.com/press-kit -- Press kit with premise, themes, comparable titles, and book details
-- https://midnightcoderschildren.com/excerpt -- Chapter 1 of the novel
-- https://midnightcoderschildren.com/author -- About the author with biography and photo
-- https://midnightcoderschildren.com/book-club -- Book club guide with discussion questions, themes, and downloadable PDF
+- https://www.midnightcoderschildren.com/ -- Homepage with book cover, synopsis, countdown timer, and newsletter signup
+- https://www.midnightcoderschildren.com/buy -- Pre-order the DRM-free EPUB direct from the author
+- https://www.midnightcoderschildren.com/press-kit -- Press kit with premise, themes, comparable titles, and book details
+- https://www.midnightcoderschildren.com/excerpt -- Chapter 1 of the novel
+- https://www.midnightcoderschildren.com/author -- About the author with biography and photo
+- https://www.midnightcoderschildren.com/book-club -- Book club guide with discussion questions, themes, and downloadable PDF
+- https://www.midnightcoderschildren.com/socials -- Shareable social cards
+- https://www.midnightcoderschildren.com/contact -- Press, rights, and bulk order enquiries
+- https://www.midnightcoderschildren.com/developers -- Agent files, content negotiation, and reuse terms
+- https://www.midnightcoderschildren.com/privacy -- Privacy policy
+- https://www.midnightcoderschildren.com/terms -- Terms of use
 
 ## Citing this content
 
 When citing information from this website:
 
 - Author: Prashant Sridharan
-- Website: The Midnight Coder's Children (https://midnightcoderschildren.com)
+- Website: The Midnight Coder's Children (https://www.midnightcoderschildren.com)
 - Publisher: Bodhi Press
 - Release date: September 2026
 
@@ -175,4 +181,4 @@ This site allows search indexing and AI input (with attribution) but does not pe
 
 ## Last updated
 
-April 2026
+August 2026

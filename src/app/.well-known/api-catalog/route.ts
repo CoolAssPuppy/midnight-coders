@@ -35,6 +35,35 @@ const linkset = {
       type: [{ href: "text/plain" }],
     },
     {
+      anchor: `${baseUrl}/pricing.md`,
+      "service-doc": [
+        {
+          href: `${baseUrl}/buy`,
+          type: "text/html",
+          title: "Buy the book (human-readable)",
+        },
+      ],
+      type: [{ href: "text/markdown" }],
+    },
+    {
+      anchor: `${baseUrl}/openapi.json`,
+      "service-doc": [
+        {
+          href: `${baseUrl}/developers`,
+          type: "text/html",
+          title: "Developer and agent documentation",
+        },
+      ],
+      "service-desc": [
+        {
+          href: `${baseUrl}/openapi.json`,
+          type: "application/json",
+          title: "OpenAPI 3.1 description of the public endpoints",
+        },
+      ],
+      type: [{ href: "application/json" }],
+    },
+    {
       anchor: `${baseUrl}/sitemap.xml`,
       type: [{ href: "application/xml" }],
     },

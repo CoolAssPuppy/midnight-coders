@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import { BuyTheBook } from "@/components/BuyTheBook";
 import { MediaAssets } from "@/components/MediaAssets";
 import { siteUrl } from "@/lib/site";
+import { PRAISE } from "@/lib/praise";
+import {
+  BOOK_DETAILS,
+  COMP_TITLES,
+  PRESS_KIT_THEMES,
+} from "@/lib/press-kit-content";
 import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 
 export const metadata: Metadata = {
@@ -25,106 +31,13 @@ export const metadata: Metadata = {
   },
 };
 
-const THEMES = [
-  {
-    title: "Silence as inheritance",
-    description:
-      "The Tamil phrase Mounam Sammatham -- silence is consent -- recurs across generations. The novel argues that silence compounds across families and has measurable consequences.",
-  },
-  {
-    title: "Systems as love",
-    description:
-      "Gayathri builds security systems because she cannot articulate emotional connection. Her failsafe is simultaneously an engineering achievement and an encrypted love letter.",
-  },
-  {
-    title: "The isolation of competence",
-    description:
-      "Both Gayathri and Sydney are women whose excellence isolates them. They are the smartest people in rooms that do not want them there, leading them to prepare harder, work longer, and trust fewer people.",
-  },
-  {
-    title: "Invisible labor",
-    description:
-      "The \"midnight coders\" -- immigrant engineers who built the bank's infrastructure and were never recognized -- embody the novel's argument about whose work is valued and whose is erased.",
-  },
-  {
-    title: "Legacy across generations",
-    description:
-      "A hidden database account connects a dead woman to a living crisis. The novel explores how the work of one generation shapes the next through code, through institutions, through the things we leave behind without knowing we left them.",
-  },
-  {
-    title: "Memory as a category of knowledge",
-    description:
-      "The cipher does not ask Gayathri's children to process grief or confront failure. It asks them to remember. The novel treats memory and healing as fundamentally different acts.",
-  },
-];
 
-const PRAISE = [
-  {
-    quote:
-      "The Midnight Coder’s Children operates beyond action-packed scenarios to embrace personal lives and challenges impacted by choices. Sridharan’s tense thriller will delight readers.",
-    source: "Midwest Book Review",
-  },
-  {
-    quote:
-      "In Sridharan’s brisk debut, trillions of dollars are in jeopardy, a global security crisis is escalating, and the key to stopping it all lies in the seemingly harmless recipe book of a now-deceased Indian woman. [A] brisk financial thriller buoyed by [an] emotional throughline. For fans of Kathy Wang’s Imposter Syndrome.",
-    source: "BookLife",
-  },
-  {
-    quote:
-      "The Midnight Coder’s Children illuminates the casualties of technological convenience without guardrails: integrity, truth, and trust. Into this heart-pounding, lightning-fast tale of global financial crime in the age of AI, Sridharan deftly and elegantly weaves rich details of South Indian life, with finely-drawn and compelling characters who show us how to find our way back to integrity, through connection and care. We learn what is coded, not into a machine, but into a human being, through memory, experience, loss, and love.",
-    source: "Dheepa R. Maturi, author of 108",
-  },
-];
 
-const COMP_TITLES = [
-  {
-    title: "Pachinko",
-    author: "Min Jin Lee",
-    connection: "Multigenerational immigrant saga with commercial appeal",
-  },
-  {
-    title: "Everything I Never Told You",
-    author: "Celeste Ng",
-    connection: "Family secrets, cultural assimilation, maternal silence",
-  },
-  {
-    title: "The Sympathizer",
-    author: "Viet Thanh Nguyen",
-    connection: "Literary-genre hybrid, immigrant experience, institutional critique",
-  },
-  {
-    title: "Cutting for Stone",
-    author: "Abraham Verghese",
-    connection: "Immigrant professional, technical knowledge as narrative engine",
-  },
-  {
-    title: "Daemon",
-    author: "Daniel Suarez",
-    connection: "Techno-thriller with genuine technical credibility",
-  },
-  {
-    title: "The History of Love",
-    author: "Nicole Krauss",
-    connection: "Dual-timeline structure, hidden cipher, emotional archaeology",
-  },
-];
 
-const BOOK_DETAILS: { label: string; value: string; href?: string }[] = [
-  { label: "Author", value: "Prashant Sridharan" },
-  { label: "Genre", value: "Upmarket techno-thriller / literary fiction" },
-  { label: "Structure", value: "32 chapters, dual timeline" },
-  { label: "Word count", value: "~87,000 words" },
-  { label: "Publisher", value: "Bodhi Press" },
-  { label: "Format", value: "Paperback, 348 pages" },
-  { label: "ISBN", value: "979-8999111128" },
-  { label: "Price", value: "$18.99" },
-  { label: "Release date", value: "September 2026" },
-  {
-    label: "Press Inquiries",
-    value: "press@midnightcoderschildren.com",
-    href: "mailto:press@midnightcoderschildren.com",
-  },
-];
+
+
+
+
 
 const breadcrumbJsonLd = buildBreadcrumbJsonLd([
   { name: "Press Kit", path: "/press-kit" },
@@ -279,7 +192,7 @@ export default function AboutBookPage(): React.ReactElement {
             Themes
           </h2>
           <div className="space-y-6">
-            {THEMES.map((theme) => (
+            {PRESS_KIT_THEMES.map((theme) => (
               <div key={theme.title}>
                 <h3
                   className="text-sm font-bold mb-1.5"
