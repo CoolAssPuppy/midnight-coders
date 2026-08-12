@@ -1,0 +1,75 @@
+"use client";
+
+import { GlitchEffect } from "@/components/GlitchEffect";
+import { HeroSection } from "@/components/HeroSection";
+import { BookBlurb } from "@/components/BookBlurb";
+import { EmailSignup } from "@/components/EmailSignup";
+import { useScrollProgress } from "@/hooks/useScrollProgress";
+
+/**
+ * The scroll-driven homepage.
+ *
+ * Every child here fades in and out with scroll position, and each returns
+ * null at progress zero, so none of this reaches the server-rendered HTML.
+ * That is fine for the animation and fatal for the synopsis, which is why the
+ * page also renders CrawlableSynopsis outside this component.
+ */
+export function HomeExperience(): React.ReactElement {
+  const { progress } = useScrollProgress();
+
+  return (
+    <>
+      <GlitchEffect scrollProgress={progress} />
+
+      <div className="fixed inset-0 flex items-center justify-center z-10 pointer-events-none">
+        <div className="pointer-events-auto">
+          <HeroSection scrollProgress={progress} />
+          <BookBlurb scrollProgress={progress} />
+          <EmailSignup scrollProgress={progress} />
+        </div>
+      </div>
+
+      <ScrollIndicator isVisible={progress < 0.03} />
+    </>
+  );
+}
+
+interface ScrollIndicatorProps {
+  isVisible: boolean;
+}
+
+function ScrollIndicator({
+  isVisible,
+}: ScrollIndicatorProps): React.ReactElement | null {
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <div
+      className="fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-pulse z-20"
+      aria-hidden="true"
+    >
+      <span
+        className="text-xs tracking-widest uppercase"
+        style={{
+          color: "rgba(255, 255, 255, 0.5)",
+        }}
+      >
+        Scroll
+      </span>
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="rgba(255, 255, 255, 0.5)"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M12 5v14M19 12l-7 7-7-7" />
+      </svg>
+    </div>
+  );
+}

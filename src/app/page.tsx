@@ -1,70 +1,24 @@
-"use client";
+import { CrawlableSynopsis } from "@/components/CrawlableSynopsis";
+import { HomeExperience } from "@/components/HomeExperience";
 
-import { GlitchEffect } from "@/components/GlitchEffect";
-import { HeroSection } from "@/components/HeroSection";
-import { BookBlurb } from "@/components/BookBlurb";
-import { EmailSignup } from "@/components/EmailSignup";
-import { useScrollProgress } from "@/hooks/useScrollProgress";
-
+/**
+ * The homepage is a server component so the synopsis is in the HTML.
+ *
+ * The scroll animation lives in HomeExperience, which is a client component
+ * whose children all render null until the reader scrolls. Keeping the page
+ * itself on the server is what lets CrawlableSynopsis ship real text to
+ * crawlers and agents.
+ */
 export default function Home(): React.ReactElement {
-  const { progress } = useScrollProgress();
-
   return (
     <main id="main-content" className="relative min-h-[400vh]">
       <h1 className="sr-only">
         The Midnight Coder&apos;s Children: A Novel by Prashant Sridharan
       </h1>
-      <GlitchEffect scrollProgress={progress} />
 
-      <div className="fixed inset-0 flex items-center justify-center z-10 pointer-events-none">
-        <div className="pointer-events-auto">
-          <HeroSection scrollProgress={progress} />
-          <BookBlurb scrollProgress={progress} />
-          <EmailSignup scrollProgress={progress} />
-        </div>
-      </div>
+      <CrawlableSynopsis />
 
-      <ScrollIndicator isVisible={progress < 0.03} />
+      <HomeExperience />
     </main>
-  );
-}
-
-interface ScrollIndicatorProps {
-  isVisible: boolean;
-}
-
-function ScrollIndicator({
-  isVisible,
-}: ScrollIndicatorProps): React.ReactElement | null {
-  if (!isVisible) {
-    return null;
-  }
-
-  return (
-    <div
-      className="fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-pulse z-20"
-      aria-hidden="true"
-    >
-      <span
-        className="text-xs tracking-widest uppercase"
-        style={{
-          color: "rgba(255, 255, 255, 0.5)",
-        }}
-      >
-        Scroll
-      </span>
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="rgba(255, 255, 255, 0.5)"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M12 5v14M19 12l-7 7-7-7" />
-      </svg>
-    </div>
   );
 }

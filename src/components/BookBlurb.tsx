@@ -2,27 +2,19 @@
 
 import { memo, useMemo } from "react";
 import { SIGNUP_HEADLINE } from "./EmailSignup";
+import {
+  BOOK_BLURB,
+  getPlainText,
+  type SyntaxType,
+  type Token,
+} from "@/lib/book-blurb";
 
 interface BookBlurbProps {
   scrollProgress: number;
 }
 
-type SyntaxType =
-  | "text"
-  | "keyword"
-  | "variable"
-  | "string"
-  | "function"
-  | "type"
-  | "comment"
-  | "punctuation";
-
-interface Token {
-  text: string;
-  type: SyntaxType;
-}
-
-type Paragraph = Token[];
+// Types and the blurb text itself live in @/lib/book-blurb so the homepage
+// can render the same prose server-side. See that file for why.
 
 const SYNTAX_COLORS: Record<SyntaxType, string> = {
   text: "#D4D4D4",
@@ -42,114 +34,9 @@ const SYNTAX_COLORS: Record<SyntaxType, string> = {
 // - function (yellow): Adjectives
 // - keyword (blue): Key action verbs
 // - text (white): Regular prose
-const BOOK_BLURB: Paragraph[] = [
-  [
-    { text: "It's a race against the clock to ", type: "text" },
-    { text: "save", type: "keyword" },
-    { text: " the ", type: "text" },
-    { text: "US financial system", type: "type" },
-    { text: " from ", type: "text" },
-    { text: "total", type: "function" },
-    { text: " collapse.", type: "text" },
-  ],
-  [
-    { text: "Sydney McEnroe", type: "variable" },
-    { text: " is the ", type: "text" },
-    { text: "VP of engineering", type: "type" },
-    { text: " for one of the world's most ", type: "text" },
-    { text: "important", type: "function" },
-    { text: " ", type: "text" },
-    { text: "financial institutions", type: "type" },
-    { text: ", and today is her worst nightmare. Her ", type: "text" },
-    { text: "bank", type: "type" },
-    { text: " is the victim of a ", type: "text" },
-    { text: "vicious", type: "function" },
-    { text: " cyberattack. She knows who to call. She knows what to do. What she hasn't accounted for? The key to ", type: "text" },
-    { text: "restoring", type: "keyword" },
-    { text: " ", type: "text" },
-    { text: "security", type: "type" },
-    { text: " is hidden in a ", type: "text" },
-    { text: "former", type: "function" },
-    { text: " employee's ", type: "text" },
-    { text: "missing cipher", type: "string" },
-    { text: ".", type: "punctuation" },
-  ],
-  [
-    { text: "Decades earlier, ", type: "text" },
-    { text: "tech pioneer", type: "type" },
-    { text: " ", type: "text" },
-    { text: "Gayathri Ramaswamy", type: "variable" },
-    { text: " ", type: "text" },
-    { text: "predicted", type: "keyword" },
-    { text: " an attack of this magnitude while building the ", type: "text" },
-    { text: "bank", type: "type" },
-    { text: "'s systems, but no one listened. She ", type: "text" },
-    { text: "engineered", type: "keyword" },
-    { text: " a ", type: "text" },
-    { text: "complex", type: "function" },
-    { text: " ", type: "text" },
-    { text: "safety protocol", type: "string" },
-    { text: "\u2014one that could only be ", type: "text" },
-    { text: "discovered", type: "keyword" },
-    { text: " by those who truly understood the ", type: "text" },
-    { text: "sacrifices", type: "type" },
-    { text: " and ", type: "text" },
-    { text: "strength", type: "type" },
-    { text: " of an ", type: "text" },
-    { text: "immigrant", type: "type" },
-    { text: " and ", type: "text" },
-    { text: "single mother", type: "type" },
-    { text: ". As the cyberattack ", type: "text" },
-    { text: "escalates", type: "keyword" },
-    { text: ", ", type: "punctuation" },
-    { text: "Sydney", type: "variable" },
-    { text: " must ", type: "text" },
-    { text: "track down", type: "keyword" },
-    { text: " ", type: "text" },
-    { text: "Gayathri", type: "variable" },
-    { text: "'s surviving children in order to ", type: "text" },
-    { text: "piece together", type: "keyword" },
-    { text: " the mind and method of a ", type: "text" },
-    { text: "misunderstood", type: "function" },
-    { text: " ", type: "text" },
-    { text: "genius", type: "type" },
-    { text: "\u2014before time runs out and the ", type: "text" },
-    { text: "global economy", type: "type" },
-    { text: " is ", type: "text" },
-    { text: "catapulted", type: "keyword" },
-    { text: " into chaos.", type: "text" },
-  ],
-  [
-    { text: "A ", type: "text" },
-    { text: "propulsive", type: "function" },
-    { text: ", ", type: "punctuation" },
-    { text: "emotionally grounded", type: "function" },
-    { text: " ", type: "text" },
-    { text: "techno-thriller", type: "type" },
-    { text: ", ", type: "punctuation" },
-    { text: "The Midnight Coder's Children", type: "string" },
-    { text: " is a novel about the ", type: "text" },
-    { text: "legacies", type: "type" },
-    { text: " we make for ourselves, the ", type: "text" },
-    { text: "fragile", type: "function" },
-    { text: " trust that holds ", type: "text" },
-    { text: "families", type: "type" },
-    { text: " and ", type: "text" },
-    { text: "civilizations", type: "type" },
-    { text: " together, and the ", type: "text" },
-    { text: "extraordinary", type: "function" },
-    { text: " systems built\u2014byte by byte\u2014by ", type: "text" },
-    { text: "overlooked", type: "function" },
-    { text: " people.", type: "text" },
-  ],
-];
 
-// Convert structured blurb to plain text for letter matching
-function getPlainText(paragraphs: Paragraph[]): string {
-  return paragraphs
-    .map((p) => p.map((t) => t.text).join(""))
-    .join(" ");
-}
+
+
 
 // Map of characters to their diacritic variants
 const DIACRITIC_MAP: Record<string, string> = {
