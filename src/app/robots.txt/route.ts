@@ -1,22 +1,15 @@
-import { SITE_URL } from "@/lib/site";
+import { renderRobotsTxt } from "@/lib/robots-rules";
 
-const baseUrl = SITE_URL;
+// The rules live in @/lib/robots-rules because Next.js route modules may only
+// export handlers and route config, and the rules need to be testable.
 
-const body = `User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /ads/
-
-Content-Signal: search=yes, ai-input=yes, ai-train=no
-
-Sitemap: ${baseUrl}/sitemap.xml
-`;
+export const dynamic = "force-static";
 
 export function GET(): Response {
-  return new Response(body, {
+  return new Response(renderRobotsTxt(), {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "public, max-age=3600",
+      "Cache-Control": "public, max-age=3600, s-maxage=86400",
     },
   });
 }
