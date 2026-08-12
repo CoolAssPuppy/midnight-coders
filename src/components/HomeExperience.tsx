@@ -9,10 +9,15 @@ import { useScrollProgress } from "@/hooks/useScrollProgress";
 /**
  * The scroll-driven homepage.
  *
- * Every child here fades in and out with scroll position, and each returns
- * null at progress zero, so none of this reaches the server-rendered HTML.
- * That is fine for the animation and fatal for the synopsis, which is why the
- * page also renders CrawlableSynopsis outside this component.
+ * The hero, the glitch effect, and the scroll indicator do render at progress
+ * zero. BookBlurb and EmailSignup do not: both return null until the reader
+ * scrolls, so the synopsis never reached the server-rendered HTML. That is why
+ * the page renders CrawlableSynopsis outside this component.
+ *
+ * BookBlurb hides itself from assistive technology, because CrawlableSynopsis
+ * already exposes the same prose and a screen reader would otherwise meet the
+ * blurb twice. Only that component is hidden; the hero and the signup form
+ * stay in the accessibility tree.
  */
 export function HomeExperience(): React.ReactElement {
   const { progress } = useScrollProgress();

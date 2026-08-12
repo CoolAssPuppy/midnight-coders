@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { hasMarkdown } from "@/lib/page-markdown";
 
 const LINK_HEADERS = [
   '</llms.txt>; rel="alternate"; type="text/markdown"; title="LLM context"',
@@ -19,32 +20,39 @@ const LINK_HEADERS = [
  *   Google Tag Manager and GA4 - googletagmanager.com, google-analytics.com
  *   Meta Pixel                 - connect.facebook.net, facebook.com
  *   OpenAI ads pixel           - bzr.openai.com, bzrcdn.openai.com
- *   Stripe Checkout            - js.stripe.com, api.stripe.com
- *   hCaptcha on the signup     - hcaptcha.com and its subdomains
- *   Vercel analytics           - va.vercel-scripts.com
+ *   Stripe Checkout            - api.stripe.com for the redirect to hosted
+ *                                checkout. Stripe.js does not run here, so
+ *                                js.stripe.com is precautionary
+ *   Vercel analytics           - va.vercel-scripts.com, vitals.vercel-insights.com
  *   PostHog                    - proxied through /ingest, so 'self' covers it
  *
- * 'unsafe-inline' and 'unsafe-eval' are present because GTM injects both. That
- * is the cost of running a tag manager, and it is why the policy still pins
- * every other directive tightly.
+ * hCaptcha is deliberately absent. src/lib/captcha.ts exists but nothing calls
+ * it, and /api/subscribe says so in its own comment, so allowlisting the vendor
+ * would grant access nothing uses. Wire the verifier up and these come back:
+ *   script-src/style-src/connect-src/frame-src https://*.hcaptcha.com
+ *
+ * 'unsafe-inline' and 'unsafe-eval' are present because the GTM container needs
+ * both, as does the inline Meta pixel snippet in layout.tsx. That weakens the
+ * main XSS defense and is the cost of running a tag manager; the host
+ * restrictions, base-uri, form-action, object-src and frame rules still hold.
  */
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://*.facebook.net https://bzr.openai.com https://bzrcdn.openai.com https://js.stripe.com https://*.hcaptcha.com https://hcaptcha.com https://va.vercel-scripts.com",
-  "style-src 'self' 'unsafe-inline' https://*.hcaptcha.com https://hcaptcha.com",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://*.facebook.net https://bzr.openai.com https://bzrcdn.openai.com https://js.stripe.com https://va.vercel-scripts.com",
+  "style-src 'self' 'unsafe-inline'",
   "font-src 'self' data:",
   "img-src 'self' data: blob: https:",
   // GA4 does not post to www.google-analytics.com. It picks a regional
   // endpoint at runtime (region1.google-analytics.com and friends) and also
   // uses analytics.google.com, so both need wildcards or every pageview is
   // silently dropped by the policy.
-  "connect-src 'self' https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.facebook.com https://bzr.openai.com https://bzrcdn.openai.com https://api.stripe.com https://*.hcaptcha.com https://hcaptcha.com https://vitals.vercel-insights.com",
+  "connect-src 'self' https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.facebook.com https://bzr.openai.com https://bzrcdn.openai.com https://api.stripe.com https://vitals.vercel-insights.com",
   // The Meta pixel does not only use the image beacon. Depending on the
   // per-pixel config Meta serves, it falls back to POSTing a form to
   // facebook.com/tr and to an iframe on facebook.com for cookie sync. With
   // those two blocked, this pixel sent nothing at all: the script loaded, the
   // config loaded, and then every transport it tried was refused.
-  "frame-src 'self' https://js.stripe.com https://*.hcaptcha.com https://hcaptcha.com https://www.googletagmanager.com https://*.facebook.com",
+  "frame-src 'self' https://js.stripe.com https://www.googletagmanager.com https://*.facebook.com",
   "base-uri 'self'",
   "form-action 'self' https://checkout.stripe.com https://www.facebook.com",
   "object-src 'none'",
@@ -52,18 +60,50 @@ const CONTENT_SECURITY_POLICY = [
   "upgrade-insecure-requests",
 ].join("; ");
 
+/** One Accept entry: its media type and its quality value. */
+function parseAcceptEntry(part: string): { type: string; q: number } {
+  const [type, ...params] = part.split(";").map((s) => s.trim().toLowerCase());
+  const qParam = params.find((p) => p.startsWith("q="));
+  const q = qParam ? Number.parseFloat(qParam.slice(2)) : 1;
+  return { type, q: Number.isFinite(q) ? q : 1 };
+}
+
 /**
  * True when the client wants markdown rather than the rendered page.
  *
- * Browsers send `text/html` in Accept, so requiring its absence is what keeps
- * a normal page load from being rewritten to the markdown route.
+ * Quality values are honoured, which a substring check cannot do:
+ * `text/markdown;q=0` explicitly refuses markdown, and
+ * `text/markdown;q=1, text/html;q=0` explicitly refuses HTML. Reading the
+ * header as a string got both backwards.
+ *
+ * Browsers send `text/html` at a higher q than anything else, so ordinary page
+ * loads still resolve to HTML.
  */
 function prefersMarkdown(accept: string | null): boolean {
   if (!accept) return false;
-  const normalized = accept.toLowerCase();
-  if (!normalized.includes("text/markdown")) return false;
-  if (normalized.includes("text/html")) return false;
-  return true;
+
+  const entries = accept.split(",").map(parseAcceptEntry);
+  const markdown = entries.find((e) => e.type === "text/markdown");
+  if (!markdown || markdown.q <= 0) return false;
+
+  const html = entries.find(
+    (e) => e.type === "text/html" || e.type === "application/xhtml+xml"
+  );
+  if (!html) return true;
+
+  return markdown.q > html.q;
+}
+
+/**
+ * Paths that already have their own representation and content type.
+ *
+ * Negotiation used to swallow these: asking for /robots.txt with
+ * `Accept: text/markdown` returned the llms.txt index with a 200, which is
+ * wrong for any client and actively misleading for an agent.
+ */
+function hasOwnRepresentation(pathname: string): boolean {
+  if (/\.[a-z0-9]+$/i.test(pathname)) return true;
+  return pathname.startsWith("/.well-known/");
 }
 
 function applySecurityHeaders(response: NextResponse): void {
@@ -98,7 +138,14 @@ export function proxy(request: NextRequest): NextResponse {
   // /excerpt is excluded on purpose. It carries Chapter 1 in full, and handing
   // that over as clean markdown is the opposite of what ai-train=no and the
   // terms page say. Agents can still read the HTML like anyone else.
-  const negotiable = !pathname.startsWith("/excerpt");
+  //
+  // Only paths that actually have markdown are negotiated. Anything else falls
+  // through to the normal response, so an unknown URL 404s as it should
+  // instead of answering 200 with the site index.
+  const negotiable =
+    !pathname.startsWith("/excerpt") &&
+    !hasOwnRepresentation(pathname) &&
+    hasMarkdown(pathname);
 
   if (negotiable && prefersMarkdown(request.headers.get("accept"))) {
     const url = request.nextUrl.clone();

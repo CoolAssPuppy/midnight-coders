@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 
 import { describe, expect, it } from "vitest";
@@ -13,6 +13,17 @@ import sitemap from "../app/sitemap";
 
 const SRC = path.resolve(__dirname, "..");
 
+/** Every file named `name` under `dir`, as paths relative to `dir`. */
+function findFiles(dir: string, name: string, prefix = ""): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const rel = prefix ? `${prefix}/${entry.name}` : entry.name;
+    if (entry.isDirectory()) {
+      return findFiles(path.join(dir, entry.name), name, rel);
+    }
+    return entry.name === name ? [rel] : [];
+  });
+}
+
 function rulesFor(agent: string) {
   return RULES.find((rule) => rule.userAgent === agent);
 }
@@ -24,10 +35,22 @@ describe("robots.txt", () => {
       "ChatGPT-User",
       "Claude-User",
       "PerplexityBot",
-      "Amazonbot",
+      "Amzn-SearchBot",
+      "Amzn-User",
     ]) {
       expect(rulesFor(agent)?.allow, `${agent} should be allowed`).toContain("/");
     }
+  });
+
+  it("blocks Amazonbot while allowing Amazon's non-training crawlers", () => {
+    // Amazonbot was allowed here on the mistaken belief that it was retrieval
+    // only. Amazon documents that it may be used to train Amazon AI models,
+    // which contradicts ai-train=no. Amzn-SearchBot and Amzn-User do not train
+    // and carry the Alexa and Rufus discovery this site actually wants.
+    expect(rulesFor("Amazonbot")?.disallow).toContain("/");
+    expect(rulesFor("Amazonbot")?.allow ?? []).toEqual([]);
+    expect(rulesFor("Amzn-SearchBot")?.allow).toContain("/");
+    expect(rulesFor("Amzn-User")?.allow).toContain("/");
   });
 
   it("blocks every crawler whose purpose is collecting training data", () => {
@@ -192,6 +215,36 @@ describe("openapi.json", () => {
       expect(max, `${limit.route} max`).toBe(limit.max);
       expect((windowMs ?? 0) / 60000, `${limit.route} window`).toBe(
         limit.windowMinutes
+      );
+    }
+  });
+
+  it("documents every route that is actually rate limited", () => {
+    // Looping over RATE_LIMITS could only check what was already listed, so an
+    // undocumented route passed silently. Stripe checkout was rate limited and
+    // missing for exactly that reason. This walks the API directory instead,
+    // making the code the source of truth.
+    const apiDir = path.join(SRC, "app/api");
+    const limited = findFiles(apiDir, "route.ts")
+      .filter((file) =>
+        /\bapplyRateLimit\s*\(/.test(readFileSync(path.join(apiDir, file), "utf8"))
+      )
+      .map(
+        (file) =>
+          "/api/" +
+          path
+            .dirname(file)
+            .split("/")
+            .map((seg) => seg.replace(/^\[(?:\.\.\.)?(.+)\]$/, "{$1}"))
+            .join("/")
+      );
+
+    expect(limited.length).toBeGreaterThan(0);
+
+    const documented = new Set(RATE_LIMITS.map((l) => l.route));
+    for (const route of limited) {
+      expect(documented, `${route} is rate limited but undocumented`).toContain(
+        route
       );
     }
   });

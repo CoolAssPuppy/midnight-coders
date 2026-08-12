@@ -64,12 +64,14 @@ export default function PrivacyPage(): React.ReactElement {
 
         <TextSection heading="Who processes it">
           <p>
-            Beehiiv runs the mailing list. Stripe processes payments.
-            Cloudflare R2 stores and delivers purchased ebook files. hCaptcha
-            checks that signup forms are not being submitted by bots. PostHog
-            and Google Analytics record site analytics. Meta and OpenAI receive
-            conversion events for the advertising that runs on their platforms.
-            Vercel hosts the site and keeps standard server logs.
+            Beehiiv runs the mailing list. Stripe processes payments. Resend
+            delivers order confirmations and download links. Cloudflare R2
+            stores and delivers purchased ebook files. PostHog and Google
+            Analytics record site analytics, and Google Tag Manager loads those
+            and other tags. Meta and OpenAI receive conversion events for the
+            advertising that runs on their platforms. Vercel hosts the site,
+            runs Vercel Analytics and Speed Insights, and keeps server logs
+            that include the email address attached to a completed order.
           </p>
           <p>
             Each of those companies has its own privacy policy, and each acts as
@@ -79,15 +81,25 @@ export default function PrivacyPage(): React.ReactElement {
 
         <TextSection heading="Advertising">
           <p>
-            The book is advertised on Meta and through OpenAI. When you arrive
-            from one of those ads and later buy or subscribe, a conversion event
-            is sent back so the advertising can be measured. That event contains
-            a hashed version of your email address rather than the address
-            itself.
+            The book is advertised on Meta and through OpenAI. Their pixels run
+            on every page, not only for visitors who arrived from an ad, and
+            they record page views so that audiences can be built for
+            retargeting.
           </p>
           <p>
-            No advertising profile is built on this site, and no data is sold or
-            shared with data brokers.
+            When any purchase completes, a conversion event is sent to Meta and
+            OpenAI. Your email address is hashed before it is sent. The event
+            also carries the IP address and browser user agent recorded at
+            checkout, along with any advertising identifiers present in your
+            cookies, because those are what let the ad platforms match the
+            purchase to a click.
+          </p>
+          <p>
+            PostHog identifies you by your email address once you buy, and links
+            that identity to the browsing you did on this site beforehand.
+          </p>
+          <p>
+            No data is sold, and none is shared with data brokers.
           </p>
         </TextSection>
 
@@ -110,7 +122,10 @@ export default function PrivacyPage(): React.ReactElement {
 
         <TextSection heading="Your choices">
           <p>
-            Every email has an unsubscribe link, and it works immediately. You
+            Every marketing email has an unsubscribe link, and it works
+            immediately. Order confirmations and download links are
+            transactional and do not carry one, because they are part of
+            something you bought. You
             can ask for a copy of what is held about you, ask for it to be
             corrected, or ask for it to be deleted, by writing to{" "}
             <a href={`mailto:${EMAIL}`} style={textLinkStyle}>

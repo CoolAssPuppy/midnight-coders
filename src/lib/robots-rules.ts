@@ -35,10 +35,18 @@ export const RULES: Rule[] = [
   { userAgent: "PerplexityBot", allow: ["/"], disallow: PRIVATE_PATHS },
   { userAgent: "Perplexity-User", allow: ["/"], disallow: PRIVATE_PATHS },
 
-  // Amazonbot feeds Alexa and Rufus. This book sells on Amazon, so this is the
-  // crawler sitting closest to a purchase, and it is retrieval rather than
-  // training. Allowed.
-  { userAgent: "Amazonbot", allow: ["/"], disallow: PRIVATE_PATHS },
+  // Amazon splits its crawling across three agents, and only two are safe here.
+  // Amzn-SearchBot powers search inside Amazon products and Amzn-User answers
+  // live Alexa queries; Amazon states neither crawls for generative AI model
+  // training. Both are allowed, because the book sells on Amazon and these are
+  // the crawlers sitting closest to a purchase.
+  //
+  // Amazonbot itself is blocked. Amazon's own documentation says it may be used
+  // to train Amazon AI models, so allowing it would contradict the
+  // ai-train=no signal below. See https://developer.amazon.com/amazonbot
+  { userAgent: "Amzn-SearchBot", allow: ["/"], disallow: PRIVATE_PATHS },
+  { userAgent: "Amzn-User", allow: ["/"], disallow: PRIVATE_PATHS },
+  { userAgent: "Amazonbot", disallow: ["/"] },
 
   // Google-Extended and Applebot-Extended are the training opt-outs for Google
   // and Apple. Blocked here, unlike on strategicnerds.com, because the novel is

@@ -280,7 +280,11 @@ function BookBlurbComponent({
         transform: `translateY(${translateY}px)`,
         transition: "opacity 0.15s ease-out",
       }}
-      aria-label="Book description"
+      // Hidden from assistive technology on purpose. CrawlableSynopsis renders
+      // the same prose as plain paragraphs, and this version is a soup of
+      // per-character styled spans that reads badly aloud. Without this, a
+      // screen reader meets the blurb twice.
+      aria-hidden="true"
     >
       <div
         className="text-left rounded-lg p-6 md:p-8"
