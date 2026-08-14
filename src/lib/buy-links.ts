@@ -14,10 +14,32 @@ export type BuyLink = {
   retailer?: BookRetailer;
 };
 
+/**
+ * The paperback listing, untagged. Structured data offers point here, so the
+ * canonical URL an agent or crawler reads stays free of tracking parameters.
+ * This edition ships through IngramSpark rather than KDP, which is why it is
+ * absent from Amazon Attribution and cannot be measured.
+ */
+export const AMAZON_PAPERBACK_URL = "https://www.amazon.com/dp/B0H9BLKH9M";
+
+/**
+ * The Kindle edition, carrying its Amazon Attribution tag.
+ *
+ * Amazon is where roughly nine out of ten outbound buyers go, and without this
+ * tag none of those sales are visible in any system we own: they never reach
+ * Stripe, Meta, or PostHog. The tag was issued by the Amazon Ads console for
+ * ad group `site-buy-links` under campaign `Midnight Coders - offsite`, and it
+ * reports clicks, purchases, and royalties back against the Kindle ASIN.
+ *
+ * Kindle rather than paperback because Attribution only reports on KDP titles.
+ */
+const AMAZON_KINDLE_TAGGED_URL =
+  "https://www.amazon.com/dp/B0HBGYKMH3?maas=maas_adg_FA0E8F0029ED5577D600F9D36BDF80C0_afap_abs&ref_=aa_maas&tag=maas";
+
 export const BUY_LINKS: BuyLink[] = [
   {
     label: "Buy on Amazon",
-    href: "https://www.amazon.com/Midnight-Coders-Children-Prashant-Sridharan/dp/B0H9BLKH9M",
+    href: AMAZON_KINDLE_TAGGED_URL,
     retailer: "amazon",
   },
   {
@@ -31,5 +53,11 @@ export const BUY_LINKS: BuyLink[] = [
   },
 ];
 
-/** Primary retail listing, used for structured data offers. */
-export const PRIMARY_BUY_URL = BUY_LINKS[0].href as string;
+/**
+ * Primary retail listing, used for the paperback structured data offer.
+ *
+ * Deliberately not `BUY_LINKS[0].href`, which it used to be. That entry now
+ * points at the tagged Kindle link, so deriving this from it put a Kindle URL
+ * with tracking parameters inside a Paperback offer.
+ */
+export const PRIMARY_BUY_URL = AMAZON_PAPERBACK_URL;
