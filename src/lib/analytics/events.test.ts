@@ -126,8 +126,15 @@ describe("Meta event mapping", () => {
   });
 
   it("attaches an event id to every mapped event", () => {
-    const view = toMetaEvent("view_content", getPurchaseProperties());
-    const checkout = toMetaEvent("begin_checkout", getPurchaseProperties());
+    const catalog = {
+      ecommerce: {
+        currency: "USD",
+        value: 14.99,
+        items: [{ ...PRODUCTS.digitalEdition, quantity: 1 }],
+      },
+    };
+    const view = toMetaEvent("view_content", catalog);
+    const checkout = toMetaEvent("begin_checkout", catalog);
     const click = toMetaEvent("book_retailer_click", {
       retailer: "barnes_and_noble",
     });

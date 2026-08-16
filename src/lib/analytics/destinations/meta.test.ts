@@ -91,11 +91,15 @@ describe("Meta browser destination", () => {
     expect(data).toEqual({ retailer: "amazon" });
     expect(options).toEqual({ eventID: expect.any(String) });
 
+    const eventId = (options as { eventID: string }).eventID;
     expect(sendBeacon).toHaveBeenCalledTimes(1);
-    const beaconUrl = String(sendBeacon.mock.calls[0]?.[0]);
-    expect(beaconUrl).toContain("ev=RetailerClick");
-    expect(beaconUrl).toContain("cd%5Bretailer%5D=amazon");
-    expect(beaconUrl).toContain(`eid=${(options as { eventID: string }).eventID}`);
+    expect(sendBeacon).toHaveBeenCalledWith(
+      expect.stringContaining("ev=RetailerClick"),
+    );
+    expect(sendBeacon).toHaveBeenCalledWith(
+      expect.stringContaining("cd%5Bretailer%5D=amazon"),
+    );
+    expect(sendBeacon).toHaveBeenCalledWith(expect.stringContaining(`eid=${eventId}`));
   });
 
   it("does not send a standard checkout event for a retailer click", () => {
