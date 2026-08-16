@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { createEventId } from "@/lib/analytics/meta-events";
 
 type FbqFunction = (...args: unknown[]) => void;
 
@@ -31,7 +32,7 @@ export function MetaPageView(): null {
     if (typeof fbq !== "function") return;
 
     try {
-      fbq("track", "PageView");
+      fbq("track", "PageView", {}, { eventID: createEventId() });
     } catch {
       // Never let a pixel failure break navigation.
     }
