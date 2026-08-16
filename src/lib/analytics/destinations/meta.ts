@@ -1,5 +1,5 @@
 import type { AnalyticsDestination } from "../types";
-import { toMetaEvent, type MetaEvent } from "../meta-events";
+import { toMetaEvents, type MetaEvent } from "../meta-events";
 
 import { sanitizePixelId } from "../pixel-id";
 
@@ -61,26 +61,30 @@ export const metaDestination: AnalyticsDestination = {
   send(event: string, properties: Record<string, unknown>): void {
     if (typeof window === "undefined") return;
 
-    const mapped = toMetaEvent(event, properties);
-    if (!mapped) return;
+    const mappedEvents = toMetaEvents(event, properties);
+    if (mappedEvents.length === 0) return;
 
     const fbq = (window as unknown as FbqWindow).fbq;
-    if (typeof fbq === "function") {
-      try {
-        // eventID (capital ID) is the browser-side spelling; the server API
-        // spells the same value event_id. Meta matches them to deduplicate.
-        fbq(mapped.method, mapped.name, mapped.customData, {
-          eventID: mapped.eventId,
-        });
-      } catch {
-        // Never let a pixel failure break the page.
-      }
-    }
 
-    // Custom outbound events also go out on sendBeacon. fbq and the beacon
-    // share event_id, so Meta collapses the pair if both land.
-    if (mapped.method === "trackCustom") {
-      beaconMetaEvent(mapped);
+    for (const mapped of mappedEvents) {
+      if (typeof fbq === "function") {
+        try {
+          // eventID (capital ID) is the browser-side spelling; the server API
+          // spells the same value event_id. Meta matches them to deduplicate.
+          fbq(mapped.method, mapped.name, mapped.customData, {
+            eventID: mapped.eventId,
+          });
+        } catch {
+          // Never let a pixel failure break the page.
+        }
+      }
+
+      // Custom events also go out on sendBeacon. fbq and the beacon share
+      // event_id, so Meta collapses the pair if both land. PreorderIntent on
+      // the retailer path must survive the outbound navigation.
+      if (mapped.method === "trackCustom") {
+        beaconMetaEvent(mapped);
+      }
     }
   },
 };

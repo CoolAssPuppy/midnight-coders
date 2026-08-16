@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { toOpenAiEvent, toMinorUnits } from "./openai-events";
-import { toMetaEvent } from "./meta-events";
+import { toMetaEvent, toMetaEvents } from "./meta-events";
 import { PRODUCTS } from "./products";
 
 const getPurchaseProperties = (): Record<string, unknown> => ({
@@ -111,6 +111,37 @@ describe("Meta event mapping", () => {
     expect(checkout?.customData.currency).toBe("USD");
 
     expect(toMetaEvent("newsletter_signup", {})?.name).toBe("Lead");
+  });
+
+  it("emits PreorderIntent on both buy paths so ads can optimize for them equally", () => {
+    const stripe = toMetaEvents("begin_checkout", getPurchaseProperties());
+    expect(stripe.map((event) => event.name)).toEqual([
+      "InitiateCheckout",
+      "PreorderIntent",
+    ]);
+    expect(stripe[1]?.method).toBe("trackCustom");
+    expect(stripe[1]?.customData.channel).toBe("stripe");
+    expect(stripe[1]?.customData.value).toBe(14.99);
+    expect(stripe[0]?.eventId).not.toBe(stripe[1]?.eventId);
+
+    const amazon = toMetaEvents("book_retailer_click", { retailer: "amazon" });
+    expect(amazon.map((event) => event.name)).toEqual([
+      "RetailerClick",
+      "PreorderIntent",
+    ]);
+    expect(amazon[1]?.customData).toEqual({
+      channel: "amazon",
+      retailer: "amazon",
+    });
+    expect(amazon[1]?.customData.value).toBeUndefined();
+
+    const barnes = toMetaEvents("book_retailer_click", {
+      retailer: "barnes_and_noble",
+    });
+    expect(barnes[1]?.customData.channel).toBe("barnes_and_noble");
+
+    expect(toMetaEvents("purchase", getPurchaseProperties()).map((event) => event.name))
+      .toEqual(["Purchase"]);
   });
 
   it("does not map any current action to AddToCart, because there is no cart", () => {

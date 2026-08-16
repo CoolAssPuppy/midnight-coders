@@ -61,7 +61,7 @@ describe("Meta browser destination", () => {
     vi.unstubAllEnvs();
   });
 
-  it("sends InitiateCheckout for the Stripe buy button, with an event id", () => {
+  it("sends InitiateCheckout and PreorderIntent for the Stripe buy button", () => {
     metaDestination.send("begin_checkout", {
       ecommerce: {
         currency: "USD",
@@ -70,36 +70,40 @@ describe("Meta browser destination", () => {
       },
     });
 
-    expect(fbq).toHaveBeenCalledTimes(1);
-    const [method, name, data, options] = fbq.mock.calls[0] ?? [];
+    const names = fbq.mock.calls.map((call) => call[1]);
+    expect(names).toEqual(["InitiateCheckout", "PreorderIntent"]);
+
+    const [method, , data, options] = fbq.mock.calls[0] ?? [];
     expect(method).toBe("track");
-    expect(name).toBe("InitiateCheckout");
     expect(data).toEqual(
-      expect.objectContaining({ value: 14.99, currency: "USD" }),
+      expect.objectContaining({ value: 14.99, currency: "USD", channel: "stripe" }),
     );
     expect(options).toEqual({ eventID: expect.any(String) });
-    expect(sendBeacon).not.toHaveBeenCalled();
+
+    expect(sendBeacon).toHaveBeenCalledTimes(1);
+    expect(sendBeacon).toHaveBeenCalledWith(
+      expect.stringContaining("ev=PreorderIntent"),
+    );
   });
 
-  it("sends RetailerClick as a custom event and beacons it before navigation", () => {
+  it("sends RetailerClick and PreorderIntent, and beacons both before navigation", () => {
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
-    expect(fbq).toHaveBeenCalledTimes(1);
-    const [method, name, data, options] = fbq.mock.calls[0] ?? [];
-    expect(method).toBe("trackCustom");
-    expect(name).toBe("RetailerClick");
-    expect(data).toEqual({ retailer: "amazon" });
-    expect(options).toEqual({ eventID: expect.any(String) });
+    const names = fbq.mock.calls.map((call) => call[1]);
+    expect(names).toEqual(["RetailerClick", "PreorderIntent"]);
+    expect(fbq.mock.calls[0]?.[2]).toEqual({ retailer: "amazon" });
+    expect(fbq.mock.calls[1]?.[2]).toEqual({
+      channel: "amazon",
+      retailer: "amazon",
+    });
 
-    const eventId = (options as { eventID: string }).eventID;
-    expect(sendBeacon).toHaveBeenCalledTimes(1);
+    expect(sendBeacon).toHaveBeenCalledTimes(2);
     expect(sendBeacon).toHaveBeenCalledWith(
       expect.stringContaining("ev=RetailerClick"),
     );
     expect(sendBeacon).toHaveBeenCalledWith(
-      expect.stringContaining("cd%5Bretailer%5D=amazon"),
+      expect.stringContaining("ev=PreorderIntent"),
     );
-    expect(sendBeacon).toHaveBeenCalledWith(expect.stringContaining(`eid=${eventId}`));
   });
 
   it("does not send a standard checkout event for a retailer click", () => {
@@ -108,7 +112,7 @@ describe("Meta browser destination", () => {
     });
 
     const names = fbq.mock.calls.map((call) => call[1]);
-    expect(names).toEqual(["RetailerClick"]);
+    expect(names).toEqual(["RetailerClick", "PreorderIntent"]);
     expect(names).not.toContain("InitiateCheckout");
     expect(names).not.toContain("AddToCart");
     expect(names).not.toContain("Purchase");

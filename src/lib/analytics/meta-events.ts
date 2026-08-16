@@ -5,9 +5,15 @@
  * (`meta-capi.ts`). Meta deduplicates on the pair (event_name, event_id) within
  * 48 hours, so both halves must agree on both values.
  *
- * Standard events are reserved for the onsite Stripe path. Outbound retailer
- * clicks are a custom event: they are intent, not a sale, and labeling them
+ * Standard events stay on the onsite Stripe path. Outbound retailer clicks are
+ * a custom event: they are intent, not a sale, and labeling them
  * InitiateCheckout trains ad delivery on the wrong action.
+ *
+ * Both paths also emit `PreorderIntent`. Meta can optimize a campaign for only
+ * one event, and Stripe volume alone cannot exit learning. That shared custom
+ * event is the equal-weight optimization target; InitiateCheckout, RetailerClick,
+ * and Purchase stay in the dataset for reporting and for a later Purchase
+ * campaign once sales volume exists.
  *
  * See https://developers.facebook.com/docs/meta-pixel/reference
  */
@@ -19,7 +25,7 @@ export type MetaStandardEventName =
   | "ViewContent"
   | "Lead";
 
-export type MetaCustomEventName = "RetailerClick";
+export type MetaCustomEventName = "RetailerClick" | "PreorderIntent";
 
 export type MetaEventName = MetaStandardEventName | MetaCustomEventName;
 
@@ -39,6 +45,8 @@ export interface MetaCustomData {
   content_ids?: string[];
   contents?: MetaContentItem[];
   retailer?: string;
+  /** Which buy path produced this event. Used to break down PreorderIntent. */
+  channel?: string;
 }
 
 export interface MetaEvent {
@@ -61,13 +69,22 @@ interface EventMapping {
  * Amazon and Barnes & Noble leave the domain. Those clicks must not share a
  * standard event with Stripe or Meta will optimize for outbound intent as if
  * it were a sale.
+ *
+ * `PreorderIntent` is the one event both paths share, so a single campaign can
+ * treat a Stripe checkout start and a retailer click as equal results.
  */
-const EVENT_MAP: Record<string, EventMapping> = {
-  purchase: { name: "Purchase", method: "track" },
-  begin_checkout: { name: "InitiateCheckout", method: "track" },
-  book_retailer_click: { name: "RetailerClick", method: "trackCustom" },
-  view_content: { name: "ViewContent", method: "track" },
-  newsletter_signup: { name: "Lead", method: "track" },
+const EVENT_MAP: Record<string, EventMapping[]> = {
+  purchase: [{ name: "Purchase", method: "track" }],
+  begin_checkout: [
+    { name: "InitiateCheckout", method: "track" },
+    { name: "PreorderIntent", method: "trackCustom" },
+  ],
+  book_retailer_click: [
+    { name: "RetailerClick", method: "trackCustom" },
+    { name: "PreorderIntent", method: "trackCustom" },
+  ],
+  view_content: [{ name: "ViewContent", method: "track" }],
+  newsletter_signup: [{ name: "Lead", method: "track" }],
 };
 
 interface EcommercePayload {
@@ -125,15 +142,12 @@ function resolveEventId(
   return createEventId();
 }
 
-export function toMetaEvent(
+function buildBaseCustomData(
   event: string,
   properties: Record<string, unknown>,
-): MetaEvent | null {
-  const mapping = EVENT_MAP[event];
-  if (!mapping) return null;
-
+  ecommerce: EcommercePayload | null,
+): MetaCustomData {
   const customData: MetaCustomData = {};
-  const ecommerce = readEcommerce(properties);
 
   if (ecommerce) {
     if (typeof ecommerce.value === "number") customData.value = ecommerce.value;
@@ -153,10 +167,71 @@ export function toMetaEvent(
     customData.retailer = properties.retailer;
   }
 
-  return {
+  if (event === "begin_checkout") {
+    customData.channel = "stripe";
+  } else if (event === "book_retailer_click" && customData.retailer) {
+    customData.channel = customData.retailer;
+  }
+
+  return customData;
+}
+
+/**
+ * Shape each Meta event so reporting events stay specific and the shared
+ * optimization event stays a count signal, not a revenue signal.
+ *
+ * RetailerClick keeps only `retailer`. PreorderIntent keeps channel (and
+ * retailer when present) plus value/currency when the Stripe path already
+ * has them. Putting a made-up price on an Amazon click would train value
+ * optimization on fiction.
+ */
+function customDataFor(
+  name: MetaEventName,
+  base: MetaCustomData,
+): MetaCustomData {
+  if (name === "RetailerClick") {
+    return base.retailer ? { retailer: base.retailer } : {};
+  }
+
+  if (name === "PreorderIntent") {
+    const data: MetaCustomData = {};
+    if (base.channel) data.channel = base.channel;
+    if (base.retailer) data.retailer = base.retailer;
+    if (typeof base.value === "number") data.value = base.value;
+    if (base.currency) data.currency = base.currency;
+    return data;
+  }
+
+  return base;
+}
+
+export function toMetaEvents(
+  event: string,
+  properties: Record<string, unknown>,
+): MetaEvent[] {
+  const mappings = EVENT_MAP[event];
+  if (!mappings) return [];
+
+  const ecommerce = readEcommerce(properties);
+  const base = buildBaseCustomData(event, properties, ecommerce);
+
+  return mappings.map((mapping) => ({
     name: mapping.name,
     method: mapping.method,
-    customData,
-    eventId: resolveEventId(properties, ecommerce),
-  };
+    customData: customDataFor(mapping.name, base),
+    // Only Purchase reuses the Stripe session id. Fan-out events each need
+    // their own id so Meta does not collapse InitiateCheckout into PreorderIntent.
+    eventId:
+      mapping.name === "Purchase"
+        ? resolveEventId(properties, ecommerce)
+        : createEventId(),
+  }));
+}
+
+/** Primary (first) mapping. Prefer `toMetaEvents` when a path fans out. */
+export function toMetaEvent(
+  event: string,
+  properties: Record<string, unknown>,
+): MetaEvent | null {
+  return toMetaEvents(event, properties)[0] ?? null;
 }
