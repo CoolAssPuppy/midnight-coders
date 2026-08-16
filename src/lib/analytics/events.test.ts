@@ -89,6 +89,7 @@ describe("Meta event mapping", () => {
     const result = toMetaEvent("purchase", getPurchaseProperties());
 
     expect(result?.name).toBe("Purchase");
+    expect(result?.method).toBe("track");
     // Meta takes dollars where OpenAI takes cents. Mixing these up would
     // misreport revenue by 100x.
     expect(result?.customData.value).toBe(14.99);
@@ -96,12 +97,55 @@ describe("Meta event mapping", () => {
     expect(result?.eventId).toBe("cs_test_123");
   });
 
-  it("mirrors the OpenAI funnel split with Meta's own event names", () => {
-    expect(toMetaEvent("book_retailer_click", {})?.name).toBe("InitiateCheckout");
-    expect(toMetaEvent("begin_checkout", getPurchaseProperties())?.name).toBe(
+  it("maps the Stripe path to standard events and retailer clicks to a custom event", () => {
+    const click = toMetaEvent("book_retailer_click", { retailer: "amazon" });
+    expect(click?.name).toBe("RetailerClick");
+    expect(click?.method).toBe("trackCustom");
+    expect(click?.customData.retailer).toBe("amazon");
+    expect(click?.customData.value).toBeUndefined();
+
+    const checkout = toMetaEvent("begin_checkout", getPurchaseProperties());
+    expect(checkout?.name).toBe("InitiateCheckout");
+    expect(checkout?.method).toBe("track");
+    expect(checkout?.customData.value).toBe(14.99);
+    expect(checkout?.customData.currency).toBe("USD");
+
+    expect(toMetaEvent("newsletter_signup", {})?.name).toBe("Lead");
+  });
+
+  it("does not map any current action to AddToCart, because there is no cart", () => {
+    expect(toMetaEvent("begin_checkout", getPurchaseProperties())?.name).not.toBe(
       "AddToCart",
     );
-    expect(toMetaEvent("newsletter_signup", {})?.name).toBe("Lead");
+    expect(toMetaEvent("book_retailer_click", { retailer: "amazon" })?.name).not.toBe(
+      "AddToCart",
+    );
+    expect(toMetaEvent("purchase", getPurchaseProperties())?.name).not.toBe(
+      "AddToCart",
+    );
+  });
+
+  it("attaches an event id to every mapped event", () => {
+    const view = toMetaEvent("view_content", getPurchaseProperties());
+    const checkout = toMetaEvent("begin_checkout", getPurchaseProperties());
+    const click = toMetaEvent("book_retailer_click", {
+      retailer: "barnes_and_noble",
+    });
+    const lead = toMetaEvent("newsletter_signup", {});
+
+    expect(view?.eventId).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+    );
+    expect(checkout?.eventId).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+    );
+    expect(click?.eventId).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+    );
+    expect(lead?.eventId).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+    );
+    expect(view?.eventId).not.toBe(checkout?.eventId);
   });
 
   it("emits content_ids alongside contents, which Meta uses for catalog matching", () => {

@@ -14,8 +14,10 @@ interface RetailerLinkProps {
  * reader off.
  *
  * A plain anchor with a click handler, rather than preventDefault then
- * navigate: destinations queue their sends synchronously, and blocking
- * navigation on a network call would feel slow and break middle-click.
+ * navigate: destinations queue their sends synchronously, and the Meta
+ * destination also sendBeacons the custom event so a same-tab navigation
+ * cannot cancel it. Blocking on a network call would feel slow and break
+ * middle-click.
  */
 export function RetailerLink({
   href,

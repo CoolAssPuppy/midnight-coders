@@ -1,19 +1,29 @@
 /**
- * Mapping from this site's internal analytics events to Meta standard events.
+ * Mapping from this site's internal analytics events to Meta events.
  *
  * Shared by the browser pixel (`destinations/meta.ts`) and the Conversions API
  * (`meta-capi.ts`). Meta deduplicates on the pair (event_name, event_id) within
  * 48 hours, so both halves must agree on both values.
  *
+ * Standard events are reserved for the onsite Stripe path. Outbound retailer
+ * clicks are a custom event: they are intent, not a sale, and labeling them
+ * InitiateCheckout trains ad delivery on the wrong action.
+ *
  * See https://developers.facebook.com/docs/meta-pixel/reference
  */
 
-export type MetaEventName =
+export type MetaStandardEventName =
   | "Purchase"
   | "AddToCart"
   | "InitiateCheckout"
   | "ViewContent"
   | "Lead";
+
+export type MetaCustomEventName = "RetailerClick";
+
+export type MetaEventName = MetaStandardEventName | MetaCustomEventName;
+
+export type MetaTrackMethod = "track" | "trackCustom";
 
 /** Meta takes major units, unlike OpenAI. $14.99 stays 14.99. */
 export interface MetaContentItem {
@@ -28,25 +38,36 @@ export interface MetaCustomData {
   content_type?: string;
   content_ids?: string[];
   contents?: MetaContentItem[];
+  retailer?: string;
 }
 
 export interface MetaEvent {
   name: MetaEventName;
+  method: MetaTrackMethod;
   customData: MetaCustomData;
-  eventId?: string;
+  eventId: string;
+}
+
+interface EventMapping {
+  name: MetaEventName;
+  method: MetaTrackMethod;
 }
 
 /**
- * Deliberately parallel to the OpenAI map in `openai-events.ts`: offsite
- * retailer clicks are the *initiate* event, the onsite checkout is the *cart*
- * event, so the two funnels stay separable in both ad managers.
+ * Stripe is the only checkout we can observe through to payment, so it owns
+ * the standard funnel events. There is no cart on this site: the buy button
+ * opens Stripe Checkout directly, which is InitiateCheckout, not AddToCart.
+ *
+ * Amazon and Barnes & Noble leave the domain. Those clicks must not share a
+ * standard event with Stripe or Meta will optimize for outbound intent as if
+ * it were a sale.
  */
-const EVENT_MAP: Record<string, MetaEventName> = {
-  purchase: "Purchase",
-  begin_checkout: "AddToCart",
-  book_retailer_click: "InitiateCheckout",
-  view_content: "ViewContent",
-  newsletter_signup: "Lead",
+const EVENT_MAP: Record<string, EventMapping> = {
+  purchase: { name: "Purchase", method: "track" },
+  begin_checkout: { name: "InitiateCheckout", method: "track" },
+  book_retailer_click: { name: "RetailerClick", method: "trackCustom" },
+  view_content: { name: "ViewContent", method: "track" },
+  newsletter_signup: { name: "Lead", method: "track" },
 };
 
 interface EcommercePayload {
@@ -86,12 +107,30 @@ function toContents(items: unknown): MetaContentItem[] | undefined {
   return contents.length > 0 ? contents : undefined;
 }
 
+/** Browser and Node 20+ both provide this. Used for CAPI deduplication. */
+export function createEventId(): string {
+  return crypto.randomUUID();
+}
+
+function resolveEventId(
+  properties: Record<string, unknown>,
+  ecommerce: EcommercePayload | null,
+): string {
+  const transactionId = ecommerce?.transaction_id;
+  if (typeof transactionId === "string" && transactionId) return transactionId;
+
+  const explicit = properties.event_id;
+  if (typeof explicit === "string" && explicit) return explicit;
+
+  return createEventId();
+}
+
 export function toMetaEvent(
   event: string,
   properties: Record<string, unknown>,
 ): MetaEvent | null {
-  const name = EVENT_MAP[event];
-  if (!name) return null;
+  const mapping = EVENT_MAP[event];
+  if (!mapping) return null;
 
   const customData: MetaCustomData = {};
   const ecommerce = readEcommerce(properties);
@@ -110,11 +149,14 @@ export function toMetaEvent(
     }
   }
 
-  const transactionId = ecommerce?.transaction_id;
+  if (typeof properties.retailer === "string") {
+    customData.retailer = properties.retailer;
+  }
 
   return {
-    name,
+    name: mapping.name,
+    method: mapping.method,
     customData,
-    eventId: typeof transactionId === "string" ? transactionId : undefined,
+    eventId: resolveEventId(properties, ecommerce),
   };
 }
