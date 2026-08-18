@@ -3,6 +3,7 @@ import Image from "next/image";
 import { DigitalEditionCheckout } from "@/components/DigitalEditionCheckout";
 import { ProductViewEvent } from "@/components/ProductViewEvent";
 import { RetailerLink } from "@/components/RetailerLink";
+import { RotatingPraise } from "@/components/RotatingPraise";
 import { BUY_LINKS } from "@/lib/buy-links";
 import { siteUrl } from "@/lib/site";
 import "./buy.css";
@@ -19,13 +20,6 @@ export const metadata: Metadata = {
   openGraph: { title, description, url: canonical, type: "website" },
   twitter: { card: "summary_large_image", title, description },
 };
-
-const colophon: { term: string; detail: string }[] = [
-  { term: "Format", detail: "EPUB, readable on Kindle, Kobo, Apple Books, and anything else" },
-  { term: "Protection", detail: "None. No DRM, no account, no reader app. The file is yours." },
-  { term: "Released", detail: "15 September 2026" },
-  { term: "Delivery", detail: "A download link by email" },
-];
 
 export default function BuyPage(): React.ReactElement {
   const retailers = BUY_LINKS.filter((link) => link.retailer && link.href);
@@ -47,11 +41,6 @@ export default function BuyPage(): React.ReactElement {
           </div>
 
           <div>
-            {/* One kicker, used once. The hour the novel opens. */}
-            <p className="buy__timestamp buy__reveal buy__reveal--1">
-              05:43 &middot; Digital edition
-            </p>
-
             {/* The cover already carries the title at display size. Repeating
                 it here would be redundant, so the h1 stays modest for structure
                 and search, and the logline does the selling. */}
@@ -65,50 +54,35 @@ export default function BuyPage(): React.ReactElement {
               already happened.
             </p>
 
-            <blockquote className="buy__quote buy__reveal buy__reveal--3">
-              A brisk financial thriller buoyed by a powerful emotional
-              throughline.
-              <cite>BookLife</cite>
-            </blockquote>
-
-            <div className="buy__purchase buy__reveal buy__reveal--4">
+            <div className="buy__purchase buy__reveal buy__reveal--3">
               <p className="buy__price">
                 <b>$14.99</b>
               </p>
 
               <p className="buy__ships">
-                Pre-order. Download link active on 15 September 2026.
+                Pre-order now. Available September 15.
               </p>
 
-              <DigitalEditionCheckout />
+              <DigitalEditionCheckout>
+                {retailers.map((link) => (
+                  <RetailerLink
+                    key={link.label}
+                    href={link.href as string}
+                    retailer={link.retailer!}
+                    className="buy__retailer"
+                  >
+                    {link.label}
+                  </RetailerLink>
+                ))}
+              </DigitalEditionCheckout>
             </div>
+
           </div>
         </div>
 
-        <dl className="buy__colophon buy__reveal buy__reveal--4">
-          {colophon.map((entry) => (
-            <div className="buy__row" key={entry.term}>
-              <dt>{entry.term}</dt>
-              <dd>{entry.detail}</dd>
-            </div>
-          ))}
-        </dl>
-
-        <section className="buy__alt buy__reveal buy__reveal--4">
-          <p>Prefer print, or prefer a bookstore?</p>
-          <div className="buy__retailers">
-            {retailers.map((link) => (
-              <RetailerLink
-                key={link.label}
-                href={link.href as string}
-                retailer={link.retailer!}
-                className="buy__retailer"
-              >
-                {link.label}
-              </RetailerLink>
-            ))}
-          </div>
-        </section>
+        <div className="buy__praise buy__reveal buy__reveal--4">
+          <RotatingPraise />
+        </div>
       </div>
     </main>
   );

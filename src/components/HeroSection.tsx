@@ -42,7 +42,7 @@ function HeroSectionComponent({
         width={400}
         height={500}
         priority
-        className="w-[250px] md:w-[350px] lg:w-[400px] h-auto drop-shadow-2xl"
+        className="w-[280px] md:w-[400px] lg:w-[450px] h-auto drop-shadow-2xl"
       />
       <div className="mt-6 text-center">
         <p className="text-white/60 text-xs md:text-sm tracking-wide">

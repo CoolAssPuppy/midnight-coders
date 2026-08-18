@@ -78,3 +78,27 @@ actually does: beehiiv, Stripe, Cloudflare R2, hCaptcha, PostHog, Google
 Analytics, Meta and OpenAI conversion pixels, Vercel logs. The retention
 periods and the refund position are reasonable defaults rather than anything
 anybody has decided. Neither is legal advice.
+
+# Buy page redesign
+
+## Plan
+
+- [x] Inspect the live routes, local buy page, shared praise copy, and existing motion patterns
+- [x] Add behavior tests for quote sequencing before production code
+- [x] Remove the eyebrow and details table, tighten the retailer spacing, and update the preorder copy
+- [x] Rotate all three press quotes with a short glitch transition and reduced-motion support
+- [x] Group all three purchase buttons under the price and remove the visible signup choices
+- [x] Increase the homepage 3D book cover across phone, tablet, and desktop widths
+- [x] Run tests, lint, build, and inspect the finished page at desktop and mobile widths
+
+## Review
+
+The buy page now groups Amazon, Barnes & Noble, and direct purchase beneath the
+price. The details table, eyebrow, checkout note, and visible signup choices are
+gone. All three press quotes rotate below the main layout with a short glitch
+transition, including a reduced-motion rule. The homepage 3D cover is larger at
+each responsive width.
+
+The local preview rendered the homepage and buy page successfully. The final
+check passed 147 tests, ESLint, whitespace validation, TypeScript, and the full
+Next.js production build. All 29 static pages generated successfully.
