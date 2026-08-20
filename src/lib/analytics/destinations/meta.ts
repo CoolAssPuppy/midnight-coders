@@ -19,9 +19,11 @@ function resolveDatasetId(): string {
 }
 
 /**
- * Meta's image/beacon endpoint. Used as a transport that survives the tab
- * losing focus when a retailer link opens, and survives same-tab navigation
- * if a future change drops `target="_blank"`.
+ * Meta's image/beacon endpoint, used only when `fbq` is missing or throws.
+ *
+ * It carries fewer match parameters than `fbq` does, because it cannot read the
+ * `_fbp` cookie the pixel script sets. Treat it as the lossy backup, never as a
+ * second copy of a send that already went out.
  */
 export function buildMetaBeaconUrl(datasetId: string, event: MetaEvent): string {
   const params = new URLSearchParams();
@@ -67,24 +69,26 @@ export const metaDestination: AnalyticsDestination = {
     const fbq = (window as unknown as FbqWindow).fbq;
 
     for (const mapped of mappedEvents) {
+      // One event, one request. Meta deduplicates a browser event against a
+      // server event that shares its event_id. It does not deduplicate two
+      // browser requests against each other, so sending the same event through
+      // both `fbq` and the beacon counts it twice. That shipped on 16 August
+      // 2026 and doubled every RetailerClick and PreorderIntent until 20 August.
       if (typeof fbq === "function") {
         try {
-          // eventID (capital ID) is the browser-side spelling; the server API
-          // spells the same value event_id. Meta matches them to deduplicate.
+          // eventID (capital ID) is the browser-side spelling; the Conversions
+          // API spells the same value event_id. That pair is what deduplicates
+          // the pixel against the Stripe webhook on Purchase.
           fbq(mapped.method, mapped.name, mapped.customData, {
             eventID: mapped.eventId,
           });
+          continue;
         } catch {
-          // Never let a pixel failure break the page.
+          // fbq threw, so nothing left the browser. Fall through to the beacon.
         }
       }
 
-      // Custom events also go out on sendBeacon. fbq and the beacon share
-      // event_id, so Meta collapses the pair if both land. PreorderIntent on
-      // the retailer path must survive the outbound navigation.
-      if (mapped.method === "trackCustom") {
-        beaconMetaEvent(mapped);
-      }
+      beaconMetaEvent(mapped);
     }
   },
 };

@@ -47,6 +47,27 @@ describe("Meta browser destination", () => {
   const fbq = vi.fn();
   const sendBeacon = vi.fn(() => true);
 
+  /** Event names that left the browser through the pixel script. */
+  const fbqEventNames = (): string[] =>
+    fbq.mock.calls.map((call) => String(call[1]));
+
+  /** Event names that left the browser through the beacon endpoint. */
+  const beaconEventNames = (): string[] =>
+    sendBeacon.mock.calls.map(
+      (call) => new URL(String(call[0])).searchParams.get("ev") ?? "",
+    );
+
+  /**
+   * Every request Meta will actually count, across both transports.
+   *
+   * Assert on this, not on the mapping. The mapping was right on 16 August 2026
+   * and the pixel still double counted, because each event went out twice.
+   */
+  const countedEventNames = (): string[] => [
+    ...fbqEventNames(),
+    ...beaconEventNames(),
+  ];
+
   beforeEach(() => {
     fbq.mockReset();
     sendBeacon.mockReset();
@@ -61,7 +82,14 @@ describe("Meta browser destination", () => {
     vi.unstubAllEnvs();
   });
 
-  it("sends InitiateCheckout and PreorderIntent for the Stripe buy button", () => {
+  it("counts a retailer click once, not once per transport", () => {
+    metaDestination.send("book_retailer_click", { retailer: "amazon" });
+
+    expect(countedEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
+    expect(beaconEventNames()).toEqual([]);
+  });
+
+  it("counts a Stripe checkout start once, not once per transport", () => {
     metaDestination.send("begin_checkout", {
       ecommerce: {
         currency: "USD",
@@ -70,40 +98,66 @@ describe("Meta browser destination", () => {
       },
     });
 
-    const names = fbq.mock.calls.map((call) => call[1]);
-    expect(names).toEqual(["InitiateCheckout", "PreorderIntent"]);
-
-    const [method, , data, options] = fbq.mock.calls[0] ?? [];
-    expect(method).toBe("track");
-    expect(data).toEqual(
-      expect.objectContaining({ value: 14.99, currency: "USD", channel: "stripe" }),
-    );
-    expect(options).toEqual({ eventID: expect.any(String) });
-
-    expect(sendBeacon).toHaveBeenCalledTimes(1);
-    expect(sendBeacon).toHaveBeenCalledWith(
-      expect.stringContaining("ev=PreorderIntent"),
-    );
+    expect(countedEventNames()).toEqual(["InitiateCheckout", "PreorderIntent"]);
+    expect(beaconEventNames()).toEqual([]);
   });
 
-  it("sends RetailerClick and PreorderIntent, and beacons both before navigation", () => {
+  it("sends PreorderIntent exactly once on each buy path so the two are comparable", () => {
+    metaDestination.send("book_retailer_click", { retailer: "amazon" });
+    const fromRetailer = countedEventNames().filter(
+      (name) => name === "PreorderIntent",
+    );
+
+    fbq.mockReset();
+    sendBeacon.mockReset();
+    sendBeacon.mockReturnValue(true);
+
+    metaDestination.send("begin_checkout", {
+      ecommerce: {
+        currency: "USD",
+        value: 14.99,
+        items: [{ item_id: "midnight-coders-digital", quantity: 1, price: 14.99 }],
+      },
+    });
+    const fromStripe = countedEventNames().filter(
+      (name) => name === "PreorderIntent",
+    );
+
+    expect(fromRetailer).toHaveLength(1);
+    expect(fromStripe).toHaveLength(1);
+  });
+
+  it("attaches the buy path and the event id to what it sends", () => {
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
-    const names = fbq.mock.calls.map((call) => call[1]);
-    expect(names).toEqual(["RetailerClick", "PreorderIntent"]);
-    expect(fbq.mock.calls[0]?.[2]).toEqual({ retailer: "amazon" });
+    const [method, , retailerData, retailerOptions] = fbq.mock.calls[0] ?? [];
+    expect(method).toBe("trackCustom");
+    expect(retailerData).toEqual({ retailer: "amazon" });
+    expect(retailerOptions).toEqual({ eventID: expect.any(String) });
+
     expect(fbq.mock.calls[1]?.[2]).toEqual({
       channel: "amazon",
       retailer: "amazon",
     });
+  });
 
-    expect(sendBeacon).toHaveBeenCalledTimes(2);
-    expect(sendBeacon).toHaveBeenCalledWith(
-      expect.stringContaining("ev=RetailerClick"),
-    );
-    expect(sendBeacon).toHaveBeenCalledWith(
-      expect.stringContaining("ev=PreorderIntent"),
-    );
+  it("falls back to the beacon when the pixel script never loaded", () => {
+    vi.stubGlobal("window", {});
+
+    metaDestination.send("book_retailer_click", { retailer: "amazon" });
+
+    expect(fbqEventNames()).toEqual([]);
+    expect(countedEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
+  });
+
+  it("falls back to the beacon when fbq throws, without counting the failed call", () => {
+    fbq.mockImplementation(() => {
+      throw new Error("pixel blocked");
+    });
+
+    metaDestination.send("book_retailer_click", { retailer: "amazon" });
+
+    expect(beaconEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
   });
 
   it("does not send a standard checkout event for a retailer click", () => {
@@ -111,7 +165,7 @@ describe("Meta browser destination", () => {
       retailer: "barnes_and_noble",
     });
 
-    const names = fbq.mock.calls.map((call) => call[1]);
+    const names = countedEventNames();
     expect(names).toEqual(["RetailerClick", "PreorderIntent"]);
     expect(names).not.toContain("InitiateCheckout");
     expect(names).not.toContain("AddToCart");
@@ -139,7 +193,6 @@ describe("Meta browser destination", () => {
 
   it("ignores events this destination does not own", () => {
     metaDestination.send("excerpt_progress", { percent: 50 });
-    expect(fbq).not.toHaveBeenCalled();
-    expect(sendBeacon).not.toHaveBeenCalled();
+    expect(countedEventNames()).toEqual([]);
   });
 });
