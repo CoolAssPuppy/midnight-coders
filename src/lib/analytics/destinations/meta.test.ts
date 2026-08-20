@@ -45,7 +45,7 @@ describe("Meta beacon URL", () => {
 
 describe("Meta browser destination", () => {
   const fbq = vi.fn();
-  const sendBeacon = vi.fn(() => true);
+  const sendBeacon = vi.fn((url: string) => url.length > 0);
 
   /** Event names that left the browser through the pixel script. */
   const fbqEventNames = (): string[] =>
@@ -68,11 +68,14 @@ describe("Meta browser destination", () => {
     ...beaconEventNames(),
   ];
 
+  /** A loaded pixel: fbevents.js installs callMethod, the inline stub does not. */
+  const loadedFbq = () => Object.assign(fbq, { callMethod: () => {} });
+
   beforeEach(() => {
     fbq.mockReset();
     sendBeacon.mockReset();
-    sendBeacon.mockReturnValue(true);
-    vi.stubGlobal("window", { fbq });
+    sendBeacon.mockImplementation((url: string) => url.length > 0);
+    vi.stubGlobal("window", { fbq: loadedFbq() });
     vi.stubGlobal("navigator", { sendBeacon });
     vi.stubEnv("NEXT_PUBLIC_META_DATASET_ID", "123456789");
   });
@@ -110,7 +113,7 @@ describe("Meta browser destination", () => {
 
     fbq.mockReset();
     sendBeacon.mockReset();
-    sendBeacon.mockReturnValue(true);
+    sendBeacon.mockImplementation((url: string) => url.length > 0);
 
     metaDestination.send("begin_checkout", {
       ecommerce: {
@@ -141,13 +144,38 @@ describe("Meta browser destination", () => {
     });
   });
 
-  it("falls back to the beacon when the pixel script never loaded", () => {
+  it("falls back to the beacon when there is no fbq at all", () => {
     vi.stubGlobal("window", {});
 
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
     expect(fbqEventNames()).toEqual([]);
     expect(countedEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
+  });
+
+  it("beacons rather than queueing into a stub when fbevents.js never loaded", () => {
+    // The inline snippet defines fbq synchronously and pushes onto fbq.queue
+    // until the script arrives. On 20 August 2026 connect.facebook.net answered
+    // 503 in a real browser: fbq was a function, the queue never flushed, and a
+    // readiness check on `typeof fbq` alone would have dropped the event.
+    const stub = vi.fn();
+    vi.stubGlobal("window", { fbq: stub });
+
+    metaDestination.send("book_retailer_click", { retailer: "amazon" });
+
+    expect(stub).not.toHaveBeenCalled();
+    expect(beaconEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
+  });
+
+  it("keeps a fan-out on one transport so the two events stay comparable", () => {
+    const stub = vi.fn();
+    vi.stubGlobal("window", { fbq: stub });
+
+    metaDestination.send("book_retailer_click", { retailer: "amazon" });
+
+    // Never one event via fbq and its twin via the beacon.
+    expect(fbqEventNames()).toEqual([]);
+    expect(beaconEventNames()).toHaveLength(2);
   });
 
   it("falls back to the beacon when fbq throws, without counting the failed call", () => {

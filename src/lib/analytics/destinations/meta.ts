@@ -8,10 +8,26 @@ export const META_DATASET_ID = sanitizePixelId(
   process.env.NEXT_PUBLIC_META_DATASET_ID,
 );
 
-type FbqFunction = (...args: unknown[]) => void;
+type FbqFunction = ((...args: unknown[]) => void) & {
+  /** Installed by fbevents.js on load. The inline snippet's stub has no such property. */
+  callMethod?: unknown;
+};
 
 interface FbqWindow {
   fbq?: FbqFunction;
+}
+
+/**
+ * Whether `fbq` will actually send, rather than queue into a stub.
+ *
+ * The inline snippet in `layout.tsx` defines `fbq` synchronously and pushes
+ * calls onto `fbq.queue` until fbevents.js arrives. If that script 503s or is
+ * blocked, `typeof fbq === "function"` is still true, the queue never flushes,
+ * and every event is lost in silence. `callMethod` is the property fbevents.js
+ * installs, so it is what separates a live pixel from a stub.
+ */
+function isPixelReady(fbq: FbqFunction | undefined): boolean {
+  return typeof fbq === "function" && typeof fbq.callMethod === "function";
 }
 
 function resolveDatasetId(): string {
@@ -68,13 +84,18 @@ export const metaDestination: AnalyticsDestination = {
 
     const fbq = (window as unknown as FbqWindow).fbq;
 
+    // Resolved once, so a fan-out cannot split across transports. RetailerClick
+    // and PreorderIntent must travel the same way or their match quality, and
+    // therefore their counts, stop being comparable.
+    const pixelReady = isPixelReady(fbq);
+
     for (const mapped of mappedEvents) {
       // One event, one request. Meta deduplicates a browser event against a
       // server event that shares its event_id. It does not deduplicate two
       // browser requests against each other, so sending the same event through
       // both `fbq` and the beacon counts it twice. That shipped on 16 August
       // 2026 and doubled every RetailerClick and PreorderIntent until 20 August.
-      if (typeof fbq === "function") {
+      if (pixelReady && fbq) {
         try {
           // eventID (capital ID) is the browser-side spelling; the Conversions
           // API spells the same value event_id. That pair is what deduplicates
@@ -87,6 +108,9 @@ export const metaDestination: AnalyticsDestination = {
           // fbq threw, so nothing left the browser. Fall through to the beacon.
         }
       }
+
+      // Either the pixel script never loaded or fbq threw. Nothing was queued
+      // that could flush later, so this cannot double count.
 
       beaconMetaEvent(mapped);
     }
