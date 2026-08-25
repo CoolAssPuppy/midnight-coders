@@ -288,5 +288,49 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "mp4Bytes": 2167042
       }
     ]
+  },
+  {
+    "id": "07-praise-kirkus",
+    "title": "The review, Kirkus",
+    "note": "Kirkus describes the book as both a character study and a thriller. This card uses the complete published pull quote.",
+    "headline": "As much an intriguing character study as it is a thriller. [A] compelling yarn.",
+    "renditions": [
+      {
+        "sizeId": "4x5",
+        "label": "Vertical feed",
+        "width": 1080,
+        "height": 1350,
+        "png": "/social/07-praise-kirkus-4x5.png?v=b3fc0546",
+        "jpg": "/social/07-praise-kirkus-4x5.jpg?v=49766536",
+        "mp4": "/social/07-praise-kirkus-4x5.mp4?v=ef0fbf1b",
+        "pngBytes": 1952684,
+        "jpgBytes": 508411,
+        "mp4Bytes": 2929646
+      },
+      {
+        "sizeId": "9x16",
+        "label": "Story and Reel cover",
+        "width": 1080,
+        "height": 1920,
+        "png": "/social/07-praise-kirkus-9x16.png?v=08941436",
+        "jpg": "/social/07-praise-kirkus-9x16.jpg?v=a7f91240",
+        "mp4": "/social/07-praise-kirkus-9x16.mp4?v=e239e775",
+        "pngBytes": 2762150,
+        "jpgBytes": 698326,
+        "mp4Bytes": 4352763
+      },
+      {
+        "sizeId": "1x1",
+        "label": "Square feed",
+        "width": 1080,
+        "height": 1080,
+        "png": "/social/07-praise-kirkus-1x1.png?v=d90f1410",
+        "jpg": "/social/07-praise-kirkus-1x1.jpg?v=cb186bfd",
+        "mp4": "/social/07-praise-kirkus-1x1.mp4?v=f625fb0a",
+        "pngBytes": 1526039,
+        "jpgBytes": 394334,
+        "mp4Bytes": 2329645
+      }
+    ]
   }
 ];

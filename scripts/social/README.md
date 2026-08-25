@@ -1,6 +1,6 @@
 # Social posts
 
-Six concepts, each rendered at three sizes, into `public/social`. The
+Seven concepts, each rendered at three sizes, into `public/social`. The
 `/socials` page previews them and serves the downloads. Rebuild with
 `pnpm social:build`, or pass a filter to redo one concept:
 `pnpm social:build 03-timelines`.
@@ -79,7 +79,10 @@ characters and will not hold at this type size.
 review that names the South Indian material, which is the part of the book a
 trade review has no room for. The quote is a clause cut at its own comma.
 
-The three praise concepts are built to rotate against each other in paid
+**07-praise-kirkus.** The full Kirkus pull quote. It describes the novel as
+both a character study and a thriller.
+
+The four praise concepts are built to rotate against each other in paid
 placements. Staging them paused in the ad set gives the ad-spend agent
 somewhere to go when the live creative fatigues.
 

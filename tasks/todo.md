@@ -102,3 +102,44 @@ each responsive width.
 The local preview rendered the homepage and buy page successfully. The final
 check passed 147 tests, ESLint, whitespace validation, TypeScript, and the full
 Next.js production build. All 29 static pages generated successfully.
+
+# Google review snippet error
+
+## Plan
+
+- [x] Add a rendered-HTML test that rejects unrated `Review` structured data
+- [x] Remove the unrated editorial blurbs from the Book JSON-LD
+- [x] Run the focused test, full test suite, lint, and production build
+- [x] Record the result and Search Console follow-up
+
+## Review
+
+The Book JSON-LD no longer labels unrated editorial blurbs as Google
+Review objects. The quotes remain visible on the press kit and buy pages. The
+rendered-HTML test confirms that no `Review` object reaches the page.
+
+All 154 tests pass. ESLint, whitespace validation, TypeScript, and the full
+Next.js production build pass. All 29 static pages generated successfully.
+
+After deployment, run Google's Rich Results Test on the homepage and select
+Validate fix in Search Console. Google must crawl the changed pages before the
+report clears.
+
+# Kirkus review and social assets
+
+## Plan
+
+- [x] Add tests for the shared Kirkus quote and its generated social files
+- [x] Add the Kirkus quote to the shared praise source
+- [x] Add a Kirkus social concept and generate all three sizes
+- [x] Inspect the rendered social card and verify the site
+
+## Review
+
+The full Kirkus quote now appears with the other praise on the press kit, buy
+page, and markdown versions. The `/socials` page includes a seventh concept
+with feed, story, and square downloads in PNG, JPG, and six-second MP4 formats.
+
+All three cards were inspected at full size. The quote and attribution fit in
+each frame. All 156 tests pass. ESLint, video metadata checks, TypeScript, and
+the full Next.js production build pass. All 29 static pages generated.

@@ -7,7 +7,6 @@ import { Footer } from "@/components/Footer";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { MetaPageView } from "@/components/MetaPageView";
 import { PRIMARY_BUY_URL } from "@/lib/buy-links";
-import { PRAISE } from "@/lib/praise";
 import {
   BOOK_RELEASE_DATE,
   DIGITAL_PRICE,
@@ -197,12 +196,6 @@ const jsonLd = {
           seller: { "@id": `${baseUrl}/#organization` },
         },
       ],
-      review: PRAISE.map((praise) => ({
-        "@type": "Review",
-        reviewBody: praise.quote,
-        author: { "@type": "Organization", name: praise.source },
-        itemReviewed: { "@id": `${baseUrl}/#book` },
-      })),
       image: `${baseUrl}/opengraph-image`,
       url: baseUrl,
     },

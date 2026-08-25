@@ -6,7 +6,7 @@
  * post carries one call to action and one URL, because a second ask splits
  * the click.
  *
- * Copy is drawn from the site, the press kit, and the three published reviews.
+ * Copy is drawn from the site, the press kit, and the published reviews.
  * Nothing here is invented. Pull quotes are trimmed to a length the frame can
  * hold, never reworded, and every one is a complete sentence in the original.
  */
@@ -83,6 +83,17 @@ export const CONCEPTS = [
     /* Verbatim clause from the middle of the review, cut at its own comma. */
     quote: "Sridharan deftly and elegantly weaves rich details of South Indian life.",
     attribution: "Dheepa R. Maturi, author of 108",
+    sub: "The Midnight Coder’s Children, a novel by Prashant Sridharan.",
+  },
+  {
+    id: "07-praise-kirkus",
+    layout: "quote",
+    title: "The review, Kirkus",
+    note: "Kirkus describes the book as both a character study and a thriller. This card uses the complete published pull quote.",
+    kicker: "Kirkus Reviews on the novel.",
+    quote:
+      "As much an intriguing character study as it is a thriller. [A] compelling yarn.",
+    attribution: "Kirkus Reviews",
     sub: "The Midnight Coder’s Children, a novel by Prashant Sridharan.",
   },
 ];

@@ -1,9 +1,10 @@
 /**
  * Editorial reviews for the book.
  *
- * Shared by the press kit page and the Book JSON-LD in the root layout, so the
- * schema advertises the same quotes the site shows and cannot fall behind when
- * a new review lands.
+ * Shared by the press kit page, buy page, and markdown pages.
+ *
+ * These blurbs have no numeric scores, so they must not be published as Google
+ * Review structured data. Google requires a rating for review rich results.
  */
 
 export interface Praise {
@@ -12,6 +13,11 @@ export interface Praise {
 }
 
 export const PRAISE: Praise[] = [
+  {
+    quote:
+      "As much an intriguing character study as it is a thriller. [A] compelling yarn.",
+    source: "Kirkus Reviews",
+  },
   {
     quote:
       "The Midnight Coder’s Children operates beyond action-packed scenarios to embrace personal lives and challenges impacted by choices. Sridharan’s tense thriller will delight readers.",
