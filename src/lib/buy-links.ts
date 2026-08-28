@@ -12,6 +12,7 @@ export type BuyLink = {
   label: string;
   href: string | null;
   retailer?: BookRetailer;
+  prominence: "primary" | "secondary";
 };
 
 /**
@@ -33,23 +34,26 @@ export const AMAZON_PAPERBACK_URL = "https://www.amazon.com/dp/B0H9BLKH9M";
  *
  * Kindle rather than paperback because Attribution only reports on KDP titles.
  */
-const AMAZON_KINDLE_TAGGED_URL =
+export const AMAZON_KINDLE_TAGGED_URL =
   "https://www.amazon.com/dp/B0HBGYKMH3?maas=maas_adg_FA0E8F0029ED5577D600F9D36BDF80C0_afap_abs&ref_=aa_maas&tag=maas";
 
 export const BUY_LINKS: BuyLink[] = [
   {
-    label: "Buy Kindle on Amazon",
-    href: AMAZON_KINDLE_TAGGED_URL,
+    label: "Buy the paperback on Amazon",
+    href: AMAZON_PAPERBACK_URL,
     retailer: "amazon",
+    prominence: "primary",
   },
   {
-    label: "Buy paperback on Barnes & Noble",
+    label: "Barnes & Noble",
     href: "https://www.barnesandnoble.com/w/the-midnight-coders-children-prashant-sridharan/1150827730?ean=9798999111128",
     retailer: "barnes_and_noble",
+    prominence: "secondary",
   },
   {
-    label: "Buy Direct from Author",
+    label: "Buy direct",
     href: "/buy",
+    prominence: "secondary",
   },
 ];
 

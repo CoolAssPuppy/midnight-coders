@@ -2,15 +2,14 @@ import Link from "next/link";
 import { BUY_LINKS } from "@/lib/buy-links";
 import { RetailerLink } from "@/components/RetailerLink";
 
-/* Retailer links: neutral. The sale completes on someone else's site. */
+/* Amazon is the single campaign CTA. Other purchase routes stay available as
+   deliberately quiet text links so restoring their prominence is a local
+   component change, not a checkout or payments change. */
 const BUTTON_CLASS =
-  "px-6 py-3 text-xs tracking-wider uppercase rounded text-center transition-colors border border-white/35 bg-white/[0.06] text-white/85 hover:bg-white/[0.12] hover:text-white hover:border-white/50";
+  "px-6 py-3 text-xs tracking-wider uppercase rounded text-center transition-colors border border-white/50 bg-white/[0.1] text-white hover:bg-white/[0.18] hover:border-white/70";
 
-/* Buying direct: same control, teal. It is the only route that keeps the full
-   margin, and it matches the primary CTA on /buy so the two read as one action
-   wherever a reader meets it. */
-const DIRECT_BUTTON_CLASS =
-  "px-6 py-3 text-xs tracking-wider uppercase rounded text-center transition-colors border border-[#4ec9b0]/60 bg-[#4ec9b0]/[0.08] text-[#4ec9b0] hover:bg-[#4ec9b0]/[0.16] hover:border-[#4ec9b0] hover:text-[#7fe3cd]";
+const SECONDARY_LINK_CLASS =
+  "underline underline-offset-2 transition-colors text-white/30 hover:text-white/60";
 
 type BuyTheBookProps = {
   /** Show the BookLife pull quote beneath the buttons. Homepage only. */
@@ -36,6 +35,11 @@ export function BuyTheBook({
   showShareLink = true,
   isCompact = false,
 }: BuyTheBookProps): React.ReactElement {
+  const primaryLink = BUY_LINKS.find((link) => link.prominence === "primary");
+  const secondaryLinks = BUY_LINKS.filter(
+    (link) => link.prominence === "secondary",
+  );
+
   return (
     <section
       id={id}
@@ -50,44 +54,42 @@ export function BuyTheBook({
       >
         Get the book
       </p>
-      <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center sm:items-start gap-4">
-        {BUY_LINKS.map((link) => (
-          <span key={link.label} className="flex flex-col items-center">
+      {primaryLink?.href && primaryLink.retailer && (
+        <RetailerLink
+          href={primaryLink.href}
+          retailer={primaryLink.retailer}
+          className={BUTTON_CLASS}
+        >
+          {primaryLink.label}
+        </RetailerLink>
+      )}
+
+      <p
+        className="mt-2 text-[9px] tracking-wide"
+        style={{ fontFamily: "var(--font-mono)" }}
+      >
+        <span className="text-white/20">Other options: </span>
+        {secondaryLinks.map((link, index) => (
+          <span key={link.label}>
+            {index > 0 && <span className="text-white/15"> · </span>}
             {link.href && link.retailer ? (
               <RetailerLink
                 href={link.href}
                 retailer={link.retailer}
-                className={BUTTON_CLASS}
+                className={SECONDARY_LINK_CLASS}
               >
                 {link.label}
               </RetailerLink>
             ) : link.href ? (
-              <Link href={link.href} className={DIRECT_BUTTON_CLASS}>
+              <Link href={link.href} className={SECONDARY_LINK_CLASS}>
                 {link.label}
               </Link>
             ) : (
-              <>
-                <span
-                  className="px-6 py-3 text-xs tracking-wider uppercase rounded cursor-default text-center"
-                  style={{
-                    color: "rgba(255, 255, 255, 0.25)",
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                    backgroundColor: "rgba(255, 255, 255, 0.03)",
-                  }}
-                >
-                  {link.label}
-                </span>
-                <span
-                  className="text-[9px] tracking-widest uppercase mt-1.5"
-                  style={{ color: "rgba(255, 255, 255, 0.15)" }}
-                >
-                  Coming soon
-                </span>
-              </>
+              <span className="text-white/15">{link.label}</span>
             )}
           </span>
         ))}
-      </div>
+      </p>
 
       {showPullQuote && (
         <blockquote className="mt-8 max-w-md text-center">
