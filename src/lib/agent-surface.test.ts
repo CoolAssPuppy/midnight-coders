@@ -130,6 +130,20 @@ describe("llms.txt", () => {
       expect(pricing).toContain(price);
     }
   });
+
+  it("links independent sources that corroborate the book entity", () => {
+    const index = createLlmsIndex();
+
+    expect(index).toContain("## Independent coverage and listings");
+    for (const source of [
+      "kirkusreviews.com/book-reviews/prashant-sridharan/the-midnight-coders-children",
+      "booklife.com/project/the-midnight-coder-s-children-107957",
+      "goodreads.com/book/show/250561858-the-midnight-coder-s-children",
+      "netgalley.com/catalog/book/831209",
+    ]) {
+      expect(index).toContain(source);
+    }
+  });
 });
 
 describe("llms-full.txt", () => {

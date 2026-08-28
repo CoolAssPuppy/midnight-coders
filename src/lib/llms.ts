@@ -55,6 +55,29 @@ const AGENT_FILES: SitePage[] = [
   { path: "/.well-known/api-catalog", description: "RFC 9727 catalog of the files above." },
 ];
 
+const INDEPENDENT_SOURCES = [
+  {
+    label: "Kirkus Reviews",
+    url: "https://www.kirkusreviews.com/book-reviews/prashant-sridharan/the-midnight-coders-children/",
+    description: "Independent review and publication record.",
+  },
+  {
+    label: "BookLife",
+    url: "https://booklife.com/project/the-midnight-coder-s-children-107957",
+    description: "Independent review and book listing.",
+  },
+  {
+    label: "Goodreads",
+    url: "https://www.goodreads.com/book/show/250561858-the-midnight-coder-s-children",
+    description: "Reader-facing book record.",
+  },
+  {
+    label: "NetGalley",
+    url: "https://www.netgalley.com/catalog/book/831209",
+    description: "Archived advance-reader listing.",
+  },
+] as const;
+
 function line({ path, description }: SitePage): string {
   return `- [${SITE_URL}${path}](${SITE_URL}${path}): ${description}`;
 }
@@ -105,6 +128,12 @@ export function createLlmsIndex(): string {
     "",
     ...retailers,
     `- Direct from the author: ${SITE_URL}/buy`,
+    "",
+    "## Independent coverage and listings",
+    "",
+    ...INDEPENDENT_SOURCES.map(
+      ({ label, url, description }) => `- [${label}](${url}): ${description}`
+    ),
     "",
     "## Pages",
     "",
