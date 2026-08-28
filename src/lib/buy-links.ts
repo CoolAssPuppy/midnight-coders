@@ -38,12 +38,12 @@ const AMAZON_KINDLE_TAGGED_URL =
 
 export const BUY_LINKS: BuyLink[] = [
   {
-    label: "Buy on Amazon",
+    label: "Buy Kindle on Amazon",
     href: AMAZON_KINDLE_TAGGED_URL,
     retailer: "amazon",
   },
   {
-    label: "Buy on Barnes & Noble",
+    label: "Buy paperback on Barnes & Noble",
     href: "https://www.barnesandnoble.com/w/the-midnight-coders-children-prashant-sridharan/1150827730?ean=9798999111128",
     retailer: "barnes_and_noble",
   },

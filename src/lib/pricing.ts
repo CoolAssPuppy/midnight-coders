@@ -1,5 +1,5 @@
 import { SITE_URL } from "@/lib/site";
-import { BUY_LINKS } from "@/lib/buy-links";
+import { AMAZON_PAPERBACK_URL, BUY_LINKS } from "@/lib/buy-links";
 import {
   BOOK_ISBN,
   BOOK_PUBLISHER,
@@ -16,8 +16,16 @@ import {
  * checkout, so it stays the authority for what a buyer is actually charged.
  */
 export function createPricingMarkdown(): string {
-  const retailers = BUY_LINKS.filter((link) => link.retailer && link.href)
-    .map((link) => `- ${link.label.replace("Buy on ", "")}: ${link.href}`)
+  const barnesAndNoble = BUY_LINKS.find(
+    (link) => link.retailer === "barnes_and_noble",
+  );
+  const paperbackRetailers = [
+    `- Amazon: ${AMAZON_PAPERBACK_URL}`,
+    barnesAndNoble?.href
+      ? `- Barnes & Noble: ${barnesAndNoble.href}`
+      : null,
+  ]
+    .filter(Boolean)
     .join("\n");
 
   return [
@@ -44,7 +52,7 @@ export function createPricingMarkdown(): string {
     "- Retailers set their own prices, so the figure above is the list price",
     "  rather than what any given store charges.",
     "",
-    retailers,
+    paperbackRetailers,
     "",
     "## Free",
     "",
