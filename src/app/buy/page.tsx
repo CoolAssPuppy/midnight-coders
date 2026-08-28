@@ -14,7 +14,7 @@ const description =
 const canonical = siteUrl("/buy");
 
 export const metadata: Metadata = {
-  title: `${title} | The Midnight Coder's Children`,
+  title,
   description,
   alternates: { canonical },
   openGraph: { title, description, url: canonical, type: "website" },
