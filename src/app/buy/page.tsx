@@ -8,7 +8,7 @@ import { BUY_LINKS } from "@/lib/buy-links";
 import { siteUrl } from "@/lib/site";
 import "./buy.css";
 
-const title = "Buy the digital edition";
+const title = "Get The Midnight Coder's Children now!";
 const description =
   "Pre-order The Midnight Coder's Children digital edition direct from the author for $14.99. EPUB, DRM-free, delivered 15 September 2026.";
 const canonical = siteUrl("/buy");
