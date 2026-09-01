@@ -11,7 +11,7 @@ import { HomeExperience } from "@/components/HomeExperience";
  */
 export default function Home(): React.ReactElement {
   return (
-    <main id="main-content" className="relative min-h-[400vh]">
+    <main id="main-content" className="relative min-h-[240vh]">
       <h1 className="sr-only">
         The Midnight Coder&apos;s Children: A Novel by Prashant Sridharan
       </h1>

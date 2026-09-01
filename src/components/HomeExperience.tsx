@@ -9,6 +9,9 @@ import { useScrollProgress } from "@/hooks/useScrollProgress";
 /**
  * The scroll-driven homepage.
  *
+ * Sequence: hero, then the synopsis, then the signup form. The form used to
+ * wait until 80% of a four-screen page; it now follows the blurb directly.
+ *
  * The hero, the glitch effect, and the scroll indicator do render at progress
  * zero. BookBlurb and EmailSignup do not: both return null until the reader
  * scrolls, so the synopsis never reached the server-rendered HTML. That is why

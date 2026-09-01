@@ -191,9 +191,10 @@ function EmailSignupComponent({
   const showEmailError =
     emailTouched && formData.email.trim() !== "" && !isValidEmail(formData.email);
 
-  // Email form fades in from 80-88%, stays visible after (gap after blurb ends at 70%)
-  const fadeInStart = 0.80;
-  const fadeInEnd = 0.88;
+  // Form fades in as the blurb finishes its headline handoff, so capture
+  // sits right after the synopsis instead of after most of the page.
+  const fadeInStart = 0.38;
+  const fadeInEnd = 0.44;
 
   let opacity = 0;
 
