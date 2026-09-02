@@ -196,9 +196,10 @@ describe("pricing.md", () => {
       "utf8"
     );
 
-    expect(buyPage).toContain(`$${DIGITAL_PRICE}`);
-    expect(buyPage).toContain(`$${PAPERBACK_PRICE}`);
-    expect(buyPage).toContain("Buy the paperback on Amazon");
+    expect(buyPage).toContain("${DIGITAL_PRICE}");
+    expect(buyPage).toContain("${PAPERBACK_PRICE}");
+    expect(buyPage).toContain("{amazon.label}");
+    expect(buyPage).toContain('className="checkout__button"');
   });
 });
 

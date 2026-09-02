@@ -135,7 +135,7 @@ describe("Meta browser destination", () => {
 
     const [method, , retailerData, retailerOptions] = fbq.mock.calls[0] ?? [];
     expect(method).toBe("track");
-    expect(retailerData).toEqual({ retailer: "amazon" });
+    expect(retailerData).toEqual({ retailer: "amazon", channel: "amazon" });
     expect(retailerOptions).toEqual({ eventID: expect.any(String) });
 
     expect(fbq.mock.calls[1]?.[2]).toEqual({
