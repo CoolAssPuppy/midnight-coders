@@ -4,9 +4,11 @@ import { posthogDestination } from "./destinations/posthog";
 import { openaiDestination } from "./destinations/openai";
 import { metaDestination } from "./destinations/meta";
 import { googleAnalyticsDestination } from "./destinations/google-analytics";
+import { hasMarketingConsent } from "@/lib/consent";
+import { PRODUCTS } from "./products";
 
 export type { Product } from "./types";
-export { PRODUCTS } from "./products";
+export { PRODUCTS };
 export { initPostHog } from "./destinations/posthog";
 export { OPENAI_PIXEL_ID } from "./destinations/openai";
 export { META_DATASET_ID } from "./destinations/meta";
@@ -24,9 +26,21 @@ const destinations: AnalyticsDestination[] = [
   metaDestination,
 ];
 
+const MARKETING_DESTINATIONS = new Set([
+  "gtm",
+  "google-analytics",
+  "openai",
+  "meta",
+]);
+
 /** Send an event to every registered destination. */
 function send(event: string, properties: Record<string, unknown>): void {
+  const marketingAllowed = hasMarketingConsent();
+
   for (const destination of destinations) {
+    if (MARKETING_DESTINATIONS.has(destination.name) && !marketingAllowed) {
+      continue;
+    }
     destination.send(event, properties);
   }
 }
@@ -83,6 +97,7 @@ export function trackProductView(product: Product): void {
     value: product.price,
     currency: product.currency,
     item_id: product.item_id,
+    content_name: product.item_name,
     ecommerce: {
       currency: product.currency,
       value: product.price,

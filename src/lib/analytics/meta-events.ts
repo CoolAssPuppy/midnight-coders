@@ -42,6 +42,7 @@ export interface MetaCustomData {
   currency?: string;
   value?: number;
   content_type?: string;
+  content_name?: string;
   content_ids?: string[];
   contents?: MetaContentItem[];
   retailer?: string;
@@ -161,6 +162,28 @@ function buildBaseCustomData(
       customData.content_ids = contents.map((item) => item.id);
       customData.content_type = "product";
     }
+  }
+
+  if (typeof properties.content_name === "string") {
+    customData.content_name = properties.content_name;
+  } else if (ecommerce?.items && Array.isArray(ecommerce.items)) {
+    const first = ecommerce.items[0];
+    if (
+      typeof first === "object" &&
+      first !== null &&
+      typeof (first as { item_name?: unknown }).item_name === "string"
+    ) {
+      customData.content_name = (first as { item_name: string }).item_name;
+    }
+  }
+
+  if (
+    !customData.content_ids &&
+    typeof properties.item_id === "string" &&
+    properties.item_id
+  ) {
+    customData.content_ids = [properties.item_id];
+    customData.content_type = "product";
   }
 
   if (typeof properties.retailer === "string") {

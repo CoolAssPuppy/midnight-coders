@@ -142,6 +142,12 @@ describe("Meta event mapping", () => {
 
     expect(toMetaEvents("purchase", getPurchaseProperties()).map((event) => event.name))
       .toEqual(["Purchase"]);
+
+    expect(
+      toMetaEvents("book_retailer_click", { retailer: "amazon" }).map(
+        (event) => event.name,
+      ),
+    ).not.toContain("InitiateCheckout");
   });
 
   it("does not map any current action to AddToCart, because there is no cart", () => {
@@ -209,6 +215,29 @@ describe("Meta event mapping", () => {
 
     expect(result?.name).toBe("ViewContent");
     expect(result?.customData.value).toBe(14.99);
+  });
+
+  it("names the paperback ASIN on ViewContent", () => {
+    const result = toMetaEvent("view_content", {
+      content_name: "The Midnight Coder's Children",
+      item_id: "B0H9BLKH9M",
+      ecommerce: {
+        currency: "USD",
+        value: 18.99,
+        items: [
+          {
+            item_id: "B0H9BLKH9M",
+            item_name: "The Midnight Coder's Children",
+            quantity: 1,
+            price: 18.99,
+          },
+        ],
+      },
+    });
+
+    expect(result?.customData.content_name).toBe("The Midnight Coder's Children");
+    expect(result?.customData.content_ids).toEqual(["B0H9BLKH9M"]);
+    expect(result?.customData.content_type).toBe("product");
   });
 
   it("drops events that are not conversions", () => {

@@ -1,20 +1,33 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { trackProductView, PRODUCTS } from "@/lib/analytics";
-import { useMountEffect } from "@/hooks/useMountEffect";
+import {
+  hasMarketingConsent,
+  subscribeMarketingConsent,
+} from "@/lib/consent";
 
 /**
- * Reports a product view on the purchase page.
+ * ViewContent for the paperback on / and /buy.
  *
- * This is the event ad campaigns should optimize for before launch. Meta needs
- * roughly 50 optimization events a week to leave the learning phase, and a
- * $14.99 pre-order will not produce 50 purchases a week until release.
+ * content_name is the novel, content_ids is the Amazon ASIN. Waits for
+ * marketing consent so the pixel and CAPI stay dark in the EEA until agreed.
  * Renders nothing.
  */
 export function ProductViewEvent(): null {
-  useMountEffect(() => {
-    trackProductView(PRODUCTS.digitalEdition);
-  });
+  const [granted, setGranted] = useState(false);
+
+  useEffect(() => {
+    setGranted(hasMarketingConsent());
+    return subscribeMarketingConsent((value) => {
+      setGranted(value === "granted");
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!granted) return;
+    trackProductView(PRODUCTS.paperback);
+  }, [granted]);
 
   return null;
 }

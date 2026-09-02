@@ -198,6 +198,13 @@ describe("Meta browser destination", () => {
     expect(names).not.toContain("InitiateCheckout");
     expect(names).not.toContain("AddToCart");
     expect(names).not.toContain("Purchase");
+
+    fbq.mockReset();
+    sendBeacon.mockReset();
+    sendBeacon.mockImplementation((url: string) => url.length > 0);
+    metaDestination.send("book_retailer_click", { retailer: "amazon" });
+    expect(countedEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
+    expect(countedEventNames()).not.toContain("InitiateCheckout");
   });
 
   it("sends Purchase with value, currency, and the Stripe session as event id", () => {

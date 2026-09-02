@@ -99,7 +99,8 @@ export async function sendMetaConversion(
   options: SendOptions & { testEventCode?: string } = {},
 ): Promise<ConversionResult> {
   const accessToken = process.env.META_CONVERSIONS_ACCESS_TOKEN;
-  const datasetId = process.env.NEXT_PUBLIC_META_DATASET_ID;
+  const datasetId =
+    process.env.NEXT_PUBLIC_META_DATASET_ID || "1561129122079440";
 
   if (!accessToken) return { sent: false, skipped: "missing_api_key" };
   if (!datasetId) return { sent: false, skipped: "missing_pixel_id" };

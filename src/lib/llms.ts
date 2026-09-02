@@ -29,7 +29,7 @@ const SITE_PAGES: SitePage[] = [
   { path: "/excerpt", description: "Chapter 1 of the novel, in full." },
   {
     path: "/buy",
-    description: `Pre-order the DRM-free EPUB direct from the author for ${DIGITAL_PRICE} USD.`,
+    description: `Buy the paperback on Amazon (list $${PAPERBACK_PRICE}). DRM-free EPUB $${DIGITAL_PRICE} and Barnes & Noble are also listed.`,
   },
   {
     path: "/author",

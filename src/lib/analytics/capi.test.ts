@@ -125,6 +125,20 @@ describe("Meta conversion payload", () => {
     expect(build().action_source).toBe("website");
   });
 
+  it("no-ops when META_CONVERSIONS_ACCESS_TOKEN is missing", async () => {
+    vi.stubEnv("META_CONVERSIONS_ACCESS_TOKEN", "");
+
+    const { sendMetaConversion } = await import("./meta-capi");
+    const result = await sendMetaConversion({
+      id: "evt-1",
+      name: "ViewContent",
+      customData: {},
+      sourceUrl: "https://www.midnightcoderschildren.com/buy",
+    });
+
+    expect(result).toEqual({ sent: false, skipped: "missing_api_key" });
+  });
+
   it("omits custom_data when there is nothing to report", () => {
     const payload = buildMetaPayload({
       id: "probe",

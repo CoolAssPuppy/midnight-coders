@@ -3,10 +3,13 @@ import { toMetaEvents, type MetaEvent } from "../meta-events";
 
 import { sanitizePixelId } from "../pixel-id";
 
-/** Public dataset (pixel) id. The Conversions API token is the secret half. */
-export const META_DATASET_ID = sanitizePixelId(
-  process.env.NEXT_PUBLIC_META_DATASET_ID,
-);
+/**
+ * Public dataset (pixel) id. Same pixel as production: Midnight Coders
+ * 1561129122079440. The Conversions API token is the secret half.
+ */
+export const META_DATASET_ID =
+  sanitizePixelId(process.env.NEXT_PUBLIC_META_DATASET_ID) ||
+  "1561129122079440";
 
 type FbqFunction = ((...args: unknown[]) => void) & {
   /** Installed by fbevents.js on load. The inline snippet's stub has no such property. */
@@ -20,10 +23,10 @@ interface FbqWindow {
 /**
  * Whether `fbq` will actually send, rather than queue into a stub.
  *
- * The inline snippet in `layout.tsx` defines `fbq` synchronously and pushes
- * calls onto `fbq.queue` until fbevents.js arrives. If that script 503s or is
- * blocked, `typeof fbq === "function"` is still true, the queue never flushes,
- * and every event is lost in silence. `callMethod` is the property fbevents.js
+ * The install snippet defines `fbq` synchronously and pushes calls onto
+ * `fbq.queue` until fbevents.js arrives. If that script 503s or is blocked,
+ * `typeof fbq === "function"` is still true, the queue never flushes, and
+ * every event is lost in silence. `callMethod` is the property fbevents.js
  * installs, so it is what separates a live pixel from a stub.
  */
 function isPixelReady(fbq: FbqFunction | undefined): boolean {
