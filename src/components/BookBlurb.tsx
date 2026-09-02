@@ -210,11 +210,12 @@ function TokenRenderer({
 function BookBlurbComponent({
   scrollProgress,
 }: BookBlurbProps): React.ReactElement | null {
-  // Blurb fades in from 15-22%, visible from 22-40%, special transition from 40-70%
+  // Blurb fades in from 15-22%, holds through 32%, then morphs into the
+  // signup headline from 32-40% so EmailSignup can take over immediately.
   const fadeInStart = 0.15;
   const fadeInEnd = 0.22;
-  const transitionStart = 0.40;
-  const transitionEnd = 0.70;
+  const transitionStart = 0.32;
+  const transitionEnd = 0.40;
 
   // Calculate base opacity
   let baseOpacity = 0;
@@ -228,7 +229,7 @@ function BookBlurbComponent({
     baseOpacity = 0;
   }
 
-  // Calculate transition progress (0-1 during 40-70%)
+  // Calculate transition progress (0-1 during 32-40%)
   const transitionProgress =
     scrollProgress <= transitionStart
       ? 0
