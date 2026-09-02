@@ -12,7 +12,7 @@ import { ProductViewEvent } from "@/components/ProductViewEvent";
  */
 export default function Home(): React.ReactElement {
   return (
-    <main id="main-content" className="relative min-h-[400vh]">
+    <main id="main-content" className="relative min-h-[240vh]">
       <ProductViewEvent />
       <h1 className="sr-only">
         The Midnight Coder&apos;s Children: A Novel by Prashant Sridharan
