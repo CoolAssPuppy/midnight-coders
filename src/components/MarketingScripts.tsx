@@ -16,19 +16,18 @@ import { createEventId } from "@/lib/analytics/meta-events";
 
 const GTM_ID = "GTM-W663MCWC";
 
-type FbqFunction = ((...args: unknown[]) => void) & {
-  callMethod?: unknown;
-};
+type FbqFunction = (...args: unknown[]) => void;
 
 interface FbqWindow {
   fbq?: FbqFunction;
 }
 
 /**
- * Marketing tags, loaded only after consent.
+ * The existing marketing tags, loaded only after consent.
  *
- * PageView fires after grant, including the first page. App Router route
- * changes fire another PageView with a fresh event_id, mirrored to CAPI.
+ * Same GTM container, same Meta dataset, same GA4 id, same OpenAI pixel as
+ * before. Nothing new is installed. PageView uses the existing fbq, including
+ * on App Router navigations.
  */
 export function MarketingScripts(): React.ReactElement | null {
   const pathname = usePathname();
@@ -60,27 +59,14 @@ export function MarketingScripts(): React.ReactElement | null {
     if (lastPageView.current === pathname) return;
     lastPageView.current = pathname;
 
-    const eventId = createEventId();
     const fbq = (window as unknown as FbqWindow).fbq;
-    if (typeof fbq === "function") {
-      try {
-        fbq("track", "PageView", {}, { eventID: eventId });
-      } catch {
-        // A blocked pixel must not break navigation.
-      }
-    }
+    if (typeof fbq !== "function") return;
 
-    void fetch("/api/capi/meta", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      keepalive: true,
-      body: JSON.stringify({
-        name: "PageView",
-        event_id: eventId,
-        source_url: window.location.href,
-        custom_data: {},
-      }),
-    }).catch(() => undefined);
+    try {
+      fbq("track", "PageView", {}, { eventID: createEventId() });
+    } catch {
+      // A blocked pixel must not break navigation.
+    }
   }, [granted, pixelReady, pathname]);
 
   if (!granted) return null;
@@ -100,7 +86,7 @@ export function MarketingScripts(): React.ReactElement | null {
             `,
         }}
       />
-      {GA_MEASUREMENT_ID ? (
+      {GA_MEASUREMENT_ID && (
         <>
           <Script
             id="ga4-lib"
@@ -118,8 +104,8 @@ gtag('config','${GA_MEASUREMENT_ID}');`,
             }}
           />
         </>
-      ) : null}
-      {OPENAI_PIXEL_ID ? (
+      )}
+      {OPENAI_PIXEL_ID && (
         <>
           <link rel="preconnect" href="https://bzrcdn.openai.com" />
           <Script
@@ -136,8 +122,8 @@ oaiq("init",{pixelId:"${OPENAI_PIXEL_ID}"});`,
             src="https://bzrcdn.openai.com/sdk/oaiq.min.js"
           />
         </>
-      ) : null}
-      {META_DATASET_ID ? (
+      )}
+      {META_DATASET_ID && (
         <>
           <link rel="preconnect" href="https://connect.facebook.net" />
           <Script
@@ -153,11 +139,7 @@ fbq('init','${META_DATASET_ID}');`,
             }}
           />
         </>
-      ) : null}
+      )}
     </>
   );
-}
-
-export function MarketingNoscript(): React.ReactElement | null {
-  return null;
 }

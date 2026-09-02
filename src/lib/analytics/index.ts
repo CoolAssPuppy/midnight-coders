@@ -106,8 +106,8 @@ export function trackProductView(product: Product): void {
   });
 }
 
-export function trackNewsletterSignup(eventId?: string): void {
-  send("newsletter_signup", eventId ? { event_id: eventId } : {});
+export function trackNewsletterSignup(): void {
+  send("newsletter_signup", {});
 }
 
 /**
@@ -159,12 +159,6 @@ export function trackBookRetailerClick(params: {
   send("book_retailer_click", {
     retailer: params.retailer,
     href: params.href,
-    ...(params.retailer === "amazon"
-      ? {
-          item_id: PRODUCTS.paperback.item_id,
-          content_name: PRODUCTS.paperback.item_name,
-        }
-      : {}),
   });
 }
 

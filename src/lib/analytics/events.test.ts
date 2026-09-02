@@ -97,10 +97,10 @@ describe("Meta event mapping", () => {
     expect(result?.eventId).toBe("cs_test_123");
   });
 
-  it("maps the Stripe path and Amazon clicks to InitiateCheckout", () => {
+  it("maps the Stripe path to standard events and retailer clicks to a custom event", () => {
     const click = toMetaEvent("book_retailer_click", { retailer: "amazon" });
-    expect(click?.name).toBe("InitiateCheckout");
-    expect(click?.method).toBe("track");
+    expect(click?.name).toBe("RetailerClick");
+    expect(click?.method).toBe("trackCustom");
     expect(click?.customData.retailer).toBe("amazon");
     expect(click?.customData.value).toBeUndefined();
 
@@ -126,7 +126,7 @@ describe("Meta event mapping", () => {
 
     const amazon = toMetaEvents("book_retailer_click", { retailer: "amazon" });
     expect(amazon.map((event) => event.name)).toEqual([
-      "InitiateCheckout",
+      "RetailerClick",
       "PreorderIntent",
     ]);
     expect(amazon[1]?.customData).toEqual({
@@ -142,6 +142,12 @@ describe("Meta event mapping", () => {
 
     expect(toMetaEvents("purchase", getPurchaseProperties()).map((event) => event.name))
       .toEqual(["Purchase"]);
+
+    expect(
+      toMetaEvents("book_retailer_click", { retailer: "amazon" }).map(
+        (event) => event.name,
+      ),
+    ).not.toContain("InitiateCheckout");
   });
 
   it("does not map any current action to AddToCart, because there is no cart", () => {

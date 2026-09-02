@@ -88,7 +88,7 @@ describe("Meta browser destination", () => {
   it("counts a retailer click once, not once per transport", () => {
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
-    expect(countedEventNames()).toEqual(["InitiateCheckout", "PreorderIntent"]);
+    expect(countedEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
     expect(beaconEventNames()).toEqual([]);
   });
 
@@ -134,8 +134,8 @@ describe("Meta browser destination", () => {
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
     const [method, , retailerData, retailerOptions] = fbq.mock.calls[0] ?? [];
-    expect(method).toBe("track");
-    expect(retailerData).toEqual({ retailer: "amazon", channel: "amazon" });
+    expect(method).toBe("trackCustom");
+    expect(retailerData).toEqual({ retailer: "amazon" });
     expect(retailerOptions).toEqual({ eventID: expect.any(String) });
 
     expect(fbq.mock.calls[1]?.[2]).toEqual({
@@ -150,7 +150,7 @@ describe("Meta browser destination", () => {
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
     expect(fbqEventNames()).toEqual([]);
-    expect(countedEventNames()).toEqual(["InitiateCheckout", "PreorderIntent"]);
+    expect(countedEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
   });
 
   it("beacons rather than queueing into a stub when fbevents.js never loaded", () => {
@@ -164,7 +164,7 @@ describe("Meta browser destination", () => {
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
     expect(stub).not.toHaveBeenCalled();
-    expect(beaconEventNames()).toEqual(["InitiateCheckout", "PreorderIntent"]);
+    expect(beaconEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
   });
 
   it("keeps a fan-out on one transport so the two events stay comparable", () => {
@@ -185,10 +185,10 @@ describe("Meta browser destination", () => {
 
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
-    expect(beaconEventNames()).toEqual(["InitiateCheckout", "PreorderIntent"]);
+    expect(beaconEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
   });
 
-  it("does not send a standard checkout event for a Barnes & Noble click", () => {
+  it("does not send a standard checkout event for a retailer click", () => {
     metaDestination.send("book_retailer_click", {
       retailer: "barnes_and_noble",
     });
@@ -198,6 +198,13 @@ describe("Meta browser destination", () => {
     expect(names).not.toContain("InitiateCheckout");
     expect(names).not.toContain("AddToCart");
     expect(names).not.toContain("Purchase");
+
+    fbq.mockReset();
+    sendBeacon.mockReset();
+    sendBeacon.mockImplementation((url: string) => url.length > 0);
+    metaDestination.send("book_retailer_click", { retailer: "amazon" });
+    expect(countedEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
+    expect(countedEventNames()).not.toContain("InitiateCheckout");
   });
 
   it("sends Purchase with value, currency, and the Stripe session as event id", () => {

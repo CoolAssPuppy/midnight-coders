@@ -125,8 +125,7 @@ describe("Meta conversion payload", () => {
     expect(build().action_source).toBe("website");
   });
 
-  it("no-ops when META_CAPI_ACCESS_TOKEN is missing", async () => {
-    vi.stubEnv("META_CAPI_ACCESS_TOKEN", "");
+  it("no-ops when META_CONVERSIONS_ACCESS_TOKEN is missing", async () => {
     vi.stubEnv("META_CONVERSIONS_ACCESS_TOKEN", "");
 
     const { sendMetaConversion } = await import("./meta-capi");

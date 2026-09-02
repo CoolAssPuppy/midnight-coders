@@ -5,9 +5,15 @@
  * (`meta-capi.ts`). Meta deduplicates on the pair (event_name, event_id) within
  * 48 hours, so both halves must agree on both values.
  *
- * Amazon paperback clicks share InitiateCheckout with the Stripe EPUB path.
- * Barnes & Noble stays on RetailerClick. Both still emit PreorderIntent so a
- * paused campaign that already optimizes on that custom event keeps its signal.
+ * Standard events stay on the onsite Stripe path. Outbound retailer clicks are
+ * a custom event: they are intent, not a sale, and labeling them
+ * InitiateCheckout trains ad delivery on the wrong action.
+ *
+ * Both paths also emit `PreorderIntent`. Meta can optimize a campaign for only
+ * one event, and Stripe volume alone cannot exit learning. That shared custom
+ * event is the equal-weight optimization target; InitiateCheckout, RetailerClick,
+ * and Purchase stay in the dataset for reporting and for a later Purchase
+ * campaign once sales volume exists.
  *
  * See https://developers.facebook.com/docs/meta-pixel/reference
  */
@@ -17,8 +23,7 @@ export type MetaStandardEventName =
   | "AddToCart"
   | "InitiateCheckout"
   | "ViewContent"
-  | "Lead"
-  | "PageView";
+  | "Lead";
 
 export type MetaCustomEventName = "RetailerClick" | "PreorderIntent";
 
@@ -58,12 +63,16 @@ interface EventMapping {
 }
 
 /**
- * Stripe EPUB checkout and Amazon paperback clicks both emit InitiateCheckout.
- * Barnes & Noble stays on RetailerClick. There is no cart: the buy button is
- * the checkout start.
+ * Stripe is the only checkout we can observe through to payment, so it owns
+ * the standard funnel events. There is no cart on this site: the buy button
+ * opens Stripe Checkout directly, which is InitiateCheckout, not AddToCart.
  *
- * `PreorderIntent` remains on both paid paths so existing paused ad sets that
- * already listen for it keep a comparable count.
+ * Amazon and Barnes & Noble leave the domain. Those clicks must not share a
+ * standard event with Stripe or Meta will optimize for outbound intent as if
+ * it were a sale.
+ *
+ * `PreorderIntent` is the one event both paths share, so a single campaign can
+ * treat a Stripe checkout start and a retailer click as equal results.
  */
 const EVENT_MAP: Record<string, EventMapping[]> = {
   purchase: [{ name: "Purchase", method: "track" }],
@@ -78,19 +87,6 @@ const EVENT_MAP: Record<string, EventMapping[]> = {
   view_content: [{ name: "ViewContent", method: "track" }],
   newsletter_signup: [{ name: "Lead", method: "track" }],
 };
-
-function mappingsFor(
-  event: string,
-  properties: Record<string, unknown>,
-): EventMapping[] | undefined {
-  if (event === "book_retailer_click" && properties.retailer === "amazon") {
-    return [
-      { name: "InitiateCheckout", method: "track" },
-      { name: "PreorderIntent", method: "trackCustom" },
-    ];
-  }
-  return EVENT_MAP[event];
-}
 
 interface EcommercePayload {
   currency?: unknown;
@@ -236,7 +232,7 @@ export function toMetaEvents(
   event: string,
   properties: Record<string, unknown>,
 ): MetaEvent[] {
-  const mappings = mappingsFor(event, properties);
+  const mappings = EVENT_MAP[event];
   if (!mappings) return [];
 
   const ecommerce = readEcommerce(properties);

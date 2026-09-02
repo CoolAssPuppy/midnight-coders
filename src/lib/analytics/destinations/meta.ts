@@ -1,10 +1,15 @@
 import type { AnalyticsDestination } from "../types";
 import { toMetaEvents, type MetaEvent } from "../meta-events";
-import { resolvePublicMetaPixelId } from "../meta-ids";
-import { hasMarketingConsent } from "@/lib/consent";
 
-/** Public dataset (pixel) id. The Conversions API token is the secret half. */
-export const META_DATASET_ID = resolvePublicMetaPixelId();
+import { sanitizePixelId } from "../pixel-id";
+
+/**
+ * Public dataset (pixel) id. Same pixel as production: Midnight Coders
+ * 1561129122079440. The Conversions API token is the secret half.
+ */
+export const META_DATASET_ID =
+  sanitizePixelId(process.env.NEXT_PUBLIC_META_DATASET_ID) ||
+  "1561129122079440";
 
 type FbqFunction = ((...args: unknown[]) => void) & {
   /** Installed by fbevents.js on load. The inline snippet's stub has no such property. */
@@ -18,10 +23,10 @@ interface FbqWindow {
 /**
  * Whether `fbq` will actually send, rather than queue into a stub.
  *
- * The inline snippet in MarketingScripts defines `fbq` synchronously and pushes
- * calls onto `fbq.queue` until fbevents.js arrives. If that script 503s or is
- * blocked, `typeof fbq === "function"` is still true, the queue never flushes,
- * and every event is lost in silence. `callMethod` is the property fbevents.js
+ * The install snippet defines `fbq` synchronously and pushes calls onto
+ * `fbq.queue` until fbevents.js arrives. If that script 503s or is blocked,
+ * `typeof fbq === "function"` is still true, the queue never flushes, and
+ * every event is lost in silence. `callMethod` is the property fbevents.js
  * installs, so it is what separates a live pixel from a stub.
  */
 function isPixelReady(fbq: FbqFunction | undefined): boolean {
@@ -29,25 +34,7 @@ function isPixelReady(fbq: FbqFunction | undefined): boolean {
 }
 
 function resolveDatasetId(): string {
-  return META_DATASET_ID || resolvePublicMetaPixelId();
-}
-
-function mirrorToCapi(event: MetaEvent): void {
-  if (event.name === "Purchase") return;
-  if (typeof window === "undefined") return;
-  if (!hasMarketingConsent()) return;
-
-  void fetch("/api/capi/meta", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    keepalive: true,
-    body: JSON.stringify({
-      name: event.name,
-      event_id: event.eventId,
-      source_url: window.location.href,
-      custom_data: event.customData,
-    }),
-  }).catch(() => undefined);
+  return META_DATASET_ID || sanitizePixelId(process.env.NEXT_PUBLIC_META_DATASET_ID);
 }
 
 /**
@@ -119,7 +106,6 @@ export const metaDestination: AnalyticsDestination = {
           fbq(mapped.method, mapped.name, mapped.customData, {
             eventID: mapped.eventId,
           });
-          mirrorToCapi(mapped);
           continue;
         } catch {
           // fbq threw, so nothing left the browser. Fall through to the beacon.
@@ -130,7 +116,6 @@ export const metaDestination: AnalyticsDestination = {
       // that could flush later, so this cannot double count.
 
       beaconMetaEvent(mapped);
-      mirrorToCapi(mapped);
     }
   },
 };
