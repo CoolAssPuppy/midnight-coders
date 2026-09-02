@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { DigitalEditionCheckout } from "@/components/DigitalEditionCheckout";
 import { ProductViewEvent } from "@/components/ProductViewEvent";
 import { RetailerLink } from "@/components/RetailerLink";
@@ -92,16 +91,6 @@ export default function BuyPage(): React.ReactElement {
                     </RetailerLink>
                   </>
                 )}
-              </p>
-
-              <p className="buy__other">
-                <Link href="/excerpt" className="buy__text-cta">
-                  Read Chapter 1
-                </Link>
-                <span className="buy__other-sep"> · </span>
-                <Link href="/author" className="buy__text-cta">
-                  About Prashant
-                </Link>
               </p>
             </div>
           </div>

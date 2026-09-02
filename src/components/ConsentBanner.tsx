@@ -61,9 +61,8 @@ export function ConsentBanner(): React.ReactElement | null {
           className="text-xs md:text-sm leading-relaxed mb-3"
           style={{ color: "rgba(255, 255, 255, 0.72)" }}
         >
-          If you agree, this site records that you were here and which buy
-          link you used. That is how we know whether a reader found the book
-          from an ad. Denied until you say otherwise.
+          If you agree, the site records which type of link you used to buy.
+          That&rsquo;s it.
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <button
