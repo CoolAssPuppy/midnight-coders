@@ -15,8 +15,15 @@ import { DEFAULT_CHECKOUT_PREFERENCES } from "@/lib/checkout-preferences";
  */
 export function DigitalEditionCheckout({
   children,
+  label = "Buy the EPUB direct",
+  className = "buy__cta checkout__button",
+  inline = false,
 }: {
   children?: ReactNode;
+  label?: string;
+  className?: string;
+  /** Render a text control, for use beside other secondary links. */
+  inline?: boolean;
 }): React.ReactElement {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -56,18 +63,36 @@ export function DigitalEditionCheckout({
     }
   }
 
+  const button = (
+    <button
+      type="button"
+      onClick={handleCheckout}
+      disabled={isLoading}
+      className={className}
+    >
+      {isLoading ? "Opening checkout" : label}
+    </button>
+  );
+
+  if (inline) {
+    return (
+      <span className="checkout checkout--inline">
+        {button}
+        {error && (
+          <span className="checkout__error" role="alert">
+            {" "}
+            {error}
+          </span>
+        )}
+      </span>
+    );
+  }
+
   return (
     <div className="checkout">
       <div className="buy__actions">
         {children}
-        <button
-          type="button"
-          onClick={handleCheckout}
-          disabled={isLoading}
-          className="buy__cta checkout__button"
-        >
-          {isLoading ? "Opening checkout" : "Buy Direct from the Author"}
-        </button>
+        {button}
       </div>
 
       {error && (

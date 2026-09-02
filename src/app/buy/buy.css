@@ -460,6 +460,48 @@
   margin: 0.85rem 0 0;
 }
 
+.buy__other {
+  margin: 1.15rem 0 0;
+  max-width: 42ch;
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.buy__other-label {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+}
+
+.buy__other-sep {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.buy__text-cta {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, 0.55);
+  font: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  cursor: pointer;
+}
+
+.buy__text-cta:hover:not(:disabled) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.checkout--inline .checkout__error {
+  display: inline;
+  margin: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .checkout__button {
     transition: none;

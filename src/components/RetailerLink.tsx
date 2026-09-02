@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { trackBookRetailerClick, type BookRetailer } from "@/lib/analytics";
+import { withAmazonCampaignParams } from "@/lib/analytics/amazon-url";
 
 interface RetailerLinkProps {
   href: string;
@@ -18,9 +20,8 @@ interface RetailerLinkProps {
  * means this page never unloads, so nothing cancels them. Blocking on a network
  * call would feel slow and break middle-click.
  *
- * If this ever drops `target="_blank"`, do not add a second Meta transport
- * alongside `fbq` to survive the unload. Two browser requests for one event are
- * counted twice. Switch the transport instead.
+ * Amazon URLs pick up first-party UTMs after consent. The ASIN path is never
+ * rewritten.
  */
 export function RetailerLink({
   href,
@@ -28,13 +29,21 @@ export function RetailerLink({
   className,
   children,
 }: RetailerLinkProps): React.ReactElement {
+  const [outbound, setOutbound] = useState(href);
+
+  useEffect(() => {
+    setOutbound(
+      retailer === "amazon" ? withAmazonCampaignParams(href) : href,
+    );
+  }, [href, retailer]);
+
   return (
     <a
-      href={href}
+      href={outbound}
       target="_blank"
       rel="noopener noreferrer"
       className={className}
-      onClick={() => trackBookRetailerClick({ retailer, href })}
+      onClick={() => trackBookRetailerClick({ retailer, href: outbound })}
     >
       {children}
     </a>

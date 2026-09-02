@@ -1,17 +1,9 @@
+"use client";
+
 import Link from "next/link";
+import { requestConsentPrompt } from "@/lib/consent";
 
 const SOCIALS = [
-  {
-    label: "Website",
-    href: "https://www.strategicnerds.com",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M2 12h20" />
-        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-      </svg>
-    ),
-  },
   {
     label: "Twitter",
     href: "https://twitter.com/CoolAssPuppy",
@@ -123,6 +115,14 @@ export function Footer(): React.ReactElement {
             {link.label}
           </Link>
         ))}
+        <button
+          type="button"
+          onClick={requestConsentPrompt}
+          className="text-[10px] tracking-wider uppercase transition-opacity opacity-25 hover:opacity-50 bg-transparent border-0 p-0 cursor-pointer"
+          style={{ color: "#fff", fontFamily: "var(--font-mono)" }}
+        >
+          Measurement
+        </button>
       </nav>
     </footer>
   );

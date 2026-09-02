@@ -97,10 +97,10 @@ describe("Meta event mapping", () => {
     expect(result?.eventId).toBe("cs_test_123");
   });
 
-  it("maps the Stripe path to standard events and retailer clicks to a custom event", () => {
+  it("maps the Stripe path and Amazon clicks to InitiateCheckout", () => {
     const click = toMetaEvent("book_retailer_click", { retailer: "amazon" });
-    expect(click?.name).toBe("RetailerClick");
-    expect(click?.method).toBe("trackCustom");
+    expect(click?.name).toBe("InitiateCheckout");
+    expect(click?.method).toBe("track");
     expect(click?.customData.retailer).toBe("amazon");
     expect(click?.customData.value).toBeUndefined();
 
@@ -126,7 +126,7 @@ describe("Meta event mapping", () => {
 
     const amazon = toMetaEvents("book_retailer_click", { retailer: "amazon" });
     expect(amazon.map((event) => event.name)).toEqual([
-      "RetailerClick",
+      "InitiateCheckout",
       "PreorderIntent",
     ]);
     expect(amazon[1]?.customData).toEqual({
@@ -209,6 +209,29 @@ describe("Meta event mapping", () => {
 
     expect(result?.name).toBe("ViewContent");
     expect(result?.customData.value).toBe(14.99);
+  });
+
+  it("names the paperback ASIN on ViewContent", () => {
+    const result = toMetaEvent("view_content", {
+      content_name: "The Midnight Coder's Children",
+      item_id: "B0H9BLKH9M",
+      ecommerce: {
+        currency: "USD",
+        value: 18.99,
+        items: [
+          {
+            item_id: "B0H9BLKH9M",
+            item_name: "The Midnight Coder's Children",
+            quantity: 1,
+            price: 18.99,
+          },
+        ],
+      },
+    });
+
+    expect(result?.customData.content_name).toBe("The Midnight Coder's Children");
+    expect(result?.customData.content_ids).toEqual(["B0H9BLKH9M"]);
+    expect(result?.customData.content_type).toBe("product");
   });
 
   it("drops events that are not conversions", () => {

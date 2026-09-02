@@ -8,7 +8,7 @@ import type { AnalyticsDestination } from "../types";
  * this destination never touches it: gtag authenticates by origin.
  */
 export const GA_MEASUREMENT_ID =
-  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-PT2G856FD7";
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() || "";
 
 type GtagFunction = (...args: unknown[]) => void;
 

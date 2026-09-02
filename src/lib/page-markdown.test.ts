@@ -6,7 +6,7 @@ import { PRAISE } from "./praise";
 import { PRESS_KIT_THEMES } from "./press-kit-content";
 import { DISCUSSION_QUESTIONS } from "./book-club-content";
 import { DIGITAL_PRICE } from "./book-facts";
-import sitemap from "../app/sitemap";
+import { getSitemapEntries as sitemap } from "./sitemap-entries";
 
 describe("per-page markdown", () => {
   it("gives each page its own content rather than the site index", () => {

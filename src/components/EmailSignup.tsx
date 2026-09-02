@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import { BuyTheBook } from "@/components/BuyTheBook";
 import { trackNewsletterSignup } from "@/lib/analytics";
+import { createEventId } from "@/lib/analytics/meta-events";
 import "./email-signup.css";
 
 interface EmailSignupProps {
@@ -216,6 +217,7 @@ function EmailSignupComponent({
       setStatus("submitting");
 
       try {
+        const eventId = createEventId();
         const response = await fetch("/api/subscribe", {
           method: "POST",
           headers: {
@@ -227,6 +229,7 @@ function EmailSignupComponent({
             email: formData.email,
             referrer: getReferrerFromUrl(),
             interestedInBeta: formData.interestedInBeta,
+            event_id: eventId,
           }),
         });
 
@@ -239,7 +242,7 @@ function EmailSignupComponent({
         // Reaches GTM, PostHog, OpenAI, and Meta through the destination
         // registry. This previously pushed to dataLayer directly, so every
         // destination except GTM was blind to signups.
-        trackNewsletterSignup();
+        trackNewsletterSignup(eventId);
 
         // Legacy dataLayer push, kept because existing GTM triggers may listen
         // for "email_signup" rather than the registry's "newsletter_signup".

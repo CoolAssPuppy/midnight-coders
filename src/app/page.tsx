@@ -1,5 +1,6 @@
 import { CrawlableSynopsis } from "@/components/CrawlableSynopsis";
 import { HomeExperience } from "@/components/HomeExperience";
+import { ProductViewEvent } from "@/components/ProductViewEvent";
 
 /**
  * The homepage is a server component so the synopsis is in the HTML.
@@ -12,6 +13,7 @@ import { HomeExperience } from "@/components/HomeExperience";
 export default function Home(): React.ReactElement {
   return (
     <main id="main-content" className="relative min-h-[400vh]">
+      <ProductViewEvent />
       <h1 className="sr-only">
         The Midnight Coder&apos;s Children: A Novel by Prashant Sridharan
       </h1>

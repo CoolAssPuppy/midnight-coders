@@ -181,6 +181,6 @@ export function proxy(request: NextRequest): NextResponse {
 export const config = {
   matcher: [
     // Every page, minus Next internals, static assets, and the API itself.
-    "/((?!_next/static|_next/image|api/|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|pdf|zip|mp4)$).*)",
+    "/((?!_next/static|_next/image|api/|favicon.ico|sitemap.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|pdf|zip|mp4|xml)$).*)",
   ],
 };

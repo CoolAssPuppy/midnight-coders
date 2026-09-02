@@ -34,7 +34,7 @@ const authorJsonLd = {
     "@id": siteUrl("/#author"),
     name: "Prashant Sridharan",
     jobTitle: "Author",
-    url: "https://www.strategicnerds.com",
+    url: siteUrl("/author"),
     image: siteUrl("/images/author/prashant-sridharan.jpg"),
     description: BIO_JSONLD,
     sameAs: [
@@ -47,7 +47,6 @@ const authorJsonLd = {
     ],
     knowsAbout: [
       "Technology",
-      "Developer Marketing",
       "Cybersecurity",
       "Financial Systems",
       "Fiction Writing",

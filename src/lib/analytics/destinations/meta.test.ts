@@ -88,7 +88,7 @@ describe("Meta browser destination", () => {
   it("counts a retailer click once, not once per transport", () => {
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
-    expect(countedEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
+    expect(countedEventNames()).toEqual(["InitiateCheckout", "PreorderIntent"]);
     expect(beaconEventNames()).toEqual([]);
   });
 
@@ -134,7 +134,7 @@ describe("Meta browser destination", () => {
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
     const [method, , retailerData, retailerOptions] = fbq.mock.calls[0] ?? [];
-    expect(method).toBe("trackCustom");
+    expect(method).toBe("track");
     expect(retailerData).toEqual({ retailer: "amazon" });
     expect(retailerOptions).toEqual({ eventID: expect.any(String) });
 
@@ -150,7 +150,7 @@ describe("Meta browser destination", () => {
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
     expect(fbqEventNames()).toEqual([]);
-    expect(countedEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
+    expect(countedEventNames()).toEqual(["InitiateCheckout", "PreorderIntent"]);
   });
 
   it("beacons rather than queueing into a stub when fbevents.js never loaded", () => {
@@ -164,7 +164,7 @@ describe("Meta browser destination", () => {
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
     expect(stub).not.toHaveBeenCalled();
-    expect(beaconEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
+    expect(beaconEventNames()).toEqual(["InitiateCheckout", "PreorderIntent"]);
   });
 
   it("keeps a fan-out on one transport so the two events stay comparable", () => {
@@ -185,10 +185,10 @@ describe("Meta browser destination", () => {
 
     metaDestination.send("book_retailer_click", { retailer: "amazon" });
 
-    expect(beaconEventNames()).toEqual(["RetailerClick", "PreorderIntent"]);
+    expect(beaconEventNames()).toEqual(["InitiateCheckout", "PreorderIntent"]);
   });
 
-  it("does not send a standard checkout event for a retailer click", () => {
+  it("does not send a standard checkout event for a Barnes & Noble click", () => {
     metaDestination.send("book_retailer_click", {
       retailer: "barnes_and_noble",
     });

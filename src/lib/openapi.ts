@@ -22,6 +22,7 @@ export const RATE_LIMITS: DocumentedRateLimit[] = [
   { route: "/api/subscribe", method: "POST", max: 5, windowMinutes: 10 },
   { route: "/api/download/{token}", method: "GET", max: 30, windowMinutes: 10 },
   { route: "/api/stripe/checkout", method: "POST", max: 10, windowMinutes: 10 },
+  { route: "/api/capi/meta", method: "POST", max: 40, windowMinutes: 10 },
 ];
 
 function description(): string {

@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { applyRateLimit, getClientIp } from "@/lib/rate-limit";
 import { subscribeToNewsletter } from "@/lib/beehiiv";
+import { sendMetaConversion } from "@/lib/analytics/meta-capi";
+import { createEventId } from "@/lib/analytics/meta-events";
+import { MARKETING_CONSENT_COOKIE } from "@/lib/consent";
 
 interface SubscribeRequest {
   firstName: string;
@@ -8,6 +11,7 @@ interface SubscribeRequest {
   email: string;
   referrer: string;
   interestedInBeta: boolean;
+  eventId?: string;
 }
 
 function isValidEmail(email: string): boolean {
@@ -46,7 +50,18 @@ function validateRequest(body: unknown): SubscribeRequest | null {
     email: email.trim().toLowerCase(),
     referrer: typeof referrer === "string" ? referrer.trim() : "",
     interestedInBeta: interestedInBeta === true,
+    eventId:
+      typeof (body as Record<string, unknown>).event_id === "string"
+        ? String((body as Record<string, unknown>).event_id).slice(0, 80)
+        : undefined,
   };
+}
+
+function hasMarketingConsentCookie(request: Request): boolean {
+  const cookie = request.headers.get("cookie") ?? "";
+  return new RegExp(
+    `(?:^|;\\s*)${MARKETING_CONSENT_COOKIE}=granted(?:;|$)`,
+  ).test(cookie);
 }
 
 export async function POST(request: Request): Promise<NextResponse> {
@@ -82,7 +97,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       );
     }
 
-    const { firstName, lastName, email, referrer, interestedInBeta } =
+    const { firstName, lastName, email, referrer, interestedInBeta, eventId } =
       validatedData;
 
 
@@ -119,8 +134,23 @@ export async function POST(request: Request): Promise<NextResponse> {
     // The same response comes back whether the address was new or already on
     // the list, so this endpoint cannot be used to test whether a given person
     // is a subscriber.
+    const leadEventId = eventId || createEventId();
+    if (hasMarketingConsentCookie(request)) {
+      void sendMetaConversion({
+        id: leadEventId,
+        name: "Lead",
+        customData: {},
+        sourceUrl: "https://www.midnightcoderschildren.com/",
+        email,
+        attribution: {
+          ipAddress: getClientIp(request),
+          userAgent: request.headers.get("user-agent") ?? undefined,
+        },
+      });
+    }
+
     return NextResponse.json(
-      { success: true, message: "Successfully subscribed" },
+      { success: true, message: "Successfully subscribed", event_id: leadEventId },
       { status: 200 }
     );
   } catch (error) {

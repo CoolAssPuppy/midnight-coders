@@ -5,15 +5,9 @@
  * (`meta-capi.ts`). Meta deduplicates on the pair (event_name, event_id) within
  * 48 hours, so both halves must agree on both values.
  *
- * Standard events stay on the onsite Stripe path. Outbound retailer clicks are
- * a custom event: they are intent, not a sale, and labeling them
- * InitiateCheckout trains ad delivery on the wrong action.
- *
- * Both paths also emit `PreorderIntent`. Meta can optimize a campaign for only
- * one event, and Stripe volume alone cannot exit learning. That shared custom
- * event is the equal-weight optimization target; InitiateCheckout, RetailerClick,
- * and Purchase stay in the dataset for reporting and for a later Purchase
- * campaign once sales volume exists.
+ * Amazon paperback clicks share InitiateCheckout with the Stripe EPUB path.
+ * Barnes & Noble stays on RetailerClick. Both still emit PreorderIntent so a
+ * paused campaign that already optimizes on that custom event keeps its signal.
  *
  * See https://developers.facebook.com/docs/meta-pixel/reference
  */
@@ -23,7 +17,8 @@ export type MetaStandardEventName =
   | "AddToCart"
   | "InitiateCheckout"
   | "ViewContent"
-  | "Lead";
+  | "Lead"
+  | "PageView";
 
 export type MetaCustomEventName = "RetailerClick" | "PreorderIntent";
 
@@ -42,6 +37,7 @@ export interface MetaCustomData {
   currency?: string;
   value?: number;
   content_type?: string;
+  content_name?: string;
   content_ids?: string[];
   contents?: MetaContentItem[];
   retailer?: string;
@@ -62,16 +58,12 @@ interface EventMapping {
 }
 
 /**
- * Stripe is the only checkout we can observe through to payment, so it owns
- * the standard funnel events. There is no cart on this site: the buy button
- * opens Stripe Checkout directly, which is InitiateCheckout, not AddToCart.
+ * Stripe EPUB checkout and Amazon paperback clicks both emit InitiateCheckout.
+ * Barnes & Noble stays on RetailerClick. There is no cart: the buy button is
+ * the checkout start.
  *
- * Amazon and Barnes & Noble leave the domain. Those clicks must not share a
- * standard event with Stripe or Meta will optimize for outbound intent as if
- * it were a sale.
- *
- * `PreorderIntent` is the one event both paths share, so a single campaign can
- * treat a Stripe checkout start and a retailer click as equal results.
+ * `PreorderIntent` remains on both paid paths so existing paused ad sets that
+ * already listen for it keep a comparable count.
  */
 const EVENT_MAP: Record<string, EventMapping[]> = {
   purchase: [{ name: "Purchase", method: "track" }],
@@ -86,6 +78,19 @@ const EVENT_MAP: Record<string, EventMapping[]> = {
   view_content: [{ name: "ViewContent", method: "track" }],
   newsletter_signup: [{ name: "Lead", method: "track" }],
 };
+
+function mappingsFor(
+  event: string,
+  properties: Record<string, unknown>,
+): EventMapping[] | undefined {
+  if (event === "book_retailer_click" && properties.retailer === "amazon") {
+    return [
+      { name: "InitiateCheckout", method: "track" },
+      { name: "PreorderIntent", method: "trackCustom" },
+    ];
+  }
+  return EVENT_MAP[event];
+}
 
 interface EcommercePayload {
   currency?: unknown;
@@ -163,6 +168,28 @@ function buildBaseCustomData(
     }
   }
 
+  if (typeof properties.content_name === "string") {
+    customData.content_name = properties.content_name;
+  } else if (ecommerce?.items && Array.isArray(ecommerce.items)) {
+    const first = ecommerce.items[0];
+    if (
+      typeof first === "object" &&
+      first !== null &&
+      typeof (first as { item_name?: unknown }).item_name === "string"
+    ) {
+      customData.content_name = (first as { item_name: string }).item_name;
+    }
+  }
+
+  if (
+    !customData.content_ids &&
+    typeof properties.item_id === "string" &&
+    properties.item_id
+  ) {
+    customData.content_ids = [properties.item_id];
+    customData.content_type = "product";
+  }
+
   if (typeof properties.retailer === "string") {
     customData.retailer = properties.retailer;
   }
@@ -209,7 +236,7 @@ export function toMetaEvents(
   event: string,
   properties: Record<string, unknown>,
 ): MetaEvent[] {
-  const mappings = EVENT_MAP[event];
+  const mappings = mappingsFor(event, properties);
   if (!mappings) return [];
 
   const ecommerce = readEcommerce(properties);

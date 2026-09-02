@@ -5,7 +5,7 @@ import { siteUrl } from "@/lib/site";
 import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 
 const EMAIL = "book@midnightcoderschildren.com";
-const UPDATED = "12 August 2026";
+const UPDATED = "2 September 2026";
 const DESCRIPTION =
   "What midnightcoderschildren.com collects, who processes it, and how to have it deleted.";
 
@@ -81,10 +81,11 @@ export default function PrivacyPage(): React.ReactElement {
 
         <TextSection heading="Advertising">
           <p>
-            The book is advertised on Meta and through OpenAI. Their pixels run
-            on every page, not only for visitors who arrived from an ad, and
-            they record page views so that audiences can be built for
-            retargeting.
+            The book is advertised on Meta and through OpenAI. Their pixels,
+            Google tags, and click identifiers stay off until you agree to
+            measurement. Denied is the default. If you agree, page views and
+            buy clicks are recorded so a later ad can be attributed. You can
+            change that choice from Measurement in the footer.
           </p>
           <p>
             When any purchase completes, a conversion event is sent to Meta and

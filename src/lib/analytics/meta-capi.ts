@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import type { MetaEventName, MetaCustomData } from "./meta-events";
 import type { AdAttribution } from "./ad-refs";
 import type { ConversionResult, SendOptions } from "./openai-capi";
+import { resolveMetaCapiConfig } from "./meta-ids";
 
 /**
  * Meta Conversions API.
@@ -98,11 +99,10 @@ export async function sendMetaConversion(
   event: MetaServerEvent,
   options: SendOptions & { testEventCode?: string } = {},
 ): Promise<ConversionResult> {
-  const accessToken = process.env.META_CONVERSIONS_ACCESS_TOKEN;
-  const datasetId = process.env.NEXT_PUBLIC_META_DATASET_ID;
+  const { accessToken, pixelId } = resolveMetaCapiConfig();
 
   if (!accessToken) return { sent: false, skipped: "missing_api_key" };
-  if (!datasetId) return { sent: false, skipped: "missing_pixel_id" };
+  if (!pixelId) return { sent: false, skipped: "missing_pixel_id" };
 
   const payload = buildMetaPayload(event);
 
@@ -119,7 +119,7 @@ export async function sendMetaConversion(
 
   try {
     const response = await fetch(
-      `https://graph.facebook.com/${GRAPH_VERSION}/${encodeURIComponent(datasetId)}/events`,
+      `https://graph.facebook.com/${GRAPH_VERSION}/${encodeURIComponent(pixelId)}/events`,
       {
         method: "POST",
         headers: {

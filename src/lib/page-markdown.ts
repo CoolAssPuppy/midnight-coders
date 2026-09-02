@@ -97,7 +97,7 @@ function author(): string {
     "",
     "## Elsewhere",
     "",
-    "- Website: https://www.strategicnerds.com",
+    `- Author page: ${siteUrl("/author")}`,
     "- LinkedIn: https://linkedin.com/in/prashantsridharan",
     "- Twitter/X: https://twitter.com/CoolAssPuppy",
     "- Bluesky: https://bsky.app/profile/CoolAssPuppy",

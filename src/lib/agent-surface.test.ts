@@ -9,7 +9,7 @@ import { createPricingMarkdown } from "./pricing";
 import { RATE_LIMITS, createOpenApiDocument } from "./openapi";
 import { blurbParagraphs } from "./book-blurb";
 import { DIGITAL_PRICE, PAPERBACK_PRICE } from "./book-facts";
-import sitemap from "../app/sitemap";
+import { getSitemapEntries as sitemap } from "./sitemap-entries";
 
 const SRC = path.resolve(__dirname, "..");
 
@@ -197,6 +197,8 @@ describe("pricing.md", () => {
     );
 
     expect(buyPage).toContain(`$${DIGITAL_PRICE}`);
+    expect(buyPage).toContain(`$${PAPERBACK_PRICE}`);
+    expect(buyPage).toContain("Buy the paperback on Amazon");
   });
 });
 
