@@ -51,4 +51,21 @@ describe("social post assets", () => {
     expect(post?.href).toBe("/buy");
     expectRenditionsOnDisk(post!);
   });
+
+  it("includes the Goodreads giveaway with an enter link and a soft buy link", () => {
+    const post = SOCIAL_POSTS.find(({ id }) => id === "10-goodreads-giveaway");
+
+    expect(post?.title).toBe("Goodreads giveaway");
+    expect(post?.headline).toBe("Goodreads Giveaway");
+    expect(post?.note).toMatch(/free copies/i);
+    expect(post?.note).toMatch(/Goodreads/);
+    expect(post?.note).toMatch(/buy/i);
+    expect(post?.href).toBe(
+      "https://www.goodreads.com/giveaway/enter_choose_address/450157-the-midnight-coder-s-children",
+    );
+    expect(post?.hrefLabel).toBe("Enter the giveaway");
+    expect(post?.secondaryHref).toBe("/buy");
+    expect(post?.secondaryLabel).toBe("Buy the book");
+    expectRenditionsOnDisk(post!);
+  });
 });
