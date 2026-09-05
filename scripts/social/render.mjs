@@ -62,6 +62,9 @@ const LAYER_STYLES = {
       background:transparent !important;
       color:rgba(255, 255, 255, 0.72) !important;
     }
+    .sub-marked.mark-signal mark {
+      color:#ffffff !important;
+    }
   `,
   cover: `
     html, body { background:transparent !important; }
@@ -96,7 +99,7 @@ export function documentFor(
   body { width:${size.width}px; height:${size.height}px; overflow:hidden; }
   .canvas { position:relative; width:${size.width}px; height:${size.height}px; overflow:hidden; }
   ${backgroundStyles(assetUrl)}
-  ${layoutStyles(size)}
+  ${layoutStyles(size, concept)}
   ${layer ? LAYER_STYLES[layer] : ""}
 </style></head>
 <body>

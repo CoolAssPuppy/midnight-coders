@@ -38,36 +38,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/01-architect-4x5.png?v=3e90f511",
-        "jpg": "/social/01-architect-4x5.jpg?v=ccc8041e",
-        "mp4": "/social/01-architect-4x5.mp4?v=f29c7a89",
-        "pngBytes": 1987345,
-        "jpgBytes": 517755,
-        "mp4Bytes": 3057151
+        "png": "/social/01-architect-4x5.png?v=e375b908",
+        "jpg": "/social/01-architect-4x5.jpg?v=82bda615",
+        "mp4": "/social/01-architect-4x5.mp4?v=a2c37a88",
+        "pngBytes": 2010552,
+        "jpgBytes": 353295,
+        "mp4Bytes": 3053203
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/01-architect-9x16.png?v=c488bfa9",
-        "jpg": "/social/01-architect-9x16.jpg?v=acc70d67",
-        "mp4": "/social/01-architect-9x16.mp4?v=f5f8724d",
-        "pngBytes": 2791563,
-        "jpgBytes": 707037,
-        "mp4Bytes": 4319123
+        "png": "/social/01-architect-9x16.png?v=571bc975",
+        "jpg": "/social/01-architect-9x16.jpg?v=20c778c8",
+        "mp4": "/social/01-architect-9x16.mp4?v=13ddb4b2",
+        "pngBytes": 2824776,
+        "jpgBytes": 483444,
+        "mp4Bytes": 4363088
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/01-architect-1x1.png?v=583f9bfd",
-        "jpg": "/social/01-architect-1x1.jpg?v=7bfc5b30",
-        "mp4": "/social/01-architect-1x1.mp4?v=3395e93a",
-        "pngBytes": 1529245,
-        "jpgBytes": 396847,
-        "mp4Bytes": 2205266
+        "png": "/social/01-architect-1x1.png?v=f212f039",
+        "jpg": "/social/01-architect-1x1.jpg?v=85db9d77",
+        "mp4": "/social/01-architect-1x1.mp4?v=343167f1",
+        "pngBytes": 1542441,
+        "jpgBytes": 269919,
+        "mp4Bytes": 2246134
       }
     ]
   },
@@ -83,36 +83,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/02-praise-4x5.png?v=db9d640e",
-        "jpg": "/social/02-praise-4x5.jpg?v=92bb1db8",
-        "mp4": "/social/02-praise-4x5.mp4?v=caf14347",
-        "pngBytes": 1949445,
-        "jpgBytes": 504744,
-        "mp4Bytes": 2986310
+        "png": "/social/02-praise-4x5.png?v=b72b46a5",
+        "jpg": "/social/02-praise-4x5.jpg?v=44aa27be",
+        "mp4": "/social/02-praise-4x5.mp4?v=a2242a59",
+        "pngBytes": 1977630,
+        "jpgBytes": 343473,
+        "mp4Bytes": 2990630
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/02-praise-9x16.png?v=810e3099",
-        "jpg": "/social/02-praise-9x16.jpg?v=07843e13",
-        "mp4": "/social/02-praise-9x16.mp4?v=184c4c78",
-        "pngBytes": 2761278,
-        "jpgBytes": 694800,
-        "mp4Bytes": 4399301
+        "png": "/social/02-praise-9x16.png?v=8ec426b8",
+        "jpg": "/social/02-praise-9x16.jpg?v=ee40b67e",
+        "mp4": "/social/02-praise-9x16.mp4?v=ebfe2b14",
+        "pngBytes": 2798436,
+        "jpgBytes": 471988,
+        "mp4Bytes": 4377962
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/02-praise-1x1.png?v=46e72f04",
-        "jpg": "/social/02-praise-1x1.jpg?v=9503270f",
-        "mp4": "/social/02-praise-1x1.mp4?v=8ca5a245",
-        "pngBytes": 1524694,
-        "jpgBytes": 392221,
-        "mp4Bytes": 2262389
+        "png": "/social/02-praise-1x1.png?v=6576a369",
+        "jpg": "/social/02-praise-1x1.jpg?v=1e28d8c8",
+        "mp4": "/social/02-praise-1x1.mp4?v=84e4df0e",
+        "pngBytes": 1542019,
+        "jpgBytes": 265698,
+        "mp4Bytes": 2253046
       }
     ]
   },
@@ -128,36 +128,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/03-timelines-4x5.png?v=d76b754b",
-        "jpg": "/social/03-timelines-4x5.jpg?v=e6890056",
-        "mp4": "/social/03-timelines-4x5.mp4?v=a62f914c",
-        "pngBytes": 1980357,
-        "jpgBytes": 510294,
-        "mp4Bytes": 3137605
+        "png": "/social/03-timelines-4x5.png?v=54f5a31e",
+        "jpg": "/social/03-timelines-4x5.jpg?v=1626d360",
+        "mp4": "/social/03-timelines-4x5.mp4?v=7e5de4ec",
+        "pngBytes": 2005263,
+        "jpgBytes": 348011,
+        "mp4Bytes": 3086281
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/03-timelines-9x16.png?v=be032557",
-        "jpg": "/social/03-timelines-9x16.jpg?v=d0b92855",
-        "mp4": "/social/03-timelines-9x16.mp4?v=a848d6d9",
-        "pngBytes": 2783277,
-        "jpgBytes": 699582,
-        "mp4Bytes": 4262126
+        "png": "/social/03-timelines-9x16.png?v=9792402d",
+        "jpg": "/social/03-timelines-9x16.jpg?v=12588d8d",
+        "mp4": "/social/03-timelines-9x16.mp4?v=c571aa83",
+        "pngBytes": 2817539,
+        "jpgBytes": 475742,
+        "mp4Bytes": 4172337
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/03-timelines-1x1.png?v=d5e1cf0c",
-        "jpg": "/social/03-timelines-1x1.jpg?v=20a076ce",
-        "mp4": "/social/03-timelines-1x1.mp4?v=85d29498",
-        "pngBytes": 1522500,
-        "jpgBytes": 392489,
-        "mp4Bytes": 2250089
+        "png": "/social/03-timelines-1x1.png?v=0b0e63c5",
+        "jpg": "/social/03-timelines-1x1.jpg?v=301e21b7",
+        "mp4": "/social/03-timelines-1x1.mp4?v=44cdde36",
+        "pngBytes": 1535226,
+        "jpgBytes": 265401,
+        "mp4Bytes": 2222799
       }
     ]
   },
@@ -173,36 +173,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/04-cipher-4x5.png?v=59857e3a",
-        "jpg": "/social/04-cipher-4x5.jpg?v=f7fc30d7",
-        "mp4": "/social/04-cipher-4x5.mp4?v=24e2a302",
-        "pngBytes": 1961194,
-        "jpgBytes": 505868,
-        "mp4Bytes": 3103847
+        "png": "/social/04-cipher-4x5.png?v=b1158c8e",
+        "jpg": "/social/04-cipher-4x5.jpg?v=0514bd55",
+        "mp4": "/social/04-cipher-4x5.mp4?v=069d9ef7",
+        "pngBytes": 1987889,
+        "jpgBytes": 347142,
+        "mp4Bytes": 3076177
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/04-cipher-9x16.png?v=bfcde545",
-        "jpg": "/social/04-cipher-9x16.jpg?v=81fc700a",
-        "mp4": "/social/04-cipher-9x16.mp4?v=b1897a08",
-        "pngBytes": 2757949,
-        "jpgBytes": 694470,
-        "mp4Bytes": 4017843
+        "png": "/social/04-cipher-9x16.png?v=5114fd25",
+        "jpg": "/social/04-cipher-9x16.jpg?v=ebd5aa80",
+        "mp4": "/social/04-cipher-9x16.mp4?v=ffaa4510",
+        "pngBytes": 2798536,
+        "jpgBytes": 475729,
+        "mp4Bytes": 4146719
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/04-cipher-1x1.png?v=6633629d",
-        "jpg": "/social/04-cipher-1x1.jpg?v=14217116",
-        "mp4": "/social/04-cipher-1x1.mp4?v=1cf453ca",
-        "pngBytes": 1505159,
-        "jpgBytes": 388383,
-        "mp4Bytes": 2185408
+        "png": "/social/04-cipher-1x1.png?v=44a5b89b",
+        "jpg": "/social/04-cipher-1x1.jpg?v=15d44a5b",
+        "mp4": "/social/04-cipher-1x1.mp4?v=e81e2712",
+        "pngBytes": 1525845,
+        "jpgBytes": 263379,
+        "mp4Bytes": 2190254
       }
     ]
   },
@@ -218,36 +218,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/05-praise-midwest-4x5.png?v=6fc024c0",
-        "jpg": "/social/05-praise-midwest-4x5.jpg?v=8bbded76",
-        "mp4": "/social/05-praise-midwest-4x5.mp4?v=82c735d3",
-        "pngBytes": 1945234,
-        "jpgBytes": 495544,
-        "mp4Bytes": 2921059
+        "png": "/social/05-praise-midwest-4x5.png?v=04f668ec",
+        "jpg": "/social/05-praise-midwest-4x5.jpg?v=c0b7d276",
+        "mp4": "/social/05-praise-midwest-4x5.mp4?v=6457892b",
+        "pngBytes": 1973242,
+        "jpgBytes": 336570,
+        "mp4Bytes": 2898407
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/05-praise-midwest-9x16.png?v=2f855a2f",
-        "jpg": "/social/05-praise-midwest-9x16.jpg?v=85e6bf24",
-        "mp4": "/social/05-praise-midwest-9x16.mp4?v=a3564663",
-        "pngBytes": 2754876,
-        "jpgBytes": 683756,
-        "mp4Bytes": 4353303
+        "png": "/social/05-praise-midwest-9x16.png?v=9c79c503",
+        "jpg": "/social/05-praise-midwest-9x16.jpg?v=863c35a4",
+        "mp4": "/social/05-praise-midwest-9x16.mp4?v=edbeb93b",
+        "pngBytes": 2790691,
+        "jpgBytes": 464790,
+        "mp4Bytes": 4360516
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/05-praise-midwest-1x1.png?v=e47abfad",
-        "jpg": "/social/05-praise-midwest-1x1.jpg?v=821a2944",
-        "mp4": "/social/05-praise-midwest-1x1.mp4?v=51518eef",
-        "pngBytes": 1520962,
-        "jpgBytes": 385108,
-        "mp4Bytes": 2152961
+        "png": "/social/05-praise-midwest-1x1.png?v=e6fc807e",
+        "jpg": "/social/05-praise-midwest-1x1.jpg?v=bece8f00",
+        "mp4": "/social/05-praise-midwest-1x1.mp4?v=0206fae2",
+        "pngBytes": 1535902,
+        "jpgBytes": 260038,
+        "mp4Bytes": 2156031
       }
     ]
   },
@@ -263,36 +263,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/06-praise-maturi-4x5.png?v=590512a8",
-        "jpg": "/social/06-praise-maturi-4x5.jpg?v=93b9f773",
-        "mp4": "/social/06-praise-maturi-4x5.mp4?v=9037d323",
-        "pngBytes": 1952713,
-        "jpgBytes": 509406,
-        "mp4Bytes": 2921781
+        "png": "/social/06-praise-maturi-4x5.png?v=febba593",
+        "jpg": "/social/06-praise-maturi-4x5.jpg?v=1a0cc8e0",
+        "mp4": "/social/06-praise-maturi-4x5.mp4?v=3bb2855f",
+        "pngBytes": 1979926,
+        "jpgBytes": 345599,
+        "mp4Bytes": 2935475
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/06-praise-maturi-9x16.png?v=56e64b6c",
-        "jpg": "/social/06-praise-maturi-9x16.jpg?v=d10c3476",
-        "mp4": "/social/06-praise-maturi-9x16.mp4?v=5b9ce0a3",
-        "pngBytes": 2764701,
-        "jpgBytes": 699627,
-        "mp4Bytes": 4271128
+        "png": "/social/06-praise-maturi-9x16.png?v=3d1b7cbe",
+        "jpg": "/social/06-praise-maturi-9x16.jpg?v=47f4f5cf",
+        "mp4": "/social/06-praise-maturi-9x16.mp4?v=de2da673",
+        "pngBytes": 2798989,
+        "jpgBytes": 474851,
+        "mp4Bytes": 4380391
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/06-praise-maturi-1x1.png?v=0f613d20",
-        "jpg": "/social/06-praise-maturi-1x1.jpg?v=72a92de4",
-        "mp4": "/social/06-praise-maturi-1x1.mp4?v=5d5d3724",
-        "pngBytes": 1526950,
-        "jpgBytes": 395725,
-        "mp4Bytes": 2167042
+        "png": "/social/06-praise-maturi-1x1.png?v=7ab4cc4e",
+        "jpg": "/social/06-praise-maturi-1x1.jpg?v=a110d25e",
+        "mp4": "/social/06-praise-maturi-1x1.mp4?v=0ac34922",
+        "pngBytes": 1544595,
+        "jpgBytes": 268188,
+        "mp4Bytes": 2175899
       }
     ]
   },
@@ -308,36 +308,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/07-praise-kirkus-4x5.png?v=b3fc0546",
-        "jpg": "/social/07-praise-kirkus-4x5.jpg?v=49766536",
-        "mp4": "/social/07-praise-kirkus-4x5.mp4?v=ef0fbf1b",
-        "pngBytes": 1952684,
-        "jpgBytes": 508411,
-        "mp4Bytes": 2929646
+        "png": "/social/07-praise-kirkus-4x5.png?v=c5f78007",
+        "jpg": "/social/07-praise-kirkus-4x5.jpg?v=41d5f863",
+        "mp4": "/social/07-praise-kirkus-4x5.mp4?v=603209ba",
+        "pngBytes": 1981130,
+        "jpgBytes": 345615,
+        "mp4Bytes": 2950288
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/07-praise-kirkus-9x16.png?v=08941436",
-        "jpg": "/social/07-praise-kirkus-9x16.jpg?v=a7f91240",
-        "mp4": "/social/07-praise-kirkus-9x16.mp4?v=e239e775",
-        "pngBytes": 2762150,
-        "jpgBytes": 698326,
-        "mp4Bytes": 4352763
+        "png": "/social/07-praise-kirkus-9x16.png?v=137ea62e",
+        "jpg": "/social/07-praise-kirkus-9x16.jpg?v=a9f5b118",
+        "mp4": "/social/07-praise-kirkus-9x16.mp4?v=1add73ad",
+        "pngBytes": 2799641,
+        "jpgBytes": 474472,
+        "mp4Bytes": 4359970
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/07-praise-kirkus-1x1.png?v=d90f1410",
-        "jpg": "/social/07-praise-kirkus-1x1.jpg?v=cb186bfd",
-        "mp4": "/social/07-praise-kirkus-1x1.mp4?v=f625fb0a",
-        "pngBytes": 1526039,
-        "jpgBytes": 394334,
-        "mp4Bytes": 2329645
+        "png": "/social/07-praise-kirkus-1x1.png?v=384d39eb",
+        "jpg": "/social/07-praise-kirkus-1x1.jpg?v=0fab04e7",
+        "mp4": "/social/07-praise-kirkus-1x1.mp4?v=698217ba",
+        "pngBytes": 1543470,
+        "jpgBytes": 267331,
+        "mp4Bytes": 2319933
       }
     ]
   },
@@ -345,7 +345,7 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "id": "08-bn-promo",
     "title": "Barnes & Noble promotion",
     "note": "Code PREORDER25 takes 25% off at Barnes & Noble from September 9 through 11, 2026. Put The Midnight Coder's Children on the winter reading list. Pre-order now before the window closes.",
-    "headline": "25% off at Barnes & Noble",
+    "headline": "25% off",
     "href": "/buy",
     "renditions": [
       {
@@ -353,43 +353,43 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/08-bn-promo-4x5.png?v=345272a4",
-        "jpg": "/social/08-bn-promo-4x5.jpg?v=28857074",
-        "mp4": "/social/08-bn-promo-4x5.mp4?v=b1d5da3f",
-        "pngBytes": 1941918,
-        "jpgBytes": 343688,
-        "mp4Bytes": 3081215
+        "png": "/social/08-bn-promo-4x5.png?v=6c4e74c3",
+        "jpg": "/social/08-bn-promo-4x5.jpg?v=a40775d4",
+        "mp4": "/social/08-bn-promo-4x5.mp4?v=e29631af",
+        "pngBytes": 1956526,
+        "jpgBytes": 345730,
+        "mp4Bytes": 3059927
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/08-bn-promo-9x16.png?v=b20a3fad",
-        "jpg": "/social/08-bn-promo-9x16.jpg?v=bddb7914",
-        "mp4": "/social/08-bn-promo-9x16.mp4?v=3e9d6a78",
-        "pngBytes": 2739374,
-        "jpgBytes": 469355,
-        "mp4Bytes": 4466974
+        "png": "/social/08-bn-promo-9x16.png?v=7cabd4ab",
+        "jpg": "/social/08-bn-promo-9x16.jpg?v=ae6043a3",
+        "mp4": "/social/08-bn-promo-9x16.mp4?v=eddc867b",
+        "pngBytes": 2752126,
+        "jpgBytes": 476622,
+        "mp4Bytes": 4414351
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/08-bn-promo-1x1.png?v=988eeeb1",
-        "jpg": "/social/08-bn-promo-1x1.jpg?v=00ac8bcf",
-        "mp4": "/social/08-bn-promo-1x1.mp4?v=3586db6b",
-        "pngBytes": 1490514,
-        "jpgBytes": 262709,
-        "mp4Bytes": 2066618
+        "png": "/social/08-bn-promo-1x1.png?v=9c7ae3d1",
+        "jpg": "/social/08-bn-promo-1x1.jpg?v=312cf80c",
+        "mp4": "/social/08-bn-promo-1x1.mp4?v=98e425d0",
+        "pngBytes": 1503029,
+        "jpgBytes": 263639,
+        "mp4Bytes": 2177197
       }
     ]
   },
   {
     "id": "09-now-available",
     "title": "Now Available",
-    "note": "The Midnight Coder's Children is now available to order. Pre-order the paperback or the digital edition.",
+    "note": "The Midnight Coder's Children is now available to order. Buy the paperback or the digital edition.",
     "headline": "Now available to order",
     "href": "/buy",
     "renditions": [
@@ -398,36 +398,36 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "label": "Vertical feed",
         "width": 1080,
         "height": 1350,
-        "png": "/social/09-now-available-4x5.png?v=dcf28cc1",
-        "jpg": "/social/09-now-available-4x5.jpg?v=2cbdcf6f",
-        "mp4": "/social/09-now-available-4x5.mp4?v=9e8ca2c2",
-        "pngBytes": 1970058,
-        "jpgBytes": 334529,
-        "mp4Bytes": 2897535
+        "png": "/social/09-now-available-4x5.png?v=584f6b23",
+        "jpg": "/social/09-now-available-4x5.jpg?v=2182c23b",
+        "mp4": "/social/09-now-available-4x5.mp4?v=3cf39985",
+        "pngBytes": 1989271,
+        "jpgBytes": 338073,
+        "mp4Bytes": 2947888
       },
       {
         "sizeId": "9x16",
         "label": "Story and Reel cover",
         "width": 1080,
         "height": 1920,
-        "png": "/social/09-now-available-9x16.png?v=c384bb04",
-        "jpg": "/social/09-now-available-9x16.jpg?v=51183820",
-        "mp4": "/social/09-now-available-9x16.mp4?v=129e2ca5",
-        "pngBytes": 2776649,
-        "jpgBytes": 463623,
-        "mp4Bytes": 4105917
+        "png": "/social/09-now-available-9x16.png?v=5a281349",
+        "jpg": "/social/09-now-available-9x16.jpg?v=bf226a2a",
+        "mp4": "/social/09-now-available-9x16.mp4?v=19eb254b",
+        "pngBytes": 2794541,
+        "jpgBytes": 467088,
+        "mp4Bytes": 4043162
       },
       {
         "sizeId": "1x1",
         "label": "Square feed",
         "width": 1080,
         "height": 1080,
-        "png": "/social/09-now-available-1x1.png?v=33d26f25",
-        "jpg": "/social/09-now-available-1x1.jpg?v=0ed996dc",
-        "mp4": "/social/09-now-available-1x1.mp4?v=45d60b39",
-        "pngBytes": 1511684,
-        "jpgBytes": 255183,
-        "mp4Bytes": 2130243
+        "png": "/social/09-now-available-1x1.png?v=1e1c9ed8",
+        "jpg": "/social/09-now-available-1x1.jpg?v=7485982c",
+        "mp4": "/social/09-now-available-1x1.mp4?v=2e2698c2",
+        "pngBytes": 1519167,
+        "jpgBytes": 256823,
+        "mp4Bytes": 2115924
       }
     ]
   }

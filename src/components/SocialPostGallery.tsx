@@ -230,7 +230,11 @@ export function SocialPostGallery({
               </div>
               <div className="md:col-span-7 flex flex-col gap-4 md:pt-9">
                 <p
-                  className="text-lg md:text-xl leading-snug"
+                  className={
+                    post.id === "08-bn-promo" || post.id === "09-now-available"
+                      ? "text-3xl md:text-5xl leading-[0.95]"
+                      : "text-lg md:text-xl leading-snug"
+                  }
                   style={{ ...SERIF, color: "rgba(255,255,255,0.9)" }}
                 >
                   &ldquo;{post.headline}&rdquo;

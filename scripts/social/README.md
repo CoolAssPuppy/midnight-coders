@@ -82,13 +82,14 @@ trade review has no room for. The quote is a clause cut at its own comma.
 **07-praise-kirkus.** The full Kirkus pull quote. It describes the novel as
 both a character study and a thriller.
 
-**08-bn-promo.** The Barnes & Noble pre-order window. Code PREORDER25 takes
-25% off from September 9 through 11, 2026. The marked line is the code. The
-URL on the card is the buy page.
+**08-bn-promo.** The Barnes & Noble pre-order window. The official wordmark
+sits over a large 25% off. Code PREORDER25 is the marked line, in the
+ribbon yellow, and is the only card that still carries the Pre-order now
+corner stripe.
 
-**09-now-available.** The book is now available to order. The site still sells
-this as a pre-order, so the ribbon stays Pre-order now and the card does not
-claim the book is in stores.
+**09-now-available.** The book is now available to order. The headline is
+the whole ask. There is no pre-order ribbon. The URL on the card is the
+buy page.
 
 The four praise concepts are built to rotate against each other in paid
 placements. Staging them paused in the ad set gives the ad-spend agent

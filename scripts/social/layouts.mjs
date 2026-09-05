@@ -32,18 +32,31 @@ function kicker(text, scale) {
   return `<div class="kicker">${rule(scale)}<span>${text}</span></div>`;
 }
 
+function showsRibbon(concept) {
+  return concept.ribbon === true || typeof concept.ribbon === "string";
+}
+
+function ribbonText(concept) {
+  if (concept.ribbon === true) return CTA.ribbon;
+  return typeof concept.ribbon === "string" ? concept.ribbon : "";
+}
+
 /** The serif billboard line. Sits above the cover and carries the post, so it
  *  is the largest type in the frame. */
-function headline(text, scale) {
+function headline(concept, scale, assetUrl) {
+  const size = concept.headlineSize ?? 50;
+  const lockup = concept.logo
+    ? `<img class="retailer-logo" src="${assetUrl(concept.logo)}" alt="">`
+    : rule(scale, 72);
+
   return `<div class="headline-block">
-      ${rule(scale, 72)}
-      <p class="headline" style="font-size:${px(50, scale)};line-height:1.1">${text}</p>
+      ${lockup}
+      <p class="headline" style="font-size:${px(size, scale)};line-height:${size >= 72 ? 0.92 : 1.1}">${concept.headline}</p>
     </div>`;
 }
 
 function resolveCta(concept) {
   return {
-    ribbon: concept.ribbon ?? CTA.ribbon,
     url: concept.url ?? CTA.url,
     release: concept.release ?? CTA.release,
   };
@@ -58,7 +71,8 @@ function callToAction(concept, scale) {
 }
 
 function ribbon(concept) {
-  return `<div class="ribbon"><span>${resolveCta(concept).ribbon}</span></div>`;
+  if (!showsRibbon(concept)) return "";
+  return `<div class="ribbon"><span>${ribbonText(concept)}</span></div>`;
 }
 
 /**
@@ -115,12 +129,18 @@ const LAYOUTS = {
       ? `<p class="sub sub-marked" style="font-size:${px(26, scale)}"><mark>${concept.sub}</mark></p>`
       : `<p class="sub" style="font-size:${px(22, scale)}">${concept.sub}</p>`;
 
+    const body = concept.markCode
+      ? `<p class="code-kicker" style="font-size:${px(18, scale)}">Use code</p>
+          <p class="code-line sub-marked mark-signal" style="font-size:${px(46, scale)}"><mark>${concept.code}</mark></p>
+          ${sub}`
+      : `<p class="hook" style="font-size:${px(34, scale)};line-height:1.16">${concept.hook}</p>
+          ${sub}`;
+
     return `<div class="frame stack">
-        ${headline(concept.headline, scale)}
+        ${headline(concept, scale, assetUrl)}
         <div class="cover-well">${cover(assetUrl, "cover-hook", id)}</div>
         <div class="copy">
-          <p class="hook" style="font-size:${px(34, scale)};line-height:1.16">${concept.hook}</p>
-          ${sub}
+          ${body}
         </div>
         ${callToAction(concept, scale)}
         ${ribbon(concept)}
@@ -153,9 +173,13 @@ export function renderLayout(concept, size, assetUrl) {
   return render(concept, size, assetUrl);
 }
 
-export function layoutStyles(size) {
-  const { scale, pad, padTop, padBottom } = size;
+export function layoutStyles(size, concept = {}) {
+  const { scale, pad, padTop, padBottom, width } = size;
+  const hasRibbon = showsRibbon(concept);
   const ribbonStyle = ribbonMetrics(size);
+  if (!hasRibbon) {
+    ribbonStyle.topCopyWidth = Math.round(width - pad * 2);
+  }
 
   return `
     .frame {
@@ -175,10 +199,14 @@ export function layoutStyles(size) {
     }
     .rule { display:inline-block; height:2px; background:${COLORS.accent}; flex:none; }
 
-    .headline-block { display:flex; flex-direction:column; gap:${px(26, scale)}; }
+    .headline-block { display:flex; flex-direction:column; gap:${px(22, scale)}; }
+    .retailer-logo {
+      display:block; width:${px(460, scale)}; height:auto;
+      max-width:${ribbonStyle.topCopyWidth}px;
+    }
     .headline {
       margin:0; font-family:${FONTS.display};
-      color:${COLORS.white}; letter-spacing:-0.008em;
+      color:${COLORS.white}; letter-spacing:-0.02em;
       max-width:${ribbonStyle.topCopyWidth}px;
     }
 
@@ -227,6 +255,22 @@ export function layoutStyles(size) {
       padding:${px(4, scale)} ${px(10, scale)} ${px(6, scale)};
       box-decoration-break:clone;
       -webkit-box-decoration-break:clone;
+    }
+    .code-kicker {
+      margin:0; font-family:${FONTS.mono};
+      letter-spacing:0.22em; text-transform:uppercase;
+      color:${COLORS.dimmer};
+    }
+    .code-line {
+      margin:0; font-family:${FONTS.mono};
+      font-weight:bold; letter-spacing:0.08em;
+      line-height:1.15;
+    }
+    .mark-signal { margin-top:0; }
+    .mark-signal mark {
+      background-color:${COLORS.signal};
+      color:#000000;
+      padding:${px(6, scale)} ${px(14, scale)} ${px(8, scale)};
     }
 
     .quote-copy { gap:${px(26, scale)}; margin-top:${px(44, scale)}; }

@@ -31,7 +31,7 @@ describe("social post assets", () => {
     const post = SOCIAL_POSTS.find(({ id }) => id === "08-bn-promo");
 
     expect(post?.title).toBe("Barnes & Noble promotion");
-    expect(post?.headline).toBe("25% off at Barnes & Noble");
+    expect(post?.headline).toBe("25% off");
     expect(post?.note).toContain("PREORDER25");
     expect(post?.note).toContain("25% off");
     expect(post?.note).toContain("September 9 through 11, 2026");
@@ -47,6 +47,7 @@ describe("social post assets", () => {
     expect(post?.headline).toBe("Now available to order");
     expect(post?.note).toMatch(/now available to order/i);
     expect(post?.note).not.toMatch(/in stores/i);
+    expect(post?.note).not.toMatch(/pre-order/i);
     expect(post?.href).toBe("/buy");
     expectRenditionsOnDisk(post!);
   });

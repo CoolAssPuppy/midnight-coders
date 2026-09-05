@@ -132,7 +132,8 @@ async function buildRendition(chrome, concept, size) {
   /* Two plates feed the loop: everything but the cover, and the cover alone on
      a transparent frame. The loop paints its own bands, so neither carries
      the baked-in ones. */
-  const layers = concept.markSub ? ["base", "cover", "mark"] : ["base", "cover"];
+  const layers =
+    concept.markSub || concept.markCode ? ["base", "cover", "mark"] : ["base", "cover"];
   const plates = {};
   for (const layer of layers) {
     const html = path.join(WORK_DIR, `${name}-${layer}.html`);
