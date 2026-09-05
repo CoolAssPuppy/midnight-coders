@@ -66,6 +66,7 @@ async function writeManifest(concepts) {
       title: concept.title,
       note: concept.note,
       headline: concept.headline ?? concept.quote ?? "",
+      href: concept.href ?? null,
       renditions: await Promise.all(
         SIZES.map(async (size) => {
           const base = `/social/${concept.id}-${size.id}`;
@@ -107,6 +108,7 @@ export type SocialPost = {
   title: string;
   note: string;
   headline: string;
+  href: string | null;
   renditions: SocialRendition[];
 };
 

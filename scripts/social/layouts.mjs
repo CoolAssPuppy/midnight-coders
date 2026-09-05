@@ -41,15 +41,24 @@ function headline(text, scale) {
     </div>`;
 }
 
-function callToAction(scale) {
+function resolveCta(concept) {
+  return {
+    ribbon: concept.ribbon ?? CTA.ribbon,
+    url: concept.url ?? CTA.url,
+    release: concept.release ?? CTA.release,
+  };
+}
+
+function callToAction(concept, scale) {
+  const cta = resolveCta(concept);
   return `<div class="cta">
-      <span class="cta-url">${CTA.url}</span>
-      <span class="cta-release">${CTA.release}</span>
+      <span class="cta-url">${cta.url}</span>
+      <span class="cta-release">${cta.release}</span>
     </div>`;
 }
 
-function ribbon() {
-  return `<div class="ribbon"><span>${CTA.ribbon}</span></div>`;
+function ribbon(concept) {
+  return `<div class="ribbon"><span>${resolveCta(concept).ribbon}</span></div>`;
 }
 
 /**
@@ -113,8 +122,8 @@ const LAYOUTS = {
           <p class="hook" style="font-size:${px(34, scale)};line-height:1.16">${concept.hook}</p>
           ${sub}
         </div>
-        ${callToAction(scale)}
-        ${ribbon()}
+        ${callToAction(concept, scale)}
+        ${ribbon(concept)}
       </div>`;
   },
 
@@ -130,8 +139,8 @@ const LAYOUTS = {
         <div class="copy">
           <p class="sub" style="font-size:${px(23, scale)}">${concept.sub}</p>
         </div>
-        ${callToAction(scale)}
-        ${ribbon()}
+        ${callToAction(concept, scale)}
+        ${ribbon(concept)}
       </div>`;
   },
 };

@@ -7,9 +7,11 @@
 
 import { execFile } from "node:child_process";
 import { existsSync } from "node:fs";
+import { writeFile } from "node:fs/promises";
 import { promisify } from "node:util";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { createCanvas, loadImage } from "canvas";
 
 import { backgroundMarkup, backgroundStyles, seedFrom } from "./tokens.mjs";
 import { renderLayout, layoutStyles } from "./layouts.mjs";
@@ -115,6 +117,8 @@ export async function shoot(
   await run(chrome, [
     "--headless",
     "--disable-gpu",
+    "--no-sandbox",
+    "--disable-dev-shm-usage",
     "--hide-scrollbars",
     "--force-device-scale-factor=1",
     "--virtual-time-budget=4000",
@@ -140,6 +144,17 @@ export async function toJpeg(pngPath) {
     ]);
     return true;
   } catch {
-    return false;
+    /* sips is macOS-only. The Linux path uses the same canvas package the
+       motion loops already depend on, at the same 92 quality. */
+    try {
+      const image = await loadImage(pngPath);
+      const canvas = createCanvas(image.width, image.height);
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(image, 0, 0);
+      await writeFile(jpegPath, canvas.toBuffer("image/jpeg", { quality: 0.92 }));
+      return true;
+    } catch {
+      return false;
+    }
   }
 }

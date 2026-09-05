@@ -1,6 +1,6 @@
 # Social posts
 
-Seven concepts, each rendered at three sizes, into `public/social`. The
+Nine concepts, each rendered at three sizes, into `public/social`. The
 `/socials` page previews them and serves the downloads. Rebuild with
 `pnpm social:build`, or pass a filter to redo one concept:
 `pnpm social:build 03-timelines`.
@@ -81,6 +81,14 @@ trade review has no room for. The quote is a clause cut at its own comma.
 
 **07-praise-kirkus.** The full Kirkus pull quote. It describes the novel as
 both a character study and a thriller.
+
+**08-bn-promo.** The Barnes & Noble pre-order window. Code PREORDER25 takes
+25% off from September 9 through 11, 2026. The marked line is the code. The
+URL on the card is the buy page.
+
+**09-now-available.** The book is now available to order. The site still sells
+this as a pre-order, so the ribbon stays Pre-order now and the card does not
+claim the book is in stores.
 
 The four praise concepts are built to rotate against each other in paid
 placements. Staging them paused in the ad set gives the ad-spend agent

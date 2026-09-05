@@ -19,6 +19,7 @@ export type SocialPost = {
   title: string;
   note: string;
   headline: string;
+  href: string | null;
   renditions: SocialRendition[];
 };
 
@@ -30,6 +31,7 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "title": "The architect",
     "note": "Opens on the money and lands on the person. The attack is the reason to keep reading, and the engineer who saw it coming is the reason the book is not another Wall Street thriller.",
     "headline": "Four trillion dollars are frozen. One engineer saw it coming.",
+    "href": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -74,6 +76,7 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "title": "The review",
     "note": "Third-party proof. A verdict from a name a reader can go and check outranks anything the author says about his own book, so the quote takes the top of the frame.",
     "headline": "A brisk financial thriller buoyed by a powerful emotional throughline.",
+    "href": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -118,6 +121,7 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "title": "The heist",
     "note": "The plot at its most propulsive. What is being stolen, what it costs, and the structure that makes this book different from every other Wall Street thriller.",
     "headline": "A high-tech bank heist. The world on the brink of war.",
+    "href": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -162,6 +166,7 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "title": "The cipher",
     "note": "The detail people repeat to each other. A failsafe hidden in a family recipe book, readable only by the children who lived those meals.",
     "headline": "The global financial system is under attack.",
+    "href": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -206,6 +211,7 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "title": "The review, Midwest",
     "note": "The second verdict. Midwest Book Review reaches librarians and booksellers, so this one is worth running where a trade name carries more than a blurb does.",
     "headline": "Sridharan’s tense thriller will delight readers.",
+    "href": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -250,6 +256,7 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "title": "The review, Maturi",
     "note": "An author verdict rather than a trade one. It is the only review that names the South Indian material, which is the part of the book a trade review has no room for.",
     "headline": "Sridharan deftly and elegantly weaves rich details of South Indian life.",
+    "href": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -294,6 +301,7 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "title": "The review, Kirkus",
     "note": "Kirkus describes the book as both a character study and a thriller. This card uses the complete published pull quote.",
     "headline": "As much an intriguing character study as it is a thriller. [A] compelling yarn.",
+    "href": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -330,6 +338,96 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "pngBytes": 1526039,
         "jpgBytes": 394334,
         "mp4Bytes": 2329645
+      }
+    ]
+  },
+  {
+    "id": "08-bn-promo",
+    "title": "Barnes & Noble promotion",
+    "note": "Code PREORDER25 takes 25% off at Barnes & Noble from September 9 through 11, 2026. Put The Midnight Coder's Children on the winter reading list. Pre-order now before the window closes.",
+    "headline": "25% off at Barnes & Noble",
+    "href": "/buy",
+    "renditions": [
+      {
+        "sizeId": "4x5",
+        "label": "Vertical feed",
+        "width": 1080,
+        "height": 1350,
+        "png": "/social/08-bn-promo-4x5.png?v=345272a4",
+        "jpg": "/social/08-bn-promo-4x5.jpg?v=28857074",
+        "mp4": "/social/08-bn-promo-4x5.mp4?v=b1d5da3f",
+        "pngBytes": 1941918,
+        "jpgBytes": 343688,
+        "mp4Bytes": 3081215
+      },
+      {
+        "sizeId": "9x16",
+        "label": "Story and Reel cover",
+        "width": 1080,
+        "height": 1920,
+        "png": "/social/08-bn-promo-9x16.png?v=b20a3fad",
+        "jpg": "/social/08-bn-promo-9x16.jpg?v=bddb7914",
+        "mp4": "/social/08-bn-promo-9x16.mp4?v=3e9d6a78",
+        "pngBytes": 2739374,
+        "jpgBytes": 469355,
+        "mp4Bytes": 4466974
+      },
+      {
+        "sizeId": "1x1",
+        "label": "Square feed",
+        "width": 1080,
+        "height": 1080,
+        "png": "/social/08-bn-promo-1x1.png?v=988eeeb1",
+        "jpg": "/social/08-bn-promo-1x1.jpg?v=00ac8bcf",
+        "mp4": "/social/08-bn-promo-1x1.mp4?v=3586db6b",
+        "pngBytes": 1490514,
+        "jpgBytes": 262709,
+        "mp4Bytes": 2066618
+      }
+    ]
+  },
+  {
+    "id": "09-now-available",
+    "title": "Now Available",
+    "note": "The Midnight Coder's Children is now available to order. Pre-order the paperback or the digital edition.",
+    "headline": "Now available to order",
+    "href": "/buy",
+    "renditions": [
+      {
+        "sizeId": "4x5",
+        "label": "Vertical feed",
+        "width": 1080,
+        "height": 1350,
+        "png": "/social/09-now-available-4x5.png?v=dcf28cc1",
+        "jpg": "/social/09-now-available-4x5.jpg?v=2cbdcf6f",
+        "mp4": "/social/09-now-available-4x5.mp4?v=9e8ca2c2",
+        "pngBytes": 1970058,
+        "jpgBytes": 334529,
+        "mp4Bytes": 2897535
+      },
+      {
+        "sizeId": "9x16",
+        "label": "Story and Reel cover",
+        "width": 1080,
+        "height": 1920,
+        "png": "/social/09-now-available-9x16.png?v=c384bb04",
+        "jpg": "/social/09-now-available-9x16.jpg?v=51183820",
+        "mp4": "/social/09-now-available-9x16.mp4?v=129e2ca5",
+        "pngBytes": 2776649,
+        "jpgBytes": 463623,
+        "mp4Bytes": 4105917
+      },
+      {
+        "sizeId": "1x1",
+        "label": "Square feed",
+        "width": 1080,
+        "height": 1080,
+        "png": "/social/09-now-available-1x1.png?v=33d26f25",
+        "jpg": "/social/09-now-available-1x1.jpg?v=0ed996dc",
+        "mp4": "/social/09-now-available-1x1.mp4?v=45d60b39",
+        "pngBytes": 1511684,
+        "jpgBytes": 255183,
+        "mp4Bytes": 2130243
       }
     ]
   }

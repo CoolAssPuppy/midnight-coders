@@ -241,6 +241,15 @@ export function SocialPostGallery({
                 >
                   {post.note}
                 </p>
+                {post.href && (
+                  <a
+                    href={post.href}
+                    className="text-[11px] tracking-[0.18em] uppercase underline underline-offset-4 transition-colors w-fit"
+                    style={{ ...MONO, color: "#4EC9B0" }}
+                  >
+                    Pre-order the book
+                  </a>
+                )}
               </div>
             </header>
 
