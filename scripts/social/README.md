@@ -1,6 +1,6 @@
 # Social posts
 
-Nine concepts, each rendered at three sizes, into `public/social`. The
+Ten concepts, each rendered at three sizes, into `public/social`. The
 `/socials` page previews them and serves the downloads. Rebuild with
 `pnpm social:build`, or pass a filter to redo one concept:
 `pnpm social:build 03-timelines`.
@@ -52,7 +52,7 @@ behind it.
 | `9x16` | 1080 x 1920 | Instagram and Facebook Stories, TikTok, YouTube Shorts covers. The top 190px and bottom 250px are left empty because the app paints its own buttons there. |
 | `1x1` | 1080 x 1080 | X, Bluesky, and anywhere a square crops better than a tall image. |
 
-## The six concepts
+## The ten concepts
 
 **01-architect.** Opens on the money and lands on the person. The attack buys
 the second of attention, and the engineer who saw it coming is what makes the
@@ -90,6 +90,11 @@ corner stripe.
 **09-now-available.** The book is now available to order. The headline is
 the whole ask. There is no pre-order ribbon. The URL on the card is the
 buy page.
+
+**10-goodreads-giveaway.** Free copies are live on Goodreads. The headline
+names the giveaway. Enter to win sits under the cover with the title and
+author. The URL on the card is Goodreads. The page CTA is the enter link.
+The buy page is a secondary link only. There is no pre-order ribbon.
 
 The four praise concepts are built to rotate against each other in paid
 placements. Staging them paused in the ad set gives the ad-spend agent
