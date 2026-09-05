@@ -20,6 +20,9 @@ export type SocialPost = {
   note: string;
   headline: string;
   href: string | null;
+  hrefLabel: string | null;
+  secondaryHref: string | null;
+  secondaryLabel: string | null;
   renditions: SocialRendition[];
 };
 
@@ -32,6 +35,9 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "note": "Opens on the money and lands on the person. The attack is the reason to keep reading, and the engineer who saw it coming is the reason the book is not another Wall Street thriller.",
     "headline": "Four trillion dollars are frozen. One engineer saw it coming.",
     "href": null,
+    "hrefLabel": null,
+    "secondaryHref": null,
+    "secondaryLabel": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -77,6 +83,9 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "note": "Third-party proof. A verdict from a name a reader can go and check outranks anything the author says about his own book, so the quote takes the top of the frame.",
     "headline": "A brisk financial thriller buoyed by a powerful emotional throughline.",
     "href": null,
+    "hrefLabel": null,
+    "secondaryHref": null,
+    "secondaryLabel": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -122,6 +131,9 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "note": "The plot at its most propulsive. What is being stolen, what it costs, and the structure that makes this book different from every other Wall Street thriller.",
     "headline": "A high-tech bank heist. The world on the brink of war.",
     "href": null,
+    "hrefLabel": null,
+    "secondaryHref": null,
+    "secondaryLabel": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -167,6 +179,9 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "note": "The detail people repeat to each other. A failsafe hidden in a family recipe book, readable only by the children who lived those meals.",
     "headline": "The global financial system is under attack.",
     "href": null,
+    "hrefLabel": null,
+    "secondaryHref": null,
+    "secondaryLabel": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -212,6 +227,9 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "note": "The second verdict. Midwest Book Review reaches librarians and booksellers, so this one is worth running where a trade name carries more than a blurb does.",
     "headline": "Sridharan’s tense thriller will delight readers.",
     "href": null,
+    "hrefLabel": null,
+    "secondaryHref": null,
+    "secondaryLabel": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -257,6 +275,9 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "note": "An author verdict rather than a trade one. It is the only review that names the South Indian material, which is the part of the book a trade review has no room for.",
     "headline": "Sridharan deftly and elegantly weaves rich details of South Indian life.",
     "href": null,
+    "hrefLabel": null,
+    "secondaryHref": null,
+    "secondaryLabel": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -302,6 +323,9 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "note": "Kirkus describes the book as both a character study and a thriller. This card uses the complete published pull quote.",
     "headline": "As much an intriguing character study as it is a thriller. [A] compelling yarn.",
     "href": null,
+    "hrefLabel": null,
+    "secondaryHref": null,
+    "secondaryLabel": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -347,6 +371,9 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "note": "Code PREORDER25 takes 25% off at Barnes & Noble from September 9 through 11, 2026. Put The Midnight Coder's Children on the winter reading list. Pre-order now before the window closes.",
     "headline": "25% off",
     "href": "/buy",
+    "hrefLabel": null,
+    "secondaryHref": null,
+    "secondaryLabel": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -392,6 +419,9 @@ export const SOCIAL_POSTS: SocialPost[] = [
     "note": "The Midnight Coder's Children is now available to order. Buy the paperback or the digital edition.",
     "headline": "Now available to order",
     "href": "/buy",
+    "hrefLabel": null,
+    "secondaryHref": null,
+    "secondaryLabel": null,
     "renditions": [
       {
         "sizeId": "4x5",
@@ -428,6 +458,54 @@ export const SOCIAL_POSTS: SocialPost[] = [
         "pngBytes": 1519167,
         "jpgBytes": 256823,
         "mp4Bytes": 2115924
+      }
+    ]
+  },
+  {
+    "id": "10-goodreads-giveaway",
+    "title": "Goodreads giveaway",
+    "note": "Free copies of The Midnight Coder's Children are live on Goodreads. Enter the giveaway to request a copy. The book is also available to buy.",
+    "headline": "Goodreads Giveaway",
+    "href": "https://www.goodreads.com/giveaway/enter_choose_address/450157-the-midnight-coder-s-children",
+    "hrefLabel": "Enter the giveaway",
+    "secondaryHref": "/buy",
+    "secondaryLabel": "Buy the book",
+    "renditions": [
+      {
+        "sizeId": "4x5",
+        "label": "Vertical feed",
+        "width": 1080,
+        "height": 1350,
+        "png": "/social/10-goodreads-giveaway-4x5.png?v=609f9531",
+        "jpg": "/social/10-goodreads-giveaway-4x5.jpg?v=f5cbb99b",
+        "mp4": "/social/10-goodreads-giveaway-4x5.mp4?v=6c2f2ce4",
+        "pngBytes": 1982941,
+        "jpgBytes": 334035,
+        "mp4Bytes": 3001680
+      },
+      {
+        "sizeId": "9x16",
+        "label": "Story and Reel cover",
+        "width": 1080,
+        "height": 1920,
+        "png": "/social/10-goodreads-giveaway-9x16.png?v=dd91efa2",
+        "jpg": "/social/10-goodreads-giveaway-9x16.jpg?v=de023001",
+        "mp4": "/social/10-goodreads-giveaway-9x16.mp4?v=c2b97e45",
+        "pngBytes": 2795356,
+        "jpgBytes": 463050,
+        "mp4Bytes": 4297620
+      },
+      {
+        "sizeId": "1x1",
+        "label": "Square feed",
+        "width": 1080,
+        "height": 1080,
+        "png": "/social/10-goodreads-giveaway-1x1.png?v=7c6a520a",
+        "jpg": "/social/10-goodreads-giveaway-1x1.jpg?v=2e98cf1e",
+        "mp4": "/social/10-goodreads-giveaway-1x1.mp4?v=0ebd77ea",
+        "pngBytes": 1520232,
+        "jpgBytes": 253899,
+        "mp4Bytes": 2109550
       }
     ]
   }
