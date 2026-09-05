@@ -14,6 +14,44 @@ type Preview = {
 const MONO = { fontFamily: "var(--font-mono)" } as const;
 const SERIF = { fontFamily: "Georgia, 'Times New Roman', serif" } as const;
 
+const LOUD_HEADLINE_IDS = new Set([
+  "08-bn-promo",
+  "09-now-available",
+  "10-goodreads-giveaway",
+]);
+
+function isExternalHref(href: string): boolean {
+  return href.startsWith("https://") || href.startsWith("http://");
+}
+
+type PostLinkProps = {
+  href: string;
+  label: string;
+  isPrimary: boolean;
+};
+
+function PostLink({
+  href,
+  label,
+  isPrimary,
+}: PostLinkProps): React.ReactElement {
+  return (
+    <a
+      href={href}
+      {...(isExternalHref(href)
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
+      className="text-[11px] tracking-[0.18em] uppercase underline underline-offset-4 transition-colors w-fit"
+      style={{
+        ...MONO,
+        color: isPrimary ? "#4EC9B0" : "rgba(255,255,255,0.45)",
+      }}
+    >
+      {label}
+    </a>
+  );
+}
+
 const DOWNLOAD_CLASS =
   "px-3 py-2 text-[10px] tracking-[0.18em] uppercase rounded border transition-colors";
 
@@ -231,7 +269,7 @@ export function SocialPostGallery({
               <div className="md:col-span-7 flex flex-col gap-4 md:pt-9">
                 <p
                   className={
-                    post.id === "08-bn-promo" || post.id === "09-now-available"
+                    LOUD_HEADLINE_IDS.has(post.id)
                       ? "text-3xl md:text-5xl leading-[0.95]"
                       : "text-lg md:text-xl leading-snug"
                   }
@@ -245,14 +283,23 @@ export function SocialPostGallery({
                 >
                   {post.note}
                 </p>
-                {post.href && (
-                  <a
-                    href={post.href}
-                    className="text-[11px] tracking-[0.18em] uppercase underline underline-offset-4 transition-colors w-fit"
-                    style={{ ...MONO, color: "#4EC9B0" }}
-                  >
-                    Pre-order the book
-                  </a>
+                {(post.href || post.secondaryHref) && (
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                    {post.href && (
+                      <PostLink
+                        href={post.href}
+                        label={post.hrefLabel ?? "Pre-order the book"}
+                        isPrimary
+                      />
+                    )}
+                    {post.secondaryHref && (
+                      <PostLink
+                        href={post.secondaryHref}
+                        label={post.secondaryLabel ?? "Buy the book"}
+                        isPrimary={false}
+                      />
+                    )}
+                  </div>
                 )}
               </div>
             </header>
