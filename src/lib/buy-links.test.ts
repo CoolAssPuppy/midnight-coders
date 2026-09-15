@@ -9,7 +9,7 @@ describe("book purchase links", () => {
   it("makes the Amazon paperback the only primary purchase link", () => {
     expect(BUY_LINKS.filter((link) => link.prominence === "primary")).toEqual([
       expect.objectContaining({
-        label: "Buy the paperback on Amazon",
+        label: "Buy the Paperback on Amazon",
         href: AMAZON_PAPERBACK_URL,
         retailer: "amazon",
       }),

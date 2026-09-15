@@ -39,7 +39,7 @@ export const AMAZON_KINDLE_TAGGED_URL =
 
 export const BUY_LINKS: BuyLink[] = [
   {
-    label: "Buy the paperback on Amazon",
+    label: "Buy the Paperback on Amazon",
     href: AMAZON_PAPERBACK_URL,
     retailer: "amazon",
     prominence: "primary",

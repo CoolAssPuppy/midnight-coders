@@ -59,10 +59,6 @@ export default function BuyPage(): React.ReactElement {
                 <span>Paperback</span>
               </p>
 
-              <p className="buy__ships">
-                Pre-order on Amazon. Released 15 September 2026.
-              </p>
-
               {amazon?.href && (
                 <div className="buy__actions">
                   <RetailerLink

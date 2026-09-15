@@ -45,15 +45,6 @@ export function BuyTheBook({
       id={id}
       className={`${isCompact ? "py-6" : "py-10"} flex flex-col items-center scroll-mt-24`}
     >
-      <p
-        className={`text-xs tracking-[0.15em] uppercase ${isCompact ? "mb-4" : "mb-5"}`}
-        style={{
-          color: "rgba(255, 255, 255, 0.4)",
-          fontFamily: "var(--font-mono)",
-        }}
-      >
-        Get the book
-      </p>
       {primaryLink?.href && primaryLink.retailer && (
         <RetailerLink
           href={primaryLink.href}

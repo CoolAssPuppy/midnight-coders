@@ -13,7 +13,6 @@ export function ExcerptReader(): React.ReactElement {
 
   const bgColor = isDark ? "#0a1628" : "#f5f5f0";
   const textColor = isDark ? "rgba(255, 255, 255, 0.88)" : "rgba(0, 0, 0, 0.85)";
-  const mutedColor = isDark ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.55)";
   const alertColor = isDark ? "#d22729" : "#b91c1c";
   const accentColor = isDark ? "rgba(78, 201, 176, 0.3)" : "rgba(78, 201, 176, 0.5)";
   const dotColor = "#4EC9B0";
@@ -962,15 +961,6 @@ export function ExcerptReader(): React.ReactElement {
             className="h-[60px] w-auto"
             style={{ opacity: isDark ? 0.7 : 0.5 }}
           />
-          <p
-            className="text-xs tracking-wider text-center"
-            style={{
-              color: mutedColor,
-              fontFamily: "var(--font-mono)",
-            }}
-          >
-            The Midnight Coder&apos;s Children will be available September 2026
-          </p>
         </div>
 
         {/* Buy the book */}

@@ -51,12 +51,6 @@ function HeroSectionComponent({
         <p className="mt-1 text-white/40 text-[10px] md:text-xs">
           by Prashant Sridharan
         </p>
-        <p
-          className="mt-4 text-sm md:text-base tracking-wide"
-          style={{ color: "rgba(255, 255, 255, 0.7)" }}
-        >
-          (Coming September 2026)
-        </p>
       </div>
       <BuyTheBook showPullQuote showShareLink={false} />
     </div>
