@@ -16,47 +16,6 @@
   --danger: #f14c4c;
 }
 
-/* --- Countdown --------------------------------------------------------- */
-
-.signup__countdown {
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
-  gap: clamp(1rem, 4vw, 1.75rem);
-  margin-bottom: 0.75rem;
-}
-
-.signup__unit {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.signup__value {
-  font-size: clamp(1.75rem, 5vw, 2.5rem);
-  line-height: 1;
-  color: #b5cea8;
-  /* Stops the seconds column shifting width on every tick. */
-  font-variant-numeric: tabular-nums;
-}
-
-.signup__unit-label {
-  font-size: 0.625rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--comment);
-}
-
-.signup__countdown-caption {
-  text-align: center;
-  font-size: 0.6875rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--comment);
-  margin-bottom: 2.25rem;
-}
-
 /* --- Heading ----------------------------------------------------------- */
 
 .signup__heading {

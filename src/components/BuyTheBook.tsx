@@ -23,8 +23,8 @@ type BuyTheBookProps = {
   showShareLink?: boolean;
   /**
    * Tighter vertical rhythm. The homepage holds its last stage in a fixed,
-   * viewport-centred column, so every pixel here comes out of the countdown at
-   * the top or the logos at the bottom.
+   * viewport-centred column, so every pixel here comes out of the signup form
+   * above or the logos at the bottom.
    */
   isCompact?: boolean;
 };

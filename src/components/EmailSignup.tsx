@@ -2,7 +2,6 @@
 
 import {
   useState,
-  useEffect,
   useCallback,
   memo,
   type FormEvent,
@@ -18,83 +17,8 @@ interface EmailSignupProps {
 
 type SubmitStatus = "idle" | "submitting" | "success" | "error";
 
-interface TimeRemaining {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
-
-const RELEASE_DATE = new Date("2026-09-15T00:00:00");
-
 export const SIGNUP_HEADLINE =
   "Deleted scenes, writing background, and the world behind the book.";
-
-function useCountdown(targetDate: Date): TimeRemaining | null {
-  const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(
-    null
-  );
-
-  useEffect(() => {
-    const updateTime = (): void => {
-      const now = new Date();
-      const difference = targetDate.getTime() - now.getTime();
-
-      if (difference <= 0) {
-        setTimeRemaining({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        return;
-      }
-
-      setTimeRemaining({
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / (1000 * 60)) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      });
-    };
-
-    const interval = setInterval(updateTime, 1000);
-    updateTime();
-
-    return () => clearInterval(interval);
-  }, [targetDate]);
-
-  return timeRemaining;
-}
-
-function CountdownTimer(): React.ReactElement {
-  const timeRemaining = useCountdown(RELEASE_DATE);
-
-  if (timeRemaining === null) {
-    return <div style={{ height: "104px" }} aria-hidden="true" />;
-  }
-
-  const pad = (n: number): string => n.toString().padStart(2, "0");
-
-  const units: { value: string; label: string }[] = [
-    { value: String(timeRemaining.days), label: "days" },
-    { value: pad(timeRemaining.hours), label: "hrs" },
-    { value: pad(timeRemaining.minutes), label: "min" },
-    { value: pad(timeRemaining.seconds), label: "sec" },
-  ];
-
-  return (
-    <>
-      <div
-        className="signup__countdown"
-        aria-label={`${timeRemaining.days} days until release`}
-      >
-        {units.map((unit) => (
-          <div className="signup__unit" key={unit.label}>
-            <span className="signup__value">{unit.value}</span>
-            <span className="signup__unit-label">{unit.label}</span>
-          </div>
-        ))}
-      </div>
-      <p className="signup__countdown-caption">Until release</p>
-    </>
-  );
-}
 
 function PrivacyPolicy(): React.ReactElement {
   const [isOpen, setIsOpen] = useState(false);
@@ -286,9 +210,6 @@ function EmailSignupComponent({
       aria-label="Email signup"
     >
       <div className="w-full max-w-md signup">
-
-        <CountdownTimer />
-
         <p className="signup__heading">{SIGNUP_HEADLINE}</p>
 
         {status === "success" ? (
