@@ -89,10 +89,10 @@ export function WelcomeEmail({ firstName }: WelcomeEmailProps): React.ReactEleme
             <Text style={emptyLine}>&nbsp;</Text>
 
             <Text style={commentIndent}>
-              {"// When The Midnight Coder's Children releases in September 2026,"}
+              {"// The Midnight Coder's Children is available now, and"}
             </Text>
             <Text style={commentIndent}>
-              {"// you will be among the first to know."}
+              {"// you will be the first to hear what comes next."}
             </Text>
 
             <Text style={emptyLine}>&nbsp;</Text>
@@ -152,7 +152,7 @@ export function WelcomeEmail({ firstName }: WelcomeEmailProps): React.ReactEleme
           <Hr style={divider} />
           <Section style={footer}>
             <Text style={footerComment}>
-              {"// Coming September 2026"}
+              {"// Available now"}
             </Text>
             <Text style={footerComment}>
               {"// (c) 2026 Bodhi Press. All rights reserved."}

@@ -13,14 +13,14 @@ import { buildBreadcrumbJsonLd } from "../_lib/breadcrumbs";
 export const metadata: Metadata = {
   title: "Press Kit | The Midnight Coder's Children",
   description:
-    "Press kit for The Midnight Coder's Children by Prashant Sridharan. Premise, themes, comparable titles, and book details for a dual-timeline techno-thriller. Coming September 2026.",
+    "Press kit for The Midnight Coder's Children by Prashant Sridharan. Premise, themes, comparable titles, and book details for a dual-timeline techno-thriller. Available now.",
   alternates: {
     canonical: siteUrl("/press-kit"),
   },
   openGraph: {
     title: "Press Kit | The Midnight Coder's Children",
     description:
-      "A dual-timeline techno-thriller by Prashant Sridharan. Coming September 2026.",
+      "A dual-timeline techno-thriller by Prashant Sridharan. Available now.",
     url: siteUrl("/press-kit"),
   },
   twitter: {

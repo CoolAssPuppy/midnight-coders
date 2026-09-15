@@ -288,7 +288,7 @@ export function SocialPostGallery({
                     {post.href && (
                       <PostLink
                         href={post.href}
-                        label={post.hrefLabel ?? "Pre-order the book"}
+                        label={post.hrefLabel ?? "Buy the book"}
                         isPrimary
                       />
                     )}

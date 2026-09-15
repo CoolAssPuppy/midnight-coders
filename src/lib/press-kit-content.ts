@@ -98,7 +98,7 @@ export const BOOK_DETAILS: BookDetail[] = [
   { label: "Format", value: "Paperback, 348 pages" },
   { label: "ISBN", value: "979-8999111128" },
   { label: "Price", value: "$18.99" },
-  { label: "Release date", value: "September 2026" },
+  { label: "Release date", value: "15 September 2026" },
   {
     label: "Press Inquiries",
     value: "press@midnightcoderschildren.com",

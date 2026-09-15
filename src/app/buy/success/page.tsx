@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PurchaseEvent } from "@/components/PurchaseEvent";
-import { ReleaseCountdown } from "@/components/ReleaseCountdown";
 import { getStripeClient } from "@/lib/stripe";
 import "../buy.css";
 import "./success.css";
 
 export const metadata: Metadata = {
-  title: "Your pre-order is confirmed | The Midnight Coder's Children",
-  description: "Your pre-order is confirmed.",
+  title: "Your order is confirmed | The Midnight Coder's Children",
+  description: "Your order is confirmed.",
   robots: { index: false, follow: false },
 };
 
@@ -22,12 +21,8 @@ const steps: { when: string; what: string }[] = [
     what: "Stripe has emailed your receipt. Nothing else is needed from you.",
   },
   {
-    when: "15 September",
+    when: "Within minutes",
     what: "A download link arrives by email. EPUB, no DRM, yours to keep.",
-  },
-  {
-    when: "Between now and then",
-    what: "Nothing. Put it out of your mind. The email will find you.",
   },
 ];
 
@@ -67,18 +62,13 @@ export default async function BuySuccessPage({
         <p className="thanks__lede buy__reveal buy__reveal--2">
           {customerEmail ? (
             <>
-              Your copy is reserved against{" "}
+              Your download link is on its way to{" "}
               <span className="thanks__email">{customerEmail}</span>.
             </>
           ) : (
-            <>Your copy is reserved.</>
-          )}{" "}
-          The book arrives 15 September.
+            <>Your download link is on its way.</>
+          )}
         </p>
-
-        <div className="buy__reveal buy__reveal--3">
-          <ReleaseCountdown />
-        </div>
 
         <ol className="thanks__timeline buy__reveal buy__reveal--4">
           {steps.map((step) => (

@@ -49,6 +49,6 @@
   <!-- Gold accent line -->
   <rect x="400" y="530" width="400" height="3" fill="url(#goldGradient)"/>
 
-  <!-- Coming Soon -->
-  <text x="600" y="580" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#fcde09" letter-spacing="4">COMING SEPTEMBER 2026</text>
+  <!-- Availability -->
+  <text x="600" y="580" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#fcde09" letter-spacing="4">AVAILABLE NOW</text>
 </svg>

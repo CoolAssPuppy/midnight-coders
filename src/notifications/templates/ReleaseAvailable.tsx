@@ -26,9 +26,9 @@ export function ReleaseAvailable({
       <Title>{greeting} is out</Title>
 
       <Paragraph>
-        The Midnight Coder&apos;s Children released today,{" "}
-        {formatReleaseDate(releaseDateIso)}. You pre-ordered, so your copy is
-        paid for and the link now works.
+        The Midnight Coder&apos;s Children is out as of{" "}
+        {formatReleaseDate(releaseDateIso)}. Your copy is paid for and the
+        link below works now.
       </Paragraph>
 
       <PrimaryButton href={downloadUrl}>Download the book</PrimaryButton>

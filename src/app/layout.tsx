@@ -9,7 +9,6 @@ import { MarketingScripts } from "@/components/MarketingScripts";
 import { PRIMARY_BUY_URL } from "@/lib/buy-links";
 import {
   BOOK_AUTHOR,
-  BOOK_RELEASE_DATE,
   BOOK_TITLE,
   DIGITAL_PRICE,
   PAPERBACK_PRICE,
@@ -57,7 +56,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${BOOK_TITLE} by ${BOOK_AUTHOR}`,
     description:
-      "It's a race against the clock to save the global financial system. A techno-thriller by Prashant Sridharan. Paperback on Amazon. Coming September 2026.",
+      "It's a race against the clock to save the global financial system. A techno-thriller by Prashant Sridharan. Paperback on Amazon. Available now.",
     type: "website",
     locale: "en_US",
     url: baseUrl,
@@ -67,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${BOOK_TITLE} by ${BOOK_AUTHOR}`,
     description:
-      "It's a race against the clock to save the global financial system. A techno-thriller by Prashant Sridharan. Paperback on Amazon. Coming September 2026.",
+      "It's a race against the clock to save the global financial system. A techno-thriller by Prashant Sridharan. Paperback on Amazon. Available now.",
     site: "@CoolAssPuppy",
     creator: "@CoolAssPuppy",
   },
@@ -178,8 +177,7 @@ const jsonLd = {
           name: "Paperback",
           price: PAPERBACK_PRICE,
           priceCurrency: "USD",
-          availability: "https://schema.org/PreOrder",
-          availabilityStarts: BOOK_RELEASE_DATE,
+          availability: "https://schema.org/InStock",
           url: PRIMARY_BUY_URL,
           seller: { "@id": `${baseUrl}/#organization` },
         },
@@ -188,8 +186,7 @@ const jsonLd = {
           name: "Digital edition, DRM-free EPUB",
           price: DIGITAL_PRICE,
           priceCurrency: "USD",
-          availability: "https://schema.org/PreOrder",
-          availabilityStarts: BOOK_RELEASE_DATE,
+          availability: "https://schema.org/InStock",
           url: `${baseUrl}/buy`,
           seller: { "@id": `${baseUrl}/#organization` },
         },

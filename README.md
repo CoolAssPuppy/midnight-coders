@@ -2,7 +2,7 @@
 
 **by Prashant Sridharan**
 
-*Coming September 2026 from Bodhi Press*
+*Available now from Bodhi Press*
 
 ---
 

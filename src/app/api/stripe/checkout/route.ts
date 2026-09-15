@@ -74,11 +74,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         ? { shipping_address_collection: { allowed_countries: ALLOWED_COUNTRIES } }
         : {}),
 
-      // Stripe emails the receipt, which is where the pre-order terms live.
+      // Stripe emails the receipt, which is where the delivery terms live.
       custom_text: {
         submit: {
           message:
-            "Pre-order. Your download link arrives by email now and unlocks on release day, 15 September 2026.",
+            "Your download link arrives by email a few minutes after checkout.",
         },
       },
 
