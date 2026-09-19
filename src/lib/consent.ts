@@ -1,8 +1,15 @@
+import {
+  CONSENT_REGION_COOKIE,
+  parseConsentRegion,
+  type ConsentRegion,
+} from "./consent-region";
+
 /**
  * First-party marketing consent.
  *
- * Default is denied. Meta, Google, and OpenAI pixels stay unloaded until the
- * reader grants it. Required for readers in Portugal and the rest of the EEA.
+ * In the EEA, UK, and Switzerland the default is denied and pixels stay
+ * unloaded until the reader grants it. Elsewhere tags load unless the reader
+ * has opted out from Measurement in the footer.
  */
 
 export const MARKETING_CONSENT_STORAGE_KEY = "mcc_marketing_consent";
@@ -30,8 +37,32 @@ export function getMarketingConsent(): MarketingConsent | null {
   return readStoredConsent();
 }
 
+function readConsentRegion(): ConsentRegion | null {
+  if (typeof document === "undefined") return null;
+
+  const parts = document.cookie.split("; ");
+  const raw = parts
+    .find((part) => part.startsWith(`${CONSENT_REGION_COOKIE}=`))
+    ?.slice(CONSENT_REGION_COOKIE.length + 1);
+
+  return parseConsentRegion(raw ? decodeURIComponent(raw) : null);
+}
+
+/**
+ * True when this visit still needs a grant before marketing tags load.
+ *
+ * Missing cookie is treated as strict so a first paint without the proxy
+ * cookie never loads pixels in a prompt region.
+ */
+export function isStrictConsentRegion(): boolean {
+  return readConsentRegion() !== "open";
+}
+
 export function hasMarketingConsent(): boolean {
-  return readStoredConsent() === "granted";
+  const stored = readStoredConsent();
+  if (stored === "granted") return true;
+  if (stored === "denied") return false;
+  return readConsentRegion() === "open";
 }
 
 function persistCookie(value: MarketingConsent): void {

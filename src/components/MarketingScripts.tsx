@@ -23,11 +23,11 @@ interface FbqWindow {
 }
 
 /**
- * The existing marketing tags, loaded only after consent.
+ * The existing marketing tags, loaded after measurement is allowed.
  *
  * Same GTM container, same Meta dataset, same GA4 id, same OpenAI pixel as
- * before. Nothing new is installed. PageView uses the existing fbq, including
- * on App Router navigations.
+ * before. Nothing new is installed. The pixel snippet fires the first
+ * PageView; this component covers App Router navigations after that.
  */
 export function MarketingScripts(): React.ReactElement | null {
   const pathname = usePathname();
@@ -38,10 +38,12 @@ export function MarketingScripts(): React.ReactElement | null {
   useEffect(() => {
     stashLandingCampaignParams(window.location.search);
     const grantedNow = hasMarketingConsent();
+    if (grantedNow) promoteCampaignParamsAfterConsent();
     setGranted(grantedNow);
     if (grantedNow) setPixelReady(true);
-    return subscribeMarketingConsent((value) => {
-      if (value === "granted") {
+    return subscribeMarketingConsent(() => {
+      const allowed = hasMarketingConsent();
+      if (allowed) {
         promoteCampaignParamsAfterConsent();
         stashLandingCampaignParams(window.location.search);
         setGranted(true);
@@ -56,6 +58,13 @@ export function MarketingScripts(): React.ReactElement | null {
 
   useEffect(() => {
     if (!granted || !pixelReady) return;
+
+    // The install snippet owns the first PageView. Marking the path here
+    // without sending avoids a double count, and still covers later routes.
+    if (lastPageView.current === null) {
+      lastPageView.current = pathname;
+      return;
+    }
     if (lastPageView.current === pathname) return;
     lastPageView.current = pathname;
 
@@ -135,7 +144,8 @@ n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
 n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','${META_DATASET_ID}');`,
+fbq('init','${META_DATASET_ID}');
+fbq('track','PageView');`,
             }}
           />
         </>

@@ -3,6 +3,16 @@
 import { useEffect, useState } from "react";
 import { trackBookRetailerClick, type BookRetailer } from "@/lib/analytics";
 import { withAmazonCampaignParams } from "@/lib/analytics/amazon-url";
+import {
+  mergeCampaignParams,
+  readPendingCampaignParams,
+  readStoredCampaignParams,
+  stashLandingCampaignParams,
+} from "@/lib/analytics/campaign-params";
+import {
+  hasMarketingConsent,
+  subscribeMarketingConsent,
+} from "@/lib/consent";
 
 interface RetailerLinkProps {
   href: string;
@@ -15,13 +25,13 @@ interface RetailerLinkProps {
  * An outbound link to a bookstore that records the click before handing the
  * reader off.
  *
- * A plain anchor with a click handler, rather than preventDefault then
- * navigate: destinations queue their sends synchronously, and `target="_blank"`
- * means this page never unloads, so nothing cancels them. Blocking on a network
- * call would feel slow and break middle-click.
+ * Same-tab on purpose. Facebook and Instagram in-app browsers drop or ignore
+ * `target="_blank"`, which is most paid Meta traffic to /buy. Destinations
+ * queue synchronously or beacon, so the unload does not cancel the click.
+ * Middle-click and the browser's own open-in-new-tab still work.
  *
- * Amazon URLs pick up first-party UTMs after consent. The ASIN path is never
- * rewritten.
+ * Amazon URLs pick up first-party UTMs once measurement is allowed. The ASIN
+ * path is never rewritten.
  */
 export function RetailerLink({
   href,
@@ -32,16 +42,27 @@ export function RetailerLink({
   const [outbound, setOutbound] = useState(href);
 
   useEffect(() => {
-    setOutbound(
-      retailer === "amazon" ? withAmazonCampaignParams(href) : href,
-    );
+    const apply = (): void => {
+      if (retailer !== "amazon" || !hasMarketingConsent()) {
+        setOutbound(href);
+        return;
+      }
+
+      stashLandingCampaignParams(window.location.search);
+      const params = mergeCampaignParams(
+        readStoredCampaignParams(),
+        readPendingCampaignParams(),
+      );
+      setOutbound(withAmazonCampaignParams(href, params));
+    };
+
+    apply();
+    return subscribeMarketingConsent(apply);
   }, [href, retailer]);
 
   return (
     <a
       href={outbound}
-      target="_blank"
-      rel="noopener noreferrer"
       className={className}
       onClick={() => trackBookRetailerClick({ retailer, href: outbound })}
     >

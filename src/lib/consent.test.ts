@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   getMarketingConsent,
   hasMarketingConsent,
+  isStrictConsentRegion,
   setMarketingConsent,
 } from "./consent";
 
@@ -10,7 +11,22 @@ describe("marketing consent", () => {
     vi.unstubAllGlobals();
   });
 
-  it("is denied until the reader grants it", () => {
+  it("is denied in a strict region until the reader grants it", () => {
+    vi.stubGlobal("window", {
+      localStorage: {
+        getItem: () => null,
+        setItem: vi.fn(),
+      },
+      dispatchEvent: vi.fn(),
+    });
+    vi.stubGlobal("document", { cookie: "mcc_consent_region=strict" });
+
+    expect(getMarketingConsent()).toBeNull();
+    expect(isStrictConsentRegion()).toBe(true);
+    expect(hasMarketingConsent()).toBe(false);
+  });
+
+  it("is denied when the region cookie is missing", () => {
     vi.stubGlobal("window", {
       localStorage: {
         getItem: () => null,
@@ -20,7 +36,35 @@ describe("marketing consent", () => {
     });
     vi.stubGlobal("document", { cookie: "" });
 
+    expect(hasMarketingConsent()).toBe(false);
+    expect(isStrictConsentRegion()).toBe(true);
+  });
+
+  it("allows measurement in an open region with no stored choice", () => {
+    vi.stubGlobal("window", {
+      localStorage: {
+        getItem: () => null,
+        setItem: vi.fn(),
+      },
+      dispatchEvent: vi.fn(),
+    });
+    vi.stubGlobal("document", { cookie: "mcc_consent_region=open" });
+
     expect(getMarketingConsent()).toBeNull();
+    expect(isStrictConsentRegion()).toBe(false);
+    expect(hasMarketingConsent()).toBe(true);
+  });
+
+  it("still honours an explicit denial in an open region", () => {
+    vi.stubGlobal("window", {
+      localStorage: {
+        getItem: () => "denied",
+        setItem: vi.fn(),
+      },
+      dispatchEvent: vi.fn(),
+    });
+    vi.stubGlobal("document", { cookie: "mcc_consent_region=open" });
+
     expect(hasMarketingConsent()).toBe(false);
   });
 

@@ -4,23 +4,25 @@ import { useEffect, useState } from "react";
 import {
   CONSENT_REOPEN_EVENT,
   getMarketingConsent,
+  isStrictConsentRegion,
   setMarketingConsent,
   subscribeMarketingConsent,
 } from "@/lib/consent";
 import { promoteCampaignParamsAfterConsent } from "@/lib/analytics/campaign-params";
 
 /**
- * Portugal / GDPR measurement prompt.
+ * GDPR measurement prompt for regions that require a grant.
  *
- * Hidden after a choice. Default is denied, so marketing pixels stay off
- * until Agree. Not now leaves them off.
+ * Hidden after a choice, and hidden in open regions unless the reader
+ * reopens it from Measurement in the footer. Default is denied in a
+ * strict region, so marketing pixels stay off until Agree.
  */
 export function ConsentBanner(): React.ReactElement | null {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const sync = (): void => {
-      setVisible(getMarketingConsent() === null);
+      setVisible(getMarketingConsent() === null && isStrictConsentRegion());
     };
 
     sync();

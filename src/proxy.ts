@@ -1,5 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { hasMarkdown } from "@/lib/page-markdown";
+import {
+  CONSENT_REGION_COOKIE,
+  consentRegionFromCountry,
+} from "@/lib/consent-region";
 
 const LINK_HEADERS = [
   '</llms.txt>; rel="alternate"; type="text/markdown"; title="LLM context"',
@@ -106,6 +110,22 @@ function hasOwnRepresentation(pathname: string): boolean {
   return pathname.startsWith("/.well-known/");
 }
 
+function applyConsentRegionCookie(
+  request: NextRequest,
+  response: NextResponse,
+): void {
+  const country =
+    request.headers.get("x-vercel-ip-country") ??
+    request.headers.get("cf-ipcountry");
+  const region = consentRegionFromCountry(country);
+
+  response.cookies.set(CONSENT_REGION_COOKIE, region, {
+    path: "/",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7,
+  });
+}
+
 function applySecurityHeaders(response: NextResponse): void {
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-Frame-Options", "DENY");
@@ -154,6 +174,7 @@ export function proxy(request: NextRequest): NextResponse {
     response.headers.set("Vary", "Accept");
     response.headers.set("Content-Language", "en");
     applySecurityHeaders(response);
+    applyConsentRegionCookie(request, response);
     return response;
   }
 
@@ -170,6 +191,7 @@ export function proxy(request: NextRequest): NextResponse {
   // intermediate caches revalidate rather than guess.
   response.headers.set("Content-Language", "en");
   applySecurityHeaders(response);
+  applyConsentRegionCookie(request, response);
 
   if (pathname === "/") {
     response.headers.set("Link", LINK_HEADERS);
