@@ -11,7 +11,8 @@ import {
  * ViewContent for the paperback on / and /buy.
  *
  * content_name is the novel, content_ids is the Amazon ASIN. Waits for
- * marketing consent so the pixel and CAPI stay dark in the EEA until agreed.
+ * marketing consent so the pixel and CAPI stay dark in prompt regions
+ * until agreed.
  * Renders nothing.
  */
 export function ProductViewEvent(): null {
@@ -19,8 +20,8 @@ export function ProductViewEvent(): null {
 
   useEffect(() => {
     setGranted(hasMarketingConsent());
-    return subscribeMarketingConsent((value) => {
-      setGranted(value === "granted");
+    return subscribeMarketingConsent(() => {
+      setGranted(hasMarketingConsent());
     });
   }, []);
 

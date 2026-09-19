@@ -32,7 +32,7 @@
 .buy__inner {
   max-width: 68rem;
   margin: 0 auto;
-  padding: clamp(3.5rem, 9vw, 7rem) clamp(1.25rem, 5vw, 3rem)
+  padding: clamp(4.25rem, 9vw, 7rem) clamp(1.25rem, 5vw, 3rem)
     clamp(4rem, 8vw, 6rem);
 }
 
@@ -57,7 +57,16 @@
 .buy__cover {
   position: relative;
   justify-self: center;
-  width: min(21rem, 76vw);
+  /* Mobile first: keep the Amazon button on the first screen. 76vw of
+     cover plus the logline pushed the buy action below the fold, and
+     Meta's in-app browser does not invite a scroll. */
+  width: min(13.5rem, 48vw);
+}
+
+@media (min-width: 60rem) {
+  .buy__cover {
+    width: min(21rem, 76vw);
+  }
 }
 
 .buy__cover img {

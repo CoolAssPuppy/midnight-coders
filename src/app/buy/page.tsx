@@ -38,7 +38,8 @@ export default function BuyPage(): React.ReactElement {
               width={720}
               height={1080}
               priority
-              sizes="(min-width: 60rem) 21rem, 76vw"
+              fetchPriority="high"
+              sizes="(min-width: 60rem) 21rem, 48vw"
             />
           </div>
 
