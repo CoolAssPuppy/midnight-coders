@@ -32,8 +32,10 @@
 .buy__inner {
   max-width: 68rem;
   margin: 0 auto;
-  padding: clamp(4.25rem, 9vw, 7rem) clamp(1.25rem, 5vw, 3rem)
-    clamp(4rem, 8vw, 6rem);
+  /* Extra bottom padding so a fixed consent sheet cannot bury the buy
+     button on a short phone screen. */
+  padding: clamp(3.75rem, 8vw, 7rem) clamp(1.25rem, 5vw, 3rem)
+    clamp(7rem, 18vw, 9rem);
 }
 
 /* --- Composition ------------------------------------------------------- */
@@ -58,9 +60,9 @@
   position: relative;
   justify-self: center;
   /* Mobile first: keep the Amazon button on the first screen. 76vw of
-     cover plus the logline pushed the buy action below the fold, and
+     cover plus the logline pushed the buy action under the fold, and
      Meta's in-app browser does not invite a scroll. */
-  width: min(13.5rem, 48vw);
+  width: min(11.5rem, 42vw);
 }
 
 @media (min-width: 60rem) {
@@ -123,12 +125,12 @@
 /* The hook. This is the display element on the page, not the title. */
 .buy__logline {
   font-family: var(--serif);
-  font-size: clamp(1.75rem, 4vw, 2.625rem);
+  font-size: clamp(1.5rem, 4vw, 2.625rem);
   line-height: 1.2;
   letter-spacing: -0.015em;
   color: #fff;
   max-width: 18ch;
-  margin: clamp(1.5rem, 3vw, 2rem) 0 0;
+  margin: clamp(1rem, 2.5vw, 2rem) 0 0;
   text-wrap: balance;
 }
 
@@ -203,8 +205,8 @@
 /* --- Purchase ---------------------------------------------------------- */
 
 .buy__purchase {
-  margin-top: clamp(2.25rem, 5vw, 3rem);
-  padding-top: clamp(1.75rem, 4vw, 2.25rem);
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+  padding-top: clamp(1.25rem, 3vw, 2.25rem);
   border-top: 1px solid rgba(255, 255, 255, 0.11);
 }
 
