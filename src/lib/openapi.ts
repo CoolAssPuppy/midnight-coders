@@ -4,8 +4,8 @@ import { SITE_URL } from "@/lib/site";
  * OpenAPI 3.1 description of the public, read-only endpoints.
  *
  * Only anonymous GET routes appear. The write routes (newsletter signup,
- * Stripe checkout, the Stripe webhook, the release-day cron, and the tokenised
- * download) are internal to this site's own flows, and publishing their
+ * Stripe checkout, the Stripe webhook, the retired release-day send, and the
+ * tokenised download) are internal to this site's own flows, and publishing their
  * schemas would advertise an attack surface without giving an agent anything
  * useful to call. Their rate limits are published anyway, below.
  */
