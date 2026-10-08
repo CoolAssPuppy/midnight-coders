@@ -7,20 +7,18 @@ import { createDownloadToken } from "@/lib/download-token";
 import { notify } from "@/notifications";
 
 /**
- * Release-day delivery.
+ * One-shot release-day courtesy mail.
  *
- * Stripe is the datastore. Every pre-order is a completed checkout session, so
- * there is nothing to store separately and no list that can drift out of sync
- * with who actually paid.
+ * The confirmation token already starts working on its own at midnight, so
+ * nothing about delivery depends on this route. It existed to remind people
+ * who pre-ordered months earlier. The book is out; the reminder is done.
  *
- * Strictly a courtesy. The token in each buyer's confirmation email is
- * permanent and starts working on its own at midnight, so nothing breaks if
- * this never runs. It exists because someone who paid in July has long since
- * lost that email by September.
+ * Do not re-enable a Vercel cron against this path. Resend only honours an
+ * idempotency key for 24 hours, so a daily job with `session.id` as the key
+ * re-mails every pre-order buyer once that window closes.
  *
- * Safe to run more than once. Each send is keyed on the session id, so a
- * repeat resolves to the original message at the provider rather than mailing
- * anyone twice.
+ * A hand trigger still needs `?confirm=send` and only runs on the UTC
+ * calendar day of `RELEASE_DATE_ISO`. After that day it is a no-op.
  */
 
 const SITE_URL =
@@ -30,6 +28,8 @@ const DOWNLOAD_WINDOW_MS = 365 * 24 * 60 * 60 * 1000;
 
 /** Bounded so one invocation cannot run past the function timeout. */
 const MAX_SESSIONS = 5000;
+
+const RELEASE_DAY_MS = 24 * 60 * 60 * 1000;
 
 function isAuthorized(request: NextRequest): boolean {
   const secret = process.env.CRON_SECRET;
@@ -44,6 +44,10 @@ function isAuthorized(request: NextRequest): boolean {
   if (headerBuffer.length !== expectedBuffer.length) return false;
 
   return timingSafeEqual(headerBuffer, expectedBuffer);
+}
+
+function hasExplicitSendConfirmation(request: NextRequest): boolean {
+  return request.nextUrl.searchParams.get("confirm") === "send";
 }
 
 interface Outcome {
@@ -87,13 +91,32 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   }
 
   const releaseAt = Date.parse(RELEASE_DATE_ISO);
+  const now = Date.now();
 
-  if (Date.now() < releaseAt) {
+  if (now < releaseAt) {
     // Guard against an early manual trigger handing out links that will not
     // open yet, which would generate exactly the support mail this whole
     // design is meant to avoid.
     return NextResponse.json(
       { skipped: "before release date", releaseAt: RELEASE_DATE_ISO },
+      { status: 200 },
+    );
+  }
+
+  if (now >= releaseAt + RELEASE_DAY_MS) {
+    // Launch day has passed. A Vercel cron, a bookmark, or a replay of the
+    // original request must not list Stripe sessions or send again.
+    return NextResponse.json(
+      { skipped: "after release date", releaseAt: RELEASE_DATE_ISO },
+      { status: 200 },
+    );
+  }
+
+  if (!hasExplicitSendConfirmation(request)) {
+    // Vercel cron GETs the path with no query string. Requiring this flag
+    // means even a re-added schedule cannot send.
+    return NextResponse.json(
+      { skipped: "confirm=send required", releaseAt: RELEASE_DATE_ISO },
       { status: 200 },
     );
   }
@@ -126,8 +149,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   } catch (error) {
     console.error("Release-day send failed partway:", error);
 
-    // Report what did go out. The run is safe to repeat, so a partial failure
-    // is recoverable by triggering it again.
     return NextResponse.json({ ...outcome, error: "partial" }, { status: 500 });
   }
 
