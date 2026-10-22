@@ -22,3 +22,8 @@ onlyBuiltDependencies:
   - canvas
   - sharp
   - unrs-resolver
+
+# Refuse package versions published less than 7 days ago (10080 minutes).
+# pnpm 11 reads this setting here and ignores minimum-release-age in .npmrc.
+# To allow a specific fresh release, list it under minimumReleaseAgeExclude.
+minimumReleaseAge: 10080
