@@ -20,7 +20,10 @@ describe("Amazon campaign params", () => {
   it("does not overwrite an Amazon tag already on the URL", () => {
     const tagged =
       "https://www.amazon.com/dp/B0HBGYKMH3?tag=maas&ref_=aa_maas";
-    const href = withAmazonCampaignParams(tagged, { tag: "other", utm_source: "x" });
+    // `tag` is not a CampaignParams key; pass it through a variable so the
+    // test can still prove a stray `tag` never overwrites Amazon's.
+    const params = { tag: "other", utm_source: "x" };
+    const href = withAmazonCampaignParams(tagged, params);
     const url = new URL(href);
 
     expect(url.searchParams.get("tag")).toBe("maas");
